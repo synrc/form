@@ -1,0 +1,7 @@
+{application, forms,
+   [{description, "EBD Forms"},
+    {vsn, "1"},
+    {registered, []},
+    {applications, [kernel,stdlib,mnesia]},
+    {mod, { bank, []}},
+    {env, []} ]}.

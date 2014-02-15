@@ -1,0 +1,213 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="index.css" type="text/css" media="screen" charset="utf-8">
+</head>
+<body>
+<div class="clearfix">
+    <div class="content">
+
+      <form id="quote" method="post">
+        <fieldset>
+          <div class="legend"><h4>Registration Application</h4></div>
+          <div class="inputs">
+            <h5>Account Openning</h5>
+            <p>Please provide all nessesary information.</p>
+            <p>Make sure all information is correct.</p>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="legend"><h4>Contact Information</h4></div>
+          <div class="inputs">
+
+            <div class="box clearfix">
+              <div class="textbox first">
+                <label for="firstname">First Name:</label> <span class="required">Required</span>
+                <input type="text" name="firstname" value="First Name" onfocus="if (this.value == 'First Name') {this.value = '';}" onblur="if (this.value == '') {this.value = 'First Name';}">
+              </div>
+              <div class="textbox last">
+                <label for="lastname">Last Name:</label>
+                <input type="text" name="lastname" value="Last Name" onfocus="if (this.value == 'Last Name') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Last Name';}">
+              </div>
+            </div>
+
+          
+            <div class="box clearfix">
+              <div class="textbox">
+                <label for="phone">Phone Number:</label>
+                <input type="text" name="phone" value="Phone Number" onfocus="if (this.value == 'Phone Number') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Phone Number';}">
+              </div>
+            </div>
+
+            <div class="box clearfix">
+              <div class="textbox first">
+                <label for="address">Address:</label> <span class="required">Required</span>
+                <input type="text" name="address" value="Address" onfocus="if (this.value == 'Address') {this.value = '';}" onblur="if (this.value == '') {this.value = 'First Name';}">
+              </div>
+              <div class="textbox last">
+                <label for="zip">ZIP:</label>
+                <input type="text" name="zip" value="ZIP" onfocus="if (this.value == 'ZIP') {this.value = '';}" onblur="if (this.value == '') {this.value = 'ZIP';}">
+              </div>
+            </div>
+          
+            <div class="box clearfix">
+              <div class="textbox">
+                <label for="email">Email Address:</label> <span class="required">Required</span>
+                <input type="text" name="email" value="Email Address" onfocus="if (this.value == 'Email Address') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Email Address';}">
+              </div>
+            </div>
+
+                                    
+          
+          
+          </div>
+        </fieldset>
+      
+        <fieldset>
+
+          <div class="legend">
+            <h4>Business Information</h4>
+            <p class="links">Find out more about<br><a href="/our-services/" target="_blank">these services</a></p>
+            <p class="links">Questions?<br><a href="#phone-us">Just Call Us!</a></p>
+          </div>
+
+          <div class="inputs required_group">
+
+
+            <div class="box clearfix">
+              <div class="textbox">
+                <label for="taxid">Tax Id:</label> <span class="required">Required</span>
+                <input type="text" name="taxid" value="Tax Id" onfocus="if (this.value == 'Tax Id') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Tax Id';}">
+              </div>
+            </div>
+
+            <div class="radio left clearfix">
+              <input type="radio" name="contact_pref" value="phone" id="prefer-phone" class="ui-helper-hidden-accessible"><span class="ui-radio"></span><label for="prefer-phone">Private Account</label>
+            </div>
+            <div class="radio right">
+              <input type="radio" name="contact_pref" value="email" id="prefer-email" class="ui-helper-hidden-accessible"><span class="ui-radio"></span><label for="prefer-email">Business Account</label>
+            </div>
+
+            <span class="clearfix"></span>
+          
+            <div class="box checkbank clearfix">
+              <label for="resume"><span class="sprite"></span>What Services Interest You?</label>
+              <span class="arrow"></span>
+            </div>
+          
+            <div class="checkbox">
+                <input type="checkbox" value="Resume, " name="chk_resume" id="chk-resume" class="checkbox ui-helper-hidden-accessible"><span class="ui-checkbox"></span>
+                <label for="chk-resume">Paypal Payments</label>
+            </div>
+            <div class="checkbox">
+                <input type="checkbox" value="Job Search Letters, " name="chk_search_letters" id="chk-search-letters" class="ui-helper-hidden-accessible"><span class="ui-checkbox"></span>
+                <label for="chk-search-letters">Credit Cards</label>
+            </div>
+            <div class="checkbox">
+                <input type="checkbox" value="LinkedIn Profile, " name="chk_li_profile" id="chk-li-profile" class="ui-helper-hidden-accessible"><span class="ui-checkbox"></span>
+                <label for="chk-li-profile">Payment Cards</label>
+            </div>
+            <div class="checkbox">
+                <input type="checkbox" value="Online Presence Building, " name="chk_web_coaching" id="chk-web-coaching" class="ui-helper-hidden-accessible"><span class="ui-checkbox"></span>
+                <label for="chk-web-coaching">Wire Transfers</label>
+            </div>
+            <div class="checkbox">
+                <input type="checkbox" value="Executive Bio, " name="chk_exec_bio" id="chk-exec-bio" class="ui-helper-hidden-accessible"><span class="ui-checkbox"></span>
+                <label for="chk-exec-bio">Local Transfers</label>
+            </div>
+            <div class="checkbox">
+                <input type="checkbox" value="One-on-One Interview Prep, " name="chk_coaching" id="chk-coaching" class="ui-helper-hidden-accessible"><span class="ui-checkbox"></span>
+                <label for="chk-coaching">Loan Account</label>
+            </div>
+            <div class="checkbox">
+                <input type="checkbox" value="Recruiter Mailing Campaign, " name="chk_rec_research" id="chk-rec-research" class="ui-helper-hidden-accessible"><span class="ui-checkbox"></span>
+                <label for="chk-rec-research">Deposit Account</label>
+            </div>
+            <div class="checkbox">
+                <input type="checkbox" value="Recruiter Mailing Campaign, " name="chk_rec_research" id="chk-rec-research" class="ui-helper-hidden-accessible"><span class="ui-checkbox"></span>
+                <label for="chk-rec-research">Current Account</label>
+            </div>
+
+          </div>
+        </fieldset>
+      
+        <fieldset>
+          <div class="legend">
+            <h4>Evidence Documents</h4>
+            <p class="links">Questions?<br><a href="#phone-us">Just Call Us!</a></p>
+          </div>
+          <div class="inputs">
+          
+            <div class="box clearfix">
+              <div class="textbox">
+                <label for="position_seeking">Monthly Transfer Amount Expected</label>
+                <input type="text" name="position_seeking" value="Monthly Transfer Amount Expected" onfocus="if (this.value == 'What Position Are You Seeking?') {this.value = '';}" onblur="if (this.value == '') {this.value = 'What Position Are You Seeking?';}">
+              </div>
+            </div>
+          
+            <div class="box clearfix">
+              <label for="concerns">Please provide additional information if needed.</label>
+              <div class="textarea">
+                <textarea cols="30" rows="10" name="concerns" onfocus="if (this.value == 'Message') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Message';}">Message</textarea>
+              </div>
+            </div>
+          
+            <div class="box upload clearfix">
+              <label for="resume">
+               <span class="sprite"></span>
+                If you have additional documents to provide please attach.
+                Such as passport copy and evidence of Tax Id number.
+              </label>
+              <span class="arrow"></span>
+              <div id="upload-resume" style="display: none;" width="110" height="30"></div>
+                <div id="upload-resumeQueue" class="uploadifyQueue">
+
+                </div>
+
+            </div>
+            <div class="btn">
+              <input type="submit" name="upload" value="Upload">
+            </div>
+
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <div class="legend"><h4>Referral</h4></div>
+          <div class="inputs">
+          
+            <div class="box clearfix">
+              <div class="textbox">
+                <label for="personal_referral-referral">Who can we thank for referring you to us?</label>
+                <input type="text" name="personal_referral" value="Who can we thank for referring you to us?" onfocus="if (this.value == 'Who can we thank for referring you to us?') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Who can we thank for referring you to us?';}">
+              </div>
+            </div>
+          
+            <div class="box clearfix">
+              <div class="textbox">
+                <label for="online-online_referral">Years of Experience In This Position:</label>
+                <input type="text" name="online_referral" value="If you found us online can you tell us where?" onfocus="if (this.value == 'If you found us online can you tell us where?') {this.value = '';}" onblur="if (this.value == '') {this.value = 'If you found us online can you tell us where?';}">
+              </div>
+            </div>
+
+          </div>
+        </fieldset>
+      
+        <fieldset>
+          <div class="legend"><h4>Finish</h4></div>
+          <div class="inputs">
+          
+            <div class="btn">
+              <input type="submit" name="upload" value="OK">
+            </div>
+          
+          </div>
+        </fieldset>
+      
+      </form>
+      <script type="text/javascript">
+      </script>
+    </div> <!-- /content -->
+  </div>
+</body>
+</html>
