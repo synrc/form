@@ -20,6 +20,9 @@ JavaScript Web Application is generated using Metainformation and Data Model.
 N2O is used as DSL language for forms generation.
 JavaScript/OTP is used for generating forms.
 
+![Forms](http://synrc.com/lj/Forms.png)
+
+
 Validation Rules
 ----------------
 
