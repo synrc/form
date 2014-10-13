@@ -1,0 +1,95 @@
+
+// synrc forms
+
+.pt14 { font-size: 14pt; }
+.pt12 { font-size: 12pt; }
+.pt10 { font-size: 10pt; }
+.bold { font-weight: bold; }
+
+.app     { margin-left:10%; width:80%; min-width: 600px; }
+.section { clear:left; background-color: #f5f5f5; }
+.top-line{ border-top:1px solid #e5e5e5; margin-top: -1px;}
+.bottom-line { border-bottom:1px solid #e5e5e5; }
+
+.body    { float:left; background-color: #f5f5f5; color: #333; width: 100%; }
+.header  { float:left; background-color: #f5f5f5; color: #333; height: 60px; }
+.deposit { float:left; background-color: #f5f5f5; color: #333; width: 33%; overflow: auto; }
+.deposit .desc { padding: 0px 10px 10px 10px;margin-top:-7px; }
+.duration{ float:left; background-color: #f5f5f5; color: #333; width: 67%; }
+
+.column6 { width: 16.66%; float:left; text-align:center; margin-top: 15px; }
+.column4 { width: 25%;    float:left; text-align:center; }
+.column3 { width: 33.33%; float:left; text-align:center; background-color: #f5f5f5; padding-right: 0px;  }
+.column2 { width: 50%;    float:left; text-align:center; height: 35px; margin-top: 17px; }
+.column  { width: 100%;   float:left; text-align:center; margin-top: 20px; }
+
+.caption { width: 100%;   float:left; height: 60px; font-size: 12pt; }
+.label   { width: 35%;    float:left; padding: 0px 10px 0px 10px; text-align: right; }
+.field   { width: 55%;    float:left; padding: 0px 10px 0px 10px; text-align: left; }
+.row     { width: 100%;   float:left; display:inline-block; margin-top: 10px; }
+.line    { width: 100%;   float:left; display:inline-block; }
+.buttons { width: 100%;   float:left; height: 60px; margin-top: 20px; text-align:center; }
+.form    { width: 100%; text-align: center; background-color: #E9F5C9; 
+           border: 1px solid #e5e5e5; margin-top:-1px; margin-left:-2px; }
+.margin  { margin-top: 3px; }
+
+.menu { clear:left; width: 100%; color: gray; }
+.menu .itemactive { background-color: #5ca135; color: #f5f5f5; height: 18px; }
+.item { background-color: #e6f5bf; color:gray; height: 18px; margin-top: 3px;
+        float:left; padding: 7px 7px 7px 7px; min-width:170px;width:23%; text-align: center;
+        display:inline-block; padding-top:5px; }
+
+.submenu { clear:left; width: 100%; background-color: #5ca135; color: #f5f5f5; height: 35px; }
+.submenu .subactive { background-color: #e6f5bf; color:gray; border-radius: 5px; 
+                      padding: 7px 7px 7px 7px; margin-top:3px; }
+.subitem { background-color: #5ca135; color: white; margin-top:3px;
+        float:left; padding: 7px 7px 7px 7px; text-align: center;
+        display:inline-block; padding-right:3px; padding-left:3px; }
+
+.slightgreen { background-color: #e6f5bf; color:gray; }
+.sgreen { background-color: #5ca135; color: #f5f5f5; }
+a.cancel {margin-right:10px;}
+a.cancel:active {background-image: linear-gradient(to top, #e6e6e6, #ddd); text-decoration:none; }
+a.cancel:hover {background-image: linear-gradient(to bottom, #fff, #ddd); text-decoration:none; }
+ 
+.cancel {
+    background-image: linear-gradient(to top, #ddd, #e6e6e6);
+    text-decoration:none;
+    font-size: 14px;
+    border-radius: 5px;
+    color: #333;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    padding: 8px 8px 8px 8px;
+}
+
+a.button2:hover { background-color: #f5f5f5; color:gray; border-radius: 5px; margin-top:10px; }
+a.button2 { text-decoration:none; color: white;
+    border-radius: 5px; 
+    padding: 7px 17px 7px 17px; 
+    margin-top:10px; 
+}
+
+a.button:hover { text-decoration:none; background-image: linear-gradient(to top, green, #5ca135); }
+.button {
+    text-decoration:none;
+    padding: 8px 8px 8px 8px;
+    border-radius: 5px;
+    color: #f5f5f5;
+    vertical-align: middle;
+}
+
+h3 { font-size: 11pt; }
+body   { font-size: 10pt; font-family: 'Helvetica Neue', 'Open Sans'; text-rendering: optimizelegibility; }
+p, ul { margin-left: 10px; margin-top:-10px;margin-bottom:5px;}
+ul, li { margin-left: -7px; }
+form   { background-color: green; }
+input  { }
+select { width: 100%; height: 30px; }
+input[type="radio"] { margin: 0; background-color: transparent !important; }
+
+@media (max-width:767px) {  /*ipad начинается с 768*/
+    .rightstyle { text-align: center; }
+    .leftstyle { text-align: center; }
+}

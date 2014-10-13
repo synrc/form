@@ -1,6 +1,11 @@
 -module(bank).
+-behaviour(application).
+-export([start/2, stop/1]).
 -compile(export_all).
 -include("meta.hrl").
+
+start(_,_) -> ok.
+stop(_) -> ok.
 
 documents() ->
     [

@@ -1,5 +1,5 @@
 {application, forms,
-   [{description, "EBD Forms"},
+   [{description, "Synrc Forms"},
     {vsn, "1"},
     {registered, []},
     {applications, [kernel,stdlib,mnesia]},
