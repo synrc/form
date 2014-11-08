@@ -18,7 +18,7 @@ Application
 
 JavaScript Web Application is generated using Metainformation and Data Model.
 N2O is used as DSL language for forms generation.
-JavaScript/OTP is used for generating forms.
+JavaScript/OTP is used for generating forms. Forms average render speed is 25 FPS forms per second.
 
 ![Forms](http://synrc.com/lj/Forms.png)
 
