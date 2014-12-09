@@ -10,4 +10,6 @@
 -record(field,{ id,sec,name,pos,title,layout,visible=true,desc,wide=normal,
                 type=binary,etc,access}).
 
+-record(validation, {name, msg, options=[], function}).
+
 -endif.
