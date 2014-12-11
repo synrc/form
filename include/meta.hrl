@@ -1,7 +1,7 @@
--include_lib("kvs/include/kvs.hrl").
-
 -ifndef(META_HRL).
 -define(META_HRL, "meta_hrl").
+
+-include_lib("kvs/include/kvs.hrl").
 
 -record(document,   { ?ITERATOR(feed), name, base, sections, fields, buttons, access }).
 -record(validation, { name, msg, options=[], function }).
@@ -9,8 +9,8 @@
 -record(but,        { id, postback, name, title, sources=[], class }).
 -record(opt,        { id, name, title, postback, checked=false }).
 -record(sel,        { id, name, title, postback }).
--record(field,      { id, sec=1, name, pos, title, layout, visible=true, format="~w",
+-record(field,      { id, sec=1, name, pos, title, layout, visible=true, disabled=false, format="~w",
                       postfun=fun(X) -> X end, desc, wide=normal, type=binary, etc,
-                      access, tooltip, options, min=0, max=10 }).
+                      access, tooltip, options, min=0, max=1000000,length=10 }).
 
 -endif.
