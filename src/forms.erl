@@ -43,6 +43,16 @@ new(Document,Object) ->
                             body= #option{selected=true, body= <<"Загрузка..."/utf8>>}}}]},
             #panel { class=tool, body= []}]}|Acc]; %#image{src="images/preloader.gif"}}]}|Acc];
 
+                        % otp row
+
+                        (#field{type=otp}=X3, Acc) ->
+        [#panel { class=box, body=[
+            #panel { class=label, body = X3#field.title},
+            #panel { class=column3, body =
+                #input{ class=phone,id=wf:atom([X3#field.name,Name]),
+                        validation="validateNumbers(e, 4, 4, 'otp')",
+                        onkeypress="return fieldsFilter(event, 4, 'otp');"} } ]} ];
+
                         % integer money combo sring
 
                         (#field{}=X,Acc) ->
@@ -90,7 +100,7 @@ new(Document,Object) ->
 
         % buttons
 
-        #panel{class=buttons,body= lists:foldr(fun(#but{}=But,Acc) ->
+        #panel{id=forpreload,class=buttons,body= lists:foldr(fun(#but{}=But,Acc) ->
         [#link{class=But#but.class,postback=But#but.postback, body=But#but.title,
                source=[wf:atom([S,Name])||S<-But#but.sources]}|Acc] end,[],Buttons)}
     ]}.
