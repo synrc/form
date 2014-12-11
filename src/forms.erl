@@ -41,7 +41,7 @@ new(Document,Object) ->
 
                         % otp row
 
-                        (#field{type=phone}=X3, Acc) ->
+                        (#field{type=otp}=X3, Acc) ->
         [#panel { class=box, body=[
             #panel { class=label, body = X3#field.title},
             #panel { class=column3, body =
