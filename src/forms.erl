@@ -64,7 +64,7 @@ new(Document,Object) ->
                            validation=wf:f("validateSum(e, ~w, ~w, '~s')",[X#field.min,X#field.max, <<"Некорректная сумма!"/utf8>>]),
                            onkeypress=wf:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
                            value=wf:to_list(element(X#field.pos,Object)) },
-                           #panel{ class=pt10,body= [ <<"Введите сумму не менее: 2 "/utf8>> ] } ];
+                           #panel{ class=pt10,body= [ <<"Введите сумму не менее: 2 "/utf8>>, X#field.curr ] } ];
                 combo -> tl(lists:flatten(lists:zipwith(fun(A,B) -> [A,B] end,
                             lists:duplicate(length(Options),#br{}),Options)));
                 string -> #input{ id=wf:atom([X#field.name,Name]),

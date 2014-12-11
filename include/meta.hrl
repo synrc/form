@@ -9,7 +9,7 @@
 -record(but,        { id, postback, name, title, sources=[], class }).
 -record(opt,        { id, name, title, postback, checked=false }).
 -record(sel,        { id, name, title, postback }).
--record(field,      { id, sec=1, name, pos, title, layout, visible=true, disabled=false, format="~w",
+-record(field,      { id, sec=1, name, pos, title, layout, visible=true, disabled=false, format="~w", curr="",
                       postfun=fun(X) -> X end, desc, wide=normal, type=binary, etc,
                       access, tooltips=[], options=[], min=0, max=1000000,length=10 }).
 
