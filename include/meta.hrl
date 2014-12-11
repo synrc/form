@@ -5,7 +5,7 @@
 
 -record(document,   { ?ITERATOR(feed), name, base, sections, fields, buttons, access }).
 -record(validation, { name, msg, options=[], function }).
--record(sec,        { id, name, desc }).
+-record(sec,        { id, name, desc="" }).
 -record(but,        { id, postback, name, title, sources=[], class }).
 -record(opt,        { id, name, title, postback, checked=false }).
 -record(sel,        { id, name, title, postback }).

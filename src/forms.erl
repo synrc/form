@@ -19,7 +19,11 @@ new(Document,Object) ->
 
         % caption
 
-        #panel{class=caption,body=[#h3{body=Section#sec.name}]},
+        #panel{class=caption,body=[
+              #h3{body=Section#sec.name},
+              #panel{ class=small, body = Section#sec.desc}
+        ]},
+
 
         % fields
 
@@ -71,7 +75,11 @@ new(Document,Object) ->
                             lists:duplicate(length(Options),#br{}),Options)));
                 string -> #input{ id=wf:atom([X#field.name,Name]),
                                   validation=wf:f("validateLength(e, ~w, ~w)",[X#field.min,X#field.max]),
-                                  value=element(X#field.pos,Object)}
+                                  value=element(X#field.pos,Object)};
+                phone  -> #input{ id=wf:atom([X#field.name,Name]),
+                                  onkeypress=wf:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
+                                  validation=wf:f("validateNumbers(e, ~w, ~w, 'phone')",[X#field.min,X#field.max]),
+                                  value="380"}
             end},
             #panel { class=tool, body= case Tooltips of
                                          [] -> [];
