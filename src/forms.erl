@@ -1,4 +1,5 @@
 -module(forms).
+-behaviour(application).
 -autor('Maxim Sokhatsky').
 -export([start/2, stop/1, new/2]).
 -include_lib("n2o/include/wf.hrl").
