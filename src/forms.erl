@@ -61,7 +61,7 @@ new(Document,Object) ->
                 integer -> #b{body= wf:f(X#field.format,
                                     [(X#field.postfun)(element(X#field.pos,Object))])};
                 money -> [ #input{ id=wf:atom([X#field.name,Name]),
-                           validation=wf:f("validateMin(e,~w)",[X#field.min]),
+                           validation=wf:f("validateSum(e, ~w, ~w, '~s')",[X#field.min,X#field.max, <<"Некорректная сумма!"/utf8>>]),
                            onkeypress=wf:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
                            value=wf:to_list(element(X#field.pos,Object)) },
                            #panel{ class=pt10,body= [ <<"Введите сумму не менее: 2 "/utf8>> ] } ];
