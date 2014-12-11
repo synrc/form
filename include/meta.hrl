@@ -11,6 +11,6 @@
 -record(sel,        { id, name, title, postback }).
 -record(field,      { id, sec=1, name, pos, title, layout, visible=true, disabled=false, format="~w",
                       postfun=fun(X) -> X end, desc, wide=normal, type=binary, etc,
-                      access, tooltip, options, min=0, max=1000000,length=10 }).
+                      access, tooltips=[], options=[], min=0, max=1000000,length=10 }).
 
 -endif.
