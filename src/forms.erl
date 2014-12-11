@@ -58,7 +58,7 @@ new(Document,Object) ->
             #panel { class=field, body = case X#field.type of
                 integer -> #b{body= wf:f(X#field.format,
                                     [(X#field.postfun)(element(X#field.pos,Object))])};
-                money -> [ #input{ id=wf:atom([amount,Name]),
+                money -> [ #input{ id=wf:atom([X#field.name,Name]),
                            validation=wf:f("validateMin(e,~w)",[X#field.min]),
                            onkeypress=wf:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
                            value=wf:to_list(element(X#field.pos,Object)) },
