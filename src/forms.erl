@@ -79,7 +79,10 @@ new(Document,Object) ->
                 phone  -> #input{ id=wf:atom([X#field.name,Name]), class=phone,
                                   onkeypress=wf:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
                                   validation=wf:f("validateNumbers(e, ~w, ~w, 'phone')",[X#field.min,X#field.max]),
-                                  value="380"}
+                                  value="380"};
+                otp    -> #input{ class=phone,id=wf:atom([X#field.name,Name]),
+                                  validation="validateNumbers(e, 4, 4, 'otp')",
+                                  onkeypress="return fieldsFilter(event, 4, 'otp');"}
             end},
             #panel { class=tool, body= case Tooltips of
                                          [] -> [];
@@ -90,7 +93,7 @@ new(Document,Object) ->
 
         % buttons
 
-        #panel{class=buttons,body= lists:foldr(fun(#but{}=But,Acc) ->
+        #panel{id=forpreload,class=buttons,body= lists:foldr(fun(#but{}=But,Acc) ->
         [#link{class=But#but.class,postback=But#but.postback, body=But#but.title,
                source=[wf:atom([S,Name])||S<-But#but.sources]}|Acc] end,[],Buttons)}
     ]}.
