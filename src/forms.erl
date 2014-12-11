@@ -43,7 +43,7 @@ new(Document,Object) ->
                             body= #option{selected=true, body= <<"Загрузка..."/utf8>>}}},
                 #panel { class=tool, body= [#image{src="images/preloader.gif"}]}
             ]}
-         ]}|Acc]; %#image{src="images/preloader.gif"}}]}|Acc];
+         ]}|Acc];
 
                         % integer money combo sring
 
