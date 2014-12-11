@@ -10,7 +10,7 @@
 -record(opt,        { id, name, title, postback, checked=false }).
 -record(sel,        { id, name, title, postback }).
 -record(field,      { id, sec=1, name, pos, title, layout, visible=true, disabled=false, format="~w", curr="",
-                      postfun=[], desc, wide=normal, type=binary, etc,
+                      postfun=[], desc, wide=normal, type=binary, etc, labelClass=label, fieldClass=field,
                       access, tooltips=[], options=[], min=0, max=1000000,length=10 }).
 
 -endif.

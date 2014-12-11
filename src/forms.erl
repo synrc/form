@@ -60,8 +60,8 @@ new(Document,Object) ->
                            || O <- X#field.options],
 
         [#panel { class=box, body=[
-            #panel { class=label, body = X#field.title},
-            #panel { class=field, body = case X#field.type of
+            #panel { class=X#field.labelClass,  body = X#field.title},
+            #panel { class=X#field.fieldClass, body = case X#field.type of
                 integer -> #b{body= wf:f(X#field.format,[
                                 case X#field.postfun of
                                      [] -> element(X#field.pos,Object);
@@ -76,7 +76,7 @@ new(Document,Object) ->
                 string -> #input{ id=wf:atom([X#field.name,Name]),
                                   validation=wf:f("validateLength(e, ~w, ~w)",[X#field.min,X#field.max]),
                                   value=element(X#field.pos,Object)};
-                phone  -> #input{ id=wf:atom([X#field.name,Name]),
+                phone  -> #input{ id=wf:atom([X#field.name,Name]), class=phone,
                                   onkeypress=wf:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
                                   validation=wf:f("validateNumbers(e, ~w, ~w, 'phone')",[X#field.min,X#field.max]),
                                   value="380"}
