@@ -71,9 +71,11 @@ new(Document,Object) ->
                                   validation=wf:f("validateLength(e, ~w, ~w)",[X#field.min,X#field.max]),
                                   value=element(X#field.pos,Object)}
             end},
-            #panel { class=tool, body=
-                tl(lists:flatten(lists:zipwith(fun(A2,B2) -> [A2,B2] end,
-                            lists:duplicate(length(Tooltips),#br{}),Tooltips))) }
+            #panel { class=tool, body= case Tooltips of
+                                         [] -> [];
+                                          _ -> tl(lists:flatten(lists:zipwith(fun(A2,B2) -> [A2,B2] end,
+                                               lists:duplicate(length(Tooltips),#br{}),Tooltips)))
+                                       end}
         ]}|Acc] end,[],Fields),
 
         % buttons
