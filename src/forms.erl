@@ -58,8 +58,10 @@ new(Document,Object) ->
         [#panel { class=box, body=[
             #panel { class=label, body = X#field.title},
             #panel { class=field, body = case X#field.type of
-                integer -> #b{body= wf:f(X#field.format,
-                                    [(X#field.postfun)(element(X#field.pos,Object))])};
+                integer -> #b{body= wf:f(X#field.format,[
+                                case X#field.postfun of
+                                     [] -> element(X#field.pos,Object);
+                                     PostFun -> PostFun(element(X#field.pos,Object)) end] )};
                 money -> [ #input{ id=wf:atom([X#field.name,Name]),
                            validation=wf:f("validateMin(e,~w)",[X#field.min]),
                            onkeypress=wf:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
