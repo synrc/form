@@ -20,10 +20,10 @@ documents() ->
 registration_application() ->
     #document{name=registration_application,
         sections=[
-            #section{id=1,name="Registration Application",desc="Please provide all info."},
-            #section{id=2,name="Contact Information"},
-            #section{id=3,name="Evidence Information"},
-            #section{id=3,name="Referral"}],
+            #sec{id=1,name="Registration Application",desc="Please provide all info."},
+            #sec{id=2,name="Contact Information"},
+            #sec{id=3,name="Evidence Information"},
+            #sec{id=3,name="Referral"}],
         fields=[
             #field{pos=01,name=id,          type=binary,title="ID",visible=false},
             #field{pos=02,name=givenname,   sec=2,type=string,title="Given Name",wide=small},
