@@ -37,11 +37,13 @@ new(Document,Object) ->
                         (#field{type=card,name=[Name1,Name2,Name3]}=X2,Acc) ->
         [#panel { id=wf:atom([Name1,Name]), class=box, body=[
             #panel { class=label, body = X2#field.title},
-            #panel { id=wf:atom([Name2,Name]), body=[#panel{class=field,
-                     body = #select{id=wf:atom([Name3, Name]), disabled=true,
-                            validation="validateCard(e)",
-                            body= #option{selected=true, body= <<"Загрузка..."/utf8>>}}}]},
-            #panel { class=tool, body= []}]}|Acc]; %#image{src="images/preloader.gif"}}]}|Acc];
+            #panel { id=wf:atom([Name2,Name]), body=[
+                #panel{class=field, body =
+                    #select{id=wf:atom([Name3, Name]), disabled=true, validation="validateCard(e)",
+                            body= #option{selected=true, body= <<"Загрузка..."/utf8>>}}},
+                #panel { class=tool, body= [#image{src="images/preloader.gif"}]}
+            ]}
+         ]}|Acc]; %#image{src="images/preloader.gif"}}]}|Acc];
 
                         % integer money combo sring
 
