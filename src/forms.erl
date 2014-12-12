@@ -39,7 +39,7 @@ new(Document,Object) ->
             #panel { class=label, body = X2#field.title},
             #panel { id=wf:atom([Name2,Name]), body=[
                 #panel{class=field, body =
-                    #select{id=wf:atom([Name3, Name]), disabled=true, validation="validateCard(e)",
+                    #select{id=wf:atom([Name3, Name]), disabled=true, validation="Validation.card(e)",
                             body= #option{selected=true, body= <<"Загрузка..."/utf8>>}}},
                 #panel { class=tool, body= [#image{src="images/preloader.gif"}]}
             ]}
@@ -69,21 +69,21 @@ new(Document,Object) ->
                                      [] -> element(X#field.pos,Object);
                                      PostFun -> PostFun(element(X#field.pos,Object)) end] )};
                 money -> [ #input{ id=wf:atom([X#field.name,Name]),
-                           validation=wf:f("validateSum(e, ~w, ~w, '~s')",[X#field.min,X#field.max, <<"Некорректная сумма!"/utf8>>]),
+                           validation=wf:f("Validation.money(e, ~w, ~w, '~s')",[X#field.min,X#field.max, <<"Некорректная сумма!"/utf8>>]),
                            onkeypress=wf:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
                            value=wf:to_list(element(X#field.pos,Object)) },
                            #panel{ class=pt10,body= [ <<"Введите сумму не менее: 2 "/utf8>>, X#field.curr ] } ];
                 combo -> tl(lists:flatten(lists:zipwith(fun(A,B) -> [A,B] end,
                             lists:duplicate(length(Options),#br{}),Options)));
                 string -> #input{ id=wf:atom([X#field.name,Name]),
-                                  validation=wf:f("validateLength(e, ~w, ~w)",[X#field.min,X#field.max]),
+                                  validation=wf:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max]),
                                   value=element(X#field.pos,Object)};
                 phone  -> #input{ id=wf:atom([X#field.name,Name]), class=phone,
                                   onkeypress=wf:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
-                                  validation=wf:f("validateNumbers(e, ~w, ~w, 'phone')",[X#field.min,X#field.max]),
+                                  validation=wf:f("Validation.nums(e, ~w, ~w, 'phone')",[X#field.min,X#field.max]),
                                   value="380"};
                 otp    -> #input{ class=phone,id=wf:atom([X#field.name,Name]),
-                                  validation="validateNumbers(e, 4, 4, 'otp')",
+                                  validation="Validation.nums(e, 4, 4, 'otp')",
                                   onkeypress="return fieldsFilter(event, 4, 'otp');"}
             end},
             #panel { class=tool, body= case Tooltips of
