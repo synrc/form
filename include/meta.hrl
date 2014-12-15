@@ -4,7 +4,7 @@
 -include_lib("kvs/include/kvs.hrl").
 
 -record(document,   { ?ITERATOR(feed), name, base, sections, fields, buttons, access }).
--record(validation, { name, msg, options=[], function }).
+-record(validation, { name, type, msg, extract = fun(X) -> X end, options=[], function }).
 -record(sec,        { id, name, desc="" }).
 -record(but,        { id, postback, name, title, sources=[], class }).
 -record(opt,        { id, name, title, postback, checked=false }).
