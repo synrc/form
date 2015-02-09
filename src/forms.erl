@@ -7,7 +7,7 @@
 
 start() -> ok.
 start(_) -> ok.
-start(_,_) -> ok.
+start(_,_) -> {ok,self()}.
 stop(_) -> ok.
 
 new(Document,Object) ->
