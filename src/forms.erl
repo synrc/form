@@ -42,7 +42,7 @@ new(Document,Object) ->
                     #panel{class=field,style="width:100%;", body =
                         #select{id=wf:atom([Name3, Name]), disabled=true, validation="Validation.card(e)",
                                 body= #option{selected=true, body= deposits:translate({?MODULE, loading})}}},
-                    #panel { class=tool, body= [#image{src="img/preloader.gif"}]}
+                    #panel { class=tool, body= [#image{src="/static/app/img/preloader.gif"}]}
                 ]}}
          ]}|Acc];
 
@@ -52,7 +52,7 @@ new(Document,Object) ->
 
                         Tooltips = [ #link { class=tooltips,
                                        tabindex="-1", onmouseover="setHeight(this);", body= [
-                           #image { src= "img/question.png" },
+                           #image { src= "/static/app/img/question.png" },
                            #span  { body= Tx } ] } || Tx <- lists:reverse(X#field.tooltips) ],
 
                         Options = [ #label{body=
