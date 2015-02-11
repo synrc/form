@@ -41,7 +41,7 @@ new(Document,Object) ->
                 #panel {class=box, id=wf:atom([Name2,Name]), body=[
                     #panel{class=field,style="width:100%;", body =
                         #select{id=wf:atom([Name3, Name]), disabled=true, validation="Validation.card(e)",
-                                body= #option{selected=true, body= <<"Загрузка..."/utf8>>}}},
+                                body= #option{selected=true, body= deposits:translate({?MODULE, loading})}}},
                     #panel { class=tool, body= [#image{src="img/preloader.gif"}]}
                 ]}}
          ]}|Acc];
@@ -73,7 +73,7 @@ new(Document,Object) ->
                            validation=wf:f("Validation.money(e, ~w, ~w, '~s')",[X#field.min,X#field.max, <<"Некорректная сумма!"/utf8>>]),
                            onkeypress=wf:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
                            value=wf:to_list(element(X#field.pos,Object)) },
-                           #panel{ class=pt10,body= [ <<"Введите сумму не менее: 2 "/utf8>>, X#field.curr ] } ];
+                           #panel{ class=pt10,body= [ deposits:translate({?MODULE, warning}), X#field.curr ] } ];
                 combo -> tl(lists:flatten(lists:zipwith(fun(A,B) -> [A,B] end,
                             lists:duplicate(length(Options),#br{}),Options)));
                 string -> #input{ id=wf:atom([X#field.name,Name]),
