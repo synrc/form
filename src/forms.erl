@@ -30,7 +30,7 @@ new(Document,Object) ->
         lists:foldr(    % empty
 
                     fun (#field{type=empty}=X1,Acc) ->
-        [#panel{class=box,id=wf:atom([X1#field.name,Name])}|Acc];
+        [#panel{class=box, style="display:none;",id=wf:atom([X1#field.name,Name])}|Acc];
 
                         % card row
 
