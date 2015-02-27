@@ -7,7 +7,7 @@
 -record(validation, { name, type, msg, extract = fun(X) -> X end, options=[], function, field={record,pos} }).
 -record(sec,        { id, name, desc="" }).
 -record(but,        { id, postback, name, title, sources=[], class }).
--record(opt,        { id, name, title, postback, checked=false }).
+-record(opt,        { id, name, title, postback, checked=false, disabled=false }).
 -record(sel,        { id, name, title, postback }).
 -record(field,      { id, sec=1, name, pos, title, layout, visible=true, disabled=false, format="~w", curr="",
                       postfun=[], desc, wide=normal, type=binary, etc, labelClass=label, fieldClass=field,

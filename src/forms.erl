@@ -59,7 +59,9 @@ new(Document,Object) ->
                            #radio{name=wf:atom([X#field.name,combo]),
                                   id=wf:atom([O#opt.name,Name]),
                                   body = O#opt.title,
-                                  checked=O#opt.checked,postback={O#opt.name,Name}}}
+                                  checked=O#opt.checked,
+                                  disabled=O#opt.disabled,
+                                  postback={O#opt.name,Name}}}
                            || O <- X#field.options],
 
         [#panel { class=box, body=[
