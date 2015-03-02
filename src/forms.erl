@@ -41,7 +41,7 @@ new(Document,Object) ->
                 #panel {class=box, id=wf:atom([Name2,Name]), body=[
                     #panel{class=field,style="width:100%;", body =
                         #select{id=wf:atom([Name3, Name]), disabled=true, validation="Validation.card(e)",
-                                body= #option{selected=true, body= deposits:translate({?MODULE, loading})}}},
+                                body= #option{selected=true, body= deposits:translate(loading)}}},
                     #panel { class=tool, body= [#image{src="/static/app/img/preloader.gif"}]}
                 ]}}
          ]}|Acc];
