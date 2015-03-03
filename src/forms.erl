@@ -50,19 +50,27 @@ new(Document,Object) ->
 
                         (#field{}=X,Acc) ->
 
-                        Tooltips = [ #link { class=tooltips,
-                                       tabindex="-1", onmouseover="setHeight(this);", body= [
-                           #image { src= "/static/app/img/question.png" },
-                           #span  { body= Tx } ] } || Tx <- lists:reverse(X#field.tooltips) ],
+                        Tooltips = [
+                            case Tx of
+                                {N} -> #panel{id=wf:atom([tooltip,N,Name]), body=[]};
+                                _ ->  #link { class=tooltips, tabindex="-1", onmouseover="setHeight(this);", body= [
+                                        #image { src= "/static/app/img/question.png" },
+                                        #span  { body= Tx } ] }
+                            end
+                            || Tx <- lists:reverse(X#field.tooltips) ],
 
-                        Options = [ #label{body=
-                           #radio{name=wf:atom([X#field.name,combo]),
-                                  id=wf:atom([O#opt.name,Name]),
-                                  body = O#opt.title,
-                                  checked=O#opt.checked,
-                                  disabled=O#opt.disabled,
-                                  postback={O#opt.name,Name}}}
-                           || O <- X#field.options],
+                        Options = [
+                            case O#opt.noRadioButton of
+                                true -> #label{id=wf:atom([label,O#opt.name,Name]), body=[]};
+                                false -> #label{body=
+                                            #radio{name=wf:atom([X#field.name,combo]),
+                                                id=wf:atom([O#opt.name,Name]),
+                                                body = O#opt.title,
+                                                checked=O#opt.checked,
+                                                disabled=O#opt.disabled,
+                                                postback={O#opt.name,Name}}}
+                            end
+                            || O <- X#field.options],
 
         [#panel { class=box, body=[
             #panel { class=X#field.labelClass,  body = X#field.title},
