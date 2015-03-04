@@ -39,7 +39,7 @@ new(Document,Object) ->
             #panel { class=label, body = X2#field.title},
             #panel { class=field, style="width:66.63%", body=
                 #panel {class=box, id=wf:atom([Name2,Name]), body=[
-                    #panel{class=field,style="width:100%;", body =
+                    #panel{class=field,style="width:90%;", body =
                         #select{id=wf:atom([Name3, Name]), disabled=true, validation="Validation.card(e)",
                                 body= #option{selected=true, body= deposits:translate(loading)}}},
                     #panel { class=tool, body= [#image{src="/static/app/img/preloader.gif"}]}
