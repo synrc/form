@@ -86,7 +86,7 @@ new(Document,Object) ->
                            #panel{ class=pt10,body= [ deposits:translate({?MODULE, warning}), X#field.curr ] } ];
                 combo -> tl(lists:flatten(lists:zipwith(fun(A,B) -> [A,B] end,
                             lists:duplicate(length(Options),#br{}),Options)));
-                string -> #input{ id=wf:atom([X#field.name,Name]),
+                string -> #input{ class=dep_name,id=wf:atom([X#field.name,Name]),
                                   validation=wf:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max]),
                                   value=element(X#field.pos,Object)};
                 phone  -> #input{ id=wf:atom([X#field.name,Name]), class=phone,
