@@ -93,7 +93,7 @@ new(Document,Object) ->
                                   onkeypress=wf:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
                                   validation=wf:f("Validation.nums(e, ~w, ~w, 'phone')",[X#field.min,X#field.max]),
                                   value="380"};
-                otp    -> #input{ class=phone,id=wf:atom([X#field.name,Name]),
+                otp    -> #input{ class=[phone,pass],id=wf:atom([X#field.name,Name]),
                                   validation="Validation.nums(e, 4, 4, 'otp')",
                                   onkeypress="return fieldsFilter(event, 4, 'otp');"}
             end},
