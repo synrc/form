@@ -3,6 +3,7 @@
 -autor('Maxim Sokhatsky').
 -export([start/0, start/1, start/2, stop/1, new/2]).
 -include_lib("n2o/include/wf.hrl").
+-include_lib("step_wizard.hrl").
 -include("meta.hrl").
 
 start() -> ok.
@@ -11,11 +12,16 @@ start(_,_) -> {ok,self()}.
 stop(_) -> ok.
 
 new(Document,Object) ->
-    [Section] = Document#document.sections,
-    Fields    = Document#document.fields,
-    Name      = Document#document.name,
-    Buttons   = Document#document.buttons,
+    StepWizard = Document#document.steps,
+    [Section]  = Document#document.sections,
+    Fields     = Document#document.fields,
+    Name       = Document#document.name,
+    Buttons    = Document#document.buttons,
     #panel { id=wf:atom([form,Name]), class=form, body=[
+
+        % step wizard
+        #panel{class=steps, body=
+            #b{body= [ wf:f(deposits:translate(step_wizard), [StepWizard#step_wizard.current_step,StepWizard#step_wizard.steps]) ]} },
 
         % caption
 
