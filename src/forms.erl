@@ -94,6 +94,7 @@ new(Document,Object) ->
                             lists:duplicate(length(Options),#br{}),Options)));
                 string -> #input{ class=dep_name,id=wf:atom([X#field.name,Name]),
                                   validation=wf:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max]),
+                                  onkeypress="return removeAllErrorsFromInput(this);",
                                   value=element(X#field.pos,Object)};
                 phone  -> #input{ id=wf:atom([X#field.name,Name]), class=phone,
                                   onkeypress=wf:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
