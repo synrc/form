@@ -5,9 +5,9 @@
 
 -include_lib("kvs/include/kvs.hrl").
 
--record(step_wizard, {?ITERATOR(feed),
-    current_step=undefined,
-    steps = undefined
+-record(step_wizard, {
+    current_step=1,
+    steps = 1
 }).
 
 -endif.

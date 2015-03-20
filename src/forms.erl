@@ -21,7 +21,8 @@ new(Document,Object) ->
 
         % step wizard
         #panel{class=steps, body=
-            #b{body= [ wf:f(deposits:translate(step_wizard), [StepWizard#step_wizard.current_step,StepWizard#step_wizard.steps]) ]} },
+            #b{body= [ wf:f(deposits:translate(step_wizard), 
+            [StepWizard#step_wizard.current_step,StepWizard#step_wizard.steps]) ]} },
 
         % caption
 
