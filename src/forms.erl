@@ -91,8 +91,12 @@ new(Document,Object) ->
                            onkeypress=wf:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
                            value=wf:to_list(element(X#field.pos,Object)) },
                            #panel{ class=pt10,body= [ deposits:translate({?MODULE, warning}), X#field.curr ] } ];
-                combo -> tl(lists:flatten(lists:zipwith(fun(A,B) -> [A,B] end,
-                            lists:duplicate(length(Options),#br{}),Options)));
+                combo -> case length(Options) of
+                             1 -> tl(lists:flatten(lists:zipwith(fun(A,B) -> [A,B] end,
+                                     lists:duplicate(length(Options),#br{}),Options)));
+                             _ -> tl(lists:flatten(lists:zipwith(fun(A,B) -> [A,B] end,
+                                     lists:duplicate(length(Options),#panel{style="height:10px;"}),Options)))
+                         end;
                 string -> #input{ class=dep_name,id=wf:atom([X#field.name,Name]),
                                   validation=wf:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max]),
                                   onkeypress="return removeAllErrorsFromInput(this);",
@@ -107,8 +111,12 @@ new(Document,Object) ->
             end},
             #panel { class=tool, body= case Tooltips of
                                          [] -> [];
-                                          _ -> tl(lists:flatten(lists:zipwith(fun(A2,B2) -> [A2,B2] end,
-                                               lists:duplicate(length(Tooltips),#br{}),Tooltips)))
+                                          _ -> case length(Tooltips) of
+                                                   1 -> tl(lists:flatten(lists:zipwith(fun(A2,B2) -> [A2,B2] end,
+                                                        lists:duplicate(length(Tooltips),#br{}),Tooltips)));
+                                                   _ -> tl(lists:flatten(lists:zipwith(fun(A2,B2) -> [A2,B2] end,
+                                                       lists:duplicate(length(Tooltips),#panel{style="height:10px;"}),Tooltips)))
+                                               end
                                        end}
         ]}|Acc] end,[],Fields),
 
