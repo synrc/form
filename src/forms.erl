@@ -42,7 +42,7 @@ new(Document,Object) ->
                         % card row
 
                         (#field{type=card,name=[Name1,Name2,Name3]}=X2,Acc) ->
-        [#panel { id=wf:atom([Name1,Name]), class=box, body=[
+        [#panel { id=wf:atom([Name1,Name]), style="padding-top:0;", class=box, body=[
             #panel { class=label, body = X2#field.title},
             #panel { class=field, style="width:66.63%", body=
                 #panel {class=box, id=wf:atom([Name2,Name]), body=[
@@ -69,13 +69,13 @@ new(Document,Object) ->
                         Options = [
                             case O#opt.noRadioButton of
                                 true -> #label{id=wf:atom([label,O#opt.name,Name]), body=[]};
-                                false -> #label{body=
+                                false -> #panel{style="height:30px;",body= #label{body=
                                             #radio{name=wf:atom([X#field.name,combo]),
                                                 id=wf:atom([O#opt.name,Name]),
                                                 body = O#opt.title,
                                                 checked=O#opt.checked,
                                                 disabled=O#opt.disabled,
-                                                postback={O#opt.name,Name}}}
+                                                postback={O#opt.name,Name}}}}
                             end
                             || O <- X#field.options],
 
@@ -95,7 +95,7 @@ new(Document,Object) ->
                              1 -> tl(lists:flatten(lists:zipwith(fun(A,B) -> [A,B] end,
                                      lists:duplicate(length(Options),#br{}),Options)));
                              _ -> tl(lists:flatten(lists:zipwith(fun(A,B) -> [A,B] end,
-                                     lists:duplicate(length(Options),#panel{style="height:10px;"}),Options)))
+                                     lists:duplicate(length(Options),#panel{}),Options)))
                          end;
                 string -> #input{ class=dep_name,id=wf:atom([X#field.name,Name]),
                                   validation=wf:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max]),
