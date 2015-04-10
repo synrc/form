@@ -1,5 +1,5 @@
--ifndef(META_HRL).
--define(META_HRL, "meta_hrl").
+-ifndef(FORMS_META_HRL).
+-define(FORMS_META_HRL, "meta_hrl").
 
 -include_lib("kvs/include/kvs.hrl").
 
