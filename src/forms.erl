@@ -88,7 +88,7 @@ new(Document,Object) ->
                                      PostFun -> PostFun(element(X#field.pos,Object)) end] )};
                 money -> [ #input{ id=wf:atom([X#field.name,Name]),
                            validation=wf:f("Validation.money(e, ~w, ~w, '~s')",[X#field.min,X#field.max, deposits:translate({?MODULE, error})]),
-                           onkeypress=wf:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
+                           onkeypress=wf:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]), onkeyup="beautiful_numbers(event);",
                            value=wf:to_list(element(X#field.pos,Object)) },
                            #panel{ class=pt10,body= [ deposits:translate({?MODULE, warning}), X#field.curr ] } ];
                 combo -> case length(Options) of
