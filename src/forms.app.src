@@ -1,6 +1,6 @@
 {application, forms,
    [{description, "Synrc Forms Generator"},
-    {vsn, "1"},
+    {vsn, "1.0"},
     {registered, []},
     {applications, [kernel,stdlib,n2o]},
     {mod, { forms, []}},
