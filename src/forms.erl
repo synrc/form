@@ -13,7 +13,7 @@ stop(_) -> ok.
 
 new(Document,Object) ->
     StepWizard = Document#document.steps,
-    [Section]  = Document#document.sections,
+    Caption    = Document#document.caption,
     Fields     = Document#document.fields,
     Name       = Document#document.name,
     Buttons    = Document#document.buttons,
@@ -27,8 +27,8 @@ new(Document,Object) ->
         % caption
 
         #panel{class=caption,body=[
-              #h3{body=Section#sec.name},
-              #panel{ class=small, body = Section#sec.desc}
+              #h3{body=Caption#sec.name},
+              #panel{ class=small, body = Caption#sec.desc}
         ]},
 
 
