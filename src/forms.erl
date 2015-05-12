@@ -87,6 +87,7 @@ new(Document,Object) ->
         [#panel { class=box, body=[
             #panel { class=X#field.labelClass,  body = X#field.title},
             #panel { class=X#field.fieldClass, body = case X#field.type of
+                text -> #panel{body=X#field.desc};
                 integer -> #b{body= wf:f(X#field.format,[
                                 case X#field.postfun of
                                      [] -> element(X#field.pos,Object);
