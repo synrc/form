@@ -13,22 +13,27 @@ stop(_) -> ok.
 
 new(Document,Object) ->
     StepWizard = Document#document.steps,
-    Caption    = Document#document.caption,
+    [Section]  = Document#document.sections,
     Fields     = Document#document.fields,
     Name       = Document#document.name,
     Buttons    = Document#document.buttons,
     #panel { id=wf:atom([form,Name]), class=form, body=[
 
         % step wizard
-        #panel{class=steps, body=
-            #b{body= [ wf:f(deposits:translate(step_wizard), 
-            [StepWizard#step_wizard.current_step,StepWizard#step_wizard.steps]) ]} },
+
+        case StepWizard of
+            #step_wizard{} ->
+                #panel{class=steps, body=
+                #b{body= [ wf:f(deposits:translate(step_wizard),
+                    [StepWizard#step_wizard.current_step,StepWizard#step_wizard.steps]) ]} };
+            _ -> []
+        end,
 
         % caption
 
         #panel{class=caption,body=[
-              #h3{body=Caption#sec.name},
-              #panel{ class=small, body = Caption#sec.desc}
+              #h3{body=Section#sec.name},
+              #panel{ class=small, body = Section#sec.desc}
         ]},
 
 
