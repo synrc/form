@@ -5,7 +5,7 @@
 
 -record(document,   { ?ITERATOR(feed), name=[], base=[], sections=[], fields=[], buttons=[], access=[], steps=[] }).
 -record(validation, { name, type, msg, extract = fun(X) -> X end, options=[], function, field={record,pos} }).
--record(sec,        { id, name=[], desc=[] }).
+-record(sec,        { id, name=[], desc=[], nameClass=[], descClass=small }).
 -record(but,        { id, postback, name, title, sources=[], class }).
 -record(opt,        { id, name, title, postback, checked=false, disabled=false, noRadioButton=false }).
 -record(sel,        { id, name, title, postback }).

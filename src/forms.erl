@@ -32,8 +32,8 @@ new(Document,Object) ->
         % caption
 
         #panel{class=caption,body=[
-              #h3{body=Section#sec.name},
-              #panel{ class=small, body = Section#sec.desc}
+              #h3{ class=Section#sec.nameClass, body=Section#sec.name},
+              #panel{ class=Section#sec.descClass, body = Section#sec.desc}
         ]},
 
 
