@@ -58,18 +58,35 @@ new(Document,Object) ->
                 ]}}
          ]}|Acc];
 
+                        % comment for front manager
+
+                        (#field{type=comment}=X3,Acc) ->
+        [#panel { id=wf:atom([commentBlock,Name]), class=box, body=[
+            case X3#field.tooltips of
+                false -> [];
+                true ->[#panel { class=label, body="&nbsp;" },
+                        #panel { class=field, body="&nbsp;" },
+                        #panel { class=tool, body=[
+                            #link{id=wf:atom([commentlink,X3#field.name,Name]), class=tooltips, onclick=wf:f("showComment(this);"), body=[
+                                #image{src="/static/app/img/icon-comment-blue2.png"} ]} ]}]
+            end,
+            #panel { class=comment, id=wf:atom([X3#field.name,Name]), body=[X3#field.desc],
+                     style=case X3#field.tooltips of
+                               false -> "";
+                               true  -> "display:none;"
+                           end}
+        ]}|Acc];
+
                         % integer money combo sring
 
                         (#field{}=X,Acc) ->
 
                         Tooltips = [
                             case Tx of
-                                {comment} -> #link{id=wf:atom([commlink,X#field.name,Name]), class=tooltips, onclick=wf:f("showComment(event);"), body=[
-                                                    #image{id=wf:atom([commlink1,X#field.name,Name]), src="/static/app/img/icon-comment-blue2.png"}]};
                                 {N} -> #panel{id=wf:atom([tooltip,N,Name]), body=[]};
-                                _ -> #link{class=tooltips, tabindex="-1", onmouseover="setHeight(this);", body=[
-                                        #image{src="/static/app/img/question.png"},
-                                        #span{body=Tx} ]}
+                                _ -> #link { class=tooltips, tabindex="-1", onmouseover="setHeight(this);", body=[
+                                        #image { src= "/static/app/img/question.png" },
+                                        #span  { body=Tx } ]}
                             end
                             || Tx <- lists:reverse(X#field.tooltips) ],
 
@@ -90,7 +107,6 @@ new(Document,Object) ->
             #panel { class=X#field.labelClass,  body = X#field.title},
             #panel { class=X#field.fieldClass, body = case X#field.type of
                 text -> #panel{body=X#field.desc};
-                comment -> #panel{id=wf:atom([X#field.name,Name]), body=X#field.desc};
                 integer -> #b{body= wf:f(X#field.format,[
                                 case X#field.postfun of
                                      [] -> element(X#field.pos,Object);
