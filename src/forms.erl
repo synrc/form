@@ -64,7 +64,7 @@ new(Document,Object) ->
 
                         Tooltips = [
                             case Tx of
-                                {comment} -> #link{id=wf:atom([commlink,X#field.name,Name]), class=tooltips, onclick=wf:f("showComment();"), body=[
+                                {comment} -> #link{id=wf:atom([commlink,X#field.name,Name]), class=tooltips, onclick=wf:f("showComment(event);"), body=[
                                                     #image{id=wf:atom([commlink1,X#field.name,Name]), src="/static/app/img/icon-comment-blue2.png"}]};
                                 {N} -> #panel{id=wf:atom([tooltip,N,Name]), body=[]};
                                 _ -> #link{class=tooltips, tabindex="-1", onmouseover="setHeight(this);", body=[
