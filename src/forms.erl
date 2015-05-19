@@ -64,10 +64,12 @@ new(Document,Object) ->
 
                         Tooltips = [
                             case Tx of
+                                {comment} -> #link{id=wf:atom([commlink,X#field.name,Name]), class=tooltips, onclick=wf:f("showComment();"), body=[
+                                                    #image{id=wf:atom([commlink1,X#field.name,Name]), src="/static/app/img/icon-comment-blue2.png"}]};
                                 {N} -> #panel{id=wf:atom([tooltip,N,Name]), body=[]};
-                                _ ->  #link { class=tooltips, tabindex="-1", onmouseover="setHeight(this);", body= [
-                                        #image { src= "/static/app/img/question.png" },
-                                        #span  { body= Tx } ] }
+                                _ -> #link{class=tooltips, tabindex="-1", onmouseover="setHeight(this);", body=[
+                                        #image{src="/static/app/img/question.png"},
+                                        #span{body=Tx} ]}
                             end
                             || Tx <- lists:reverse(X#field.tooltips) ],
 
@@ -88,6 +90,7 @@ new(Document,Object) ->
             #panel { class=X#field.labelClass,  body = X#field.title},
             #panel { class=X#field.fieldClass, body = case X#field.type of
                 text -> #panel{body=X#field.desc};
+                comment -> #panel{id=wf:atom([X#field.name,Name]), body=X#field.desc};
                 integer -> #b{body= wf:f(X#field.format,[
                                 case X#field.postfun of
                                      [] -> element(X#field.pos,Object);
