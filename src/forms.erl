@@ -61,7 +61,7 @@ new(Document,Object) ->
                         % comment for front manager
 
                         (#field{type=comment}=X3,Acc) ->
-        [#panel { id=wf:atom([commentBlock,Name]), class=box, body=[
+        [#panel { id=commentBlock, class=box, body=[
             case X3#field.tooltips of
                 false -> [];
                 true ->[#panel { class=label, body="&nbsp;" },
