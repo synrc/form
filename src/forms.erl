@@ -126,10 +126,11 @@ new(Document,Object) ->
                                   validation=wf:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max]),
                                   onkeypress="return removeAllErrorsFromInput(this);",
                                   value=element(X#field.pos,Object)};
-                phone  -> #input{ id=wf:atom([X#field.name,Name]), class=phone,
+                phone  -> [#span{ class=plus,body= <<"+">>},
+                          #input{ id=wf:atom([X#field.name,Name]), class=phone,
                                   onkeypress=wf:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
                                   validation=wf:f("Validation.nums(e, ~w, ~w, 'phone')",[X#field.min,X#field.max]),
-                                  value="380"};
+                                  value="380"} ];
                 otp    -> #input{ class=[phone,pass],id=wf:atom([X#field.name,Name]), placeholder="(XXXX)",
                                   validation="Validation.nums(e, 4, 4, 'otp')",
                                   onkeypress="return fieldsFilter(event, 4, 'otp');"}
