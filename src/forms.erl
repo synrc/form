@@ -124,7 +124,7 @@ new(Document,Object) ->
                              _ -> tl(lists:flatten(lists:zipwith(fun(A,B) -> [A,B] end,
                                      lists:duplicate(length(Options),#panel{}),Options)))
                          end;
-                select -> #select{ id=wf:atom([X#field.name,Name]), body=Options};
+                select -> #select{ id=wf:atom([X#field.name,Name]), postback=X#field.postback, body=Options};
                 string -> #input{ class=dep_name,id=wf:atom([X#field.name,Name]),
                                   validation=wf:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max]),
                                   onkeypress="return removeAllErrorsFromInput(this);",
