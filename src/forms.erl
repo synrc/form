@@ -90,23 +90,25 @@ new(Document,Object) ->
                             end
                             || Tx <- lists:reverse(X#field.tooltips) ],
 
-                        Options = [
-                            case O#opt.noRadioButton of
-                                true -> #label{id=wf:atom([label,O#opt.name,Name]), body=[]};
-                                false -> #panel{style="height:30px;",body= #label{body=
-                                            #radio{name=wf:atom([X#field.name,combo]),
-                                                id=wf:atom([O#opt.name,Name]),
-                                                body = O#opt.title,
-                                                checked=O#opt.checked,
-                                                disabled=O#opt.disabled,
-                                                postback={O#opt.name,Name}}}}
-                            end
-                            || O <- X#field.options],
+                        Options = [ case {X#field.type, O#opt.noRadioButton} of
+                                        {_,true} -> #label{id=wf:atom([label,O#opt.name,Name]), body=[]};
+                                        {combo,_} -> #panel{style="height:30px;",body= #label{body=
+                                                         #radio{name=wf:atom([X#field.name,combo]),
+                                                                id=wf:atom([O#opt.name,Name]),
+                                                                body = O#opt.title,
+                                                                checked=O#opt.checked,
+                                                                disabled=O#opt.disabled,
+                                                                postback={O#opt.name,Name}}}};
+                                        {select,_} -> #option{value = O#opt.name,
+                                                              body = O#opt.title,
+                                                              selected = O#opt.checked}
+                                    end
+                                  || O <- X#field.options],
 
         [#panel { class=box, body=[
             #panel { class=X#field.labelClass,  body = X#field.title},
             #panel { class=X#field.fieldClass, body = case X#field.type of
-                text -> #panel{body=X#field.desc};
+                text -> #panel{id=wf:atom([X#field.name,Name]), body=X#field.desc};
                 integer -> #b{body= wf:f(X#field.format,[
                                 case X#field.postfun of
                                      [] -> element(X#field.pos,Object);
@@ -122,6 +124,7 @@ new(Document,Object) ->
                              _ -> tl(lists:flatten(lists:zipwith(fun(A,B) -> [A,B] end,
                                      lists:duplicate(length(Options),#panel{}),Options)))
                          end;
+                select -> #select{ id=wf:atom([X#field.name,Name]), body=Options};
                 string -> #input{ class=dep_name,id=wf:atom([X#field.name,Name]),
                                   validation=wf:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max]),
                                   onkeypress="return removeAllErrorsFromInput(this);",
