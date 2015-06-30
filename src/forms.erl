@@ -105,7 +105,7 @@ new(Document,Object) ->
                                     end
                                   || O <- X#field.options],
 
-        [#panel { class=box, body=[
+        [#panel { class=X#field.boxClass, body=[
             #panel { class=X#field.labelClass,  body = X#field.title},
             #panel { class=X#field.fieldClass, body = case X#field.type of
                 text -> #panel{id=wf:atom([X#field.name,Name]), body=X#field.desc};
