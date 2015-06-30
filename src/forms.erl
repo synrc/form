@@ -47,10 +47,10 @@ new(Document,Object) ->
                         % card row
 
                         (#field{type=card,name=[Name1,Name2,Name3]}=X2,Acc) ->
-        [#panel { id=wf:atom([Name1,Name]), style="padding-top:0;", class=box, body=[
+        [#panel { id=wf:atom([Name1,Name]), class=[box,pad0], body=[
             #panel { class=label, body = X2#field.title},
             #panel { class=field, style="width:66.63%", body=
-                #panel {class=box, id=wf:atom([Name2,Name]), body=[
+                #panel {id=wf:atom([Name2,Name]), body=[
                     #panel{class=field,style="width:90%;", body =
                         #select{id=wf:atom([Name3, Name]), disabled=true, validation="Validation.card(e)",
                                 body= #option{selected=true, body= deposits:translate(loading)}}},
