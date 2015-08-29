@@ -24,20 +24,20 @@ its descriptions and validations.
 
 \vspace{1\baselineskip}
 \begin{lstlisting}
--record(document,   { ?ITERATOR(feed),
-                      name,
-                      base,
-                      sections,
-                      fields,
-                      buttons,
-                      access }).
+    -record(document,   { ?ITERATOR(feed),
+                          name,
+                          base,
+                          sections,
+                          fields,
+                          buttons,
+                          access }).
 \end{lstlisting}
 
 Each section \#sec of forms are entitled with heading font.
 
 \vspace{1\baselineskip}
 \begin{lstlisting}
--record(sec,        { id, name, desc="" }).
+    -record(sec,        { id, name, desc="" }).
 \end{lstlisting}
 
 Forms age given with its control buttons (\#but).
@@ -46,8 +46,8 @@ to N2O element postback during forms:new/2.
 
 \vspace{1\baselineskip}
 \begin{lstlisting}
--record(but,        { id, postback, name, title,
-                      sources=[], class }).
+    -record(but,        { id, postback, name, title,
+                          sources=[], class }).
 \end{lstlisting}
 
 \subsection{Validation}
@@ -56,17 +56,17 @@ record definitions in FORMS model:
 
 \vspace{1\baselineskip}
 \begin{lstlisting}
--record(validation, { name, type, msg,
-                      extract = fun(X) -> X end, options=[],
-                      function, field={record,pos} }).
+    -record(validation, { name, type, msg,
+                          extract = fun(X) -> X end, options=[],
+                          function, field={record,pos} }).
 
--record(opt,        { id, name, title, postback, checked=false }).
--record(sel,        { id, name, title, postback }).
--record(field,      { id, sec=1, name, pos, title, layout,
-                      visible=true, disabled=false,
-                      format="~w", curr="", options=[],
-                      postfun=[], desc, wide=normal,
-                      type=binary, etc, access, tooltips=[] }).
+    -record(opt,        { id, name, title, postback, checked=false }).
+    -record(sel,        { id, name, title, postback }).
+    -record(field,      { id, sec=1, name, pos, title, layout,
+                          visible=true, disabled=false,
+                          format="~w", curr="", options=[],
+                          postfun=[], desc, wide=normal,
+                          type=binary, etc, access, tooltips=[] }).
 \end{lstlisting}
 
 \subsection{Data Model}
@@ -83,7 +83,8 @@ Forms average render speed is 50 FPS (forms per second).
 
 \vspace{1\baselineskip}
 \begin{lstlisting}
- document(Name,Phone) ->
+     document(Name,Phone) ->
+
                 #document { name = Name,
 
     sections =[ #sec      { name= [<<"Input OTP sent to ">>,
@@ -123,13 +124,15 @@ The other XML forms standard is XEP-0004 Data Forms which is supported by most X
 
 \vspace{1\baselineskip}
 \begin{lstlisting}
-<x xmlns='jabber:x:data' type='{form-type}'>
-  <title/><instructions/><desc/>
-  <field var='OS' type='int' label='description'>
-    <value>3</value>
-    <option label='Windows'><value>3</value></option>
-    <option label='Mac'><value>2</value></option>
-    <option label='Linux'><value>1</value></option>
-  </field>
-</x>
+    <x xmlns='jabber:x:data' type='{form-type}'>
+        <title/>
+        <instructions/>
+        <desc/>
+        <field var='OS' type='int' label='description'>
+            <value>3</value>
+            <option label='Windows'><value>3</value></option>
+            <option label='Mac'>    <value>2</value></option>
+            <option label='Linux'>  <value>1</value></option>
+        </field>
+    </x>
 \end{lstlisting}
