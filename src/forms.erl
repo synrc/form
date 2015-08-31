@@ -3,7 +3,7 @@
 -autor('Maxim Sokhatsky').
 -export([start/0, start/1, start/2, stop/1, new/2]).
 -include_lib("n2o/include/wf.hrl").
--include_lib("nitro/include/nitro.hrl").
+%% -include_lib("nitro/include/nitro.hrl").
 -include_lib("step_wizard.hrl").
 -include("meta.hrl").
 
@@ -153,6 +153,6 @@ new(Document,Object) ->
         % buttons
 
         #panel{id=forpreload,class=buttons,body= lists:foldr(fun(#but{}=But,Acc) ->
-        [#link{id=But#but.id, class=But#but.class, postback=But#but.postback, body=But#but.title,
+        [#link{id=But#but.id, class=But#but.class, postback=But#but.postback, body=But#but.title, onclick=But#but.onclick,
                href=But#but.href, target=But#but.target, source=[wf:atom([S,Name])||S<-But#but.sources]}|Acc] end,[],Buttons)}
     ]}.
