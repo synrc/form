@@ -3,7 +3,7 @@
 -autor('Maxim Sokhatsky').
 -export([start/0, start/1, start/2, stop/1, new/2]).
 -include_lib("n2o/include/wf.hrl").
-%% -include_lib("nitro/include/nitro.hrl").
+-include_lib("nitro/include/nitro.hrl").
 -include_lib("step_wizard.hrl").
 -include("meta.hrl").
 
