@@ -153,6 +153,6 @@ new(Document,Object) ->
         % buttons
 
         #panel{id=forpreload,class=buttons,body= lists:foldr(fun(#but{}=But,Acc) ->
-        [#link{id=But#but.id, class=But#but.class, validation=But#but.validation, postback=But#but.postback, body=But#but.title, onclick=But#but.onclick,
+        [#link{id=But#but.id, class=But#but.class, validate=But#but.validation, postback=But#but.postback, body=But#but.title, onclick=But#but.onclick,
                href=But#but.href, target=But#but.target, source=[wf:atom([S,Name])||S<-But#but.sources]}|Acc] end,[],Buttons)}
     ]}.
