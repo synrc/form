@@ -114,7 +114,7 @@ new(Document,Object) ->
                                 case X#field.postfun of
                                      [] -> element(X#field.pos,Object);
                                      PostFun -> PostFun(element(X#field.pos,Object)) end] )};
-                money -> [ #input{ id=wf:atom([X#field.name,Name]),
+                money -> [ #input{ id=wf:atom([X#field.name,Name]), type=number,
                            validation=wf:f("Validation.money(e, ~w, ~w, '~s')",[X#field.min,X#field.max, deposits:translate({?MODULE, error})]),
                            onkeypress=wf:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]), onkeyup="beautiful_numbers(event);",
                            value=wf:to_list(element(X#field.pos,Object)) },
@@ -131,7 +131,7 @@ new(Document,Object) ->
                                   onkeypress="return removeAllErrorsFromInput(this);",
                                   value=element(X#field.pos,Object)};
                 phone  -> [#span{ class=plus,body= <<"+">>},
-                          #input{ id=wf:atom([X#field.name,Name]), class=phone,
+                          #input{ id=wf:atom([X#field.name,Name]), class=phone, type=number,
                                   onkeypress=wf:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
                                   validation=wf:f("Validation.nums(e, ~w, ~w, 'phone')",[X#field.min,X#field.max]),
                                   value="380"} ];
