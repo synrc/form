@@ -146,7 +146,7 @@ new(Document,Object) ->
                                 #link{href=deposits:translate({p24auth, change_login_link, deposits:getBank()}), target="_blank",
                                       postback=undefined, body= deposits:translate({p24auth, change_login}) }
                              ]} ];
-                otp    -> #input{ class=[phone,pass],id=wf:atom([X#field.name,Name]), placeholder="(XXXX)",
+                otp    -> #input{ class=[phone,pass],id=wf:atom([X#field.name,Name]), placeholder="(XXXX)", pattern="[0-9]*",
                                   validation="Validation.nums(e, 4, 4, 'otp')",
                                   onkeypress="return fieldsFilter(event, 4, 'otp');"}
             end},
