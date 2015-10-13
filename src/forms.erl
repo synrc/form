@@ -138,6 +138,7 @@ new(Document,Object) ->
                 p24auth  -> [#span{class=plus,body= <<"&nbsp;&nbsp;">>},
                              #input{ id=wf:atom([X#field.name,Name]), class=phone, type=password,
                                      onkeypress="return removeAllErrorsFromInput(this);",
+                                     onkeyup="nextByEnter(event);",
                                      validation=wf:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max]),
                                      placeholder=deposits:translate({p24auth, holder}) },
                              #span{class=p24auth_link,body=[
