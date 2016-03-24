@@ -93,7 +93,7 @@ new(Document,Object) ->
 
                         Options = [ case {X#field.type, O#opt.noRadioButton} of
                                         {_,true} -> #label{id=wf:atom([label,O#opt.name,Name]), body=[]};
-                                        {combo,_} -> #panel{style="height:30px;",body= #label{body=
+                                        {combo,_} -> #panel{style="min-height:30px;",body= #label{body=
                                                          #radio{name=wf:atom([X#field.name,combo]),
                                                                 id=wf:atom([O#opt.name,Name]),
                                                                 body = O#opt.title,
