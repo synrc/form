@@ -36,11 +36,11 @@ steps(Document, Object) ->
 
 caption(Document, Object) ->
     % caption
-    [Section]  = Document#document.sections,
-    #panel{class=caption,body=[
-        #h3{ class=Section#sec.nameClass, body=Section#sec.name},
-        #panel{ class=Section#sec.descClass, body = Section#sec.desc}
-    ]}.
+    SectionList  = Document#document.sections,
+    #panel{class=caption,body=
+    [begin
+         #h3{ class=Section#sec.nameClass, body=Section#sec.name},
+         #panel{ class=Section#sec.descClass, body = Section#sec.desc} end || Section <- SectionList]}.
 
 fields(Document, Object) ->
     % fields
