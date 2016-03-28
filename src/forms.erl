@@ -2,7 +2,7 @@
 -behaviour(application).
 -autor('Maxim Sokhatsky').
 -export([start/0, start/1, start/2, stop/1, new/2]).
--export([form/2, steps/2, caption/2, fields/2, buttons/2, component/2]).
+-export([form/2, steps/2, caption/2, fields/2, buttons/2, component/3]).
 -include_lib("n2o/include/wf.hrl").
 -include_lib("nitro/include/nitro.hrl").
 -include_lib("step_wizard.hrl").
@@ -173,6 +173,6 @@ buttons(Document, Object) ->
         [#link{id=But#but.id, class=But#but.class, validate=But#but.validation, postback=But#but.postback, body=But#but.title, onclick=But#but.onclick,
                href=But#but.href, target=But#but.target, source=[wf:atom([S,Name])||S<-But#but.sources]}|Acc] end,[],Buttons)}.
 
-component(Document, Object) ->
+component(FormId, Document, Object) ->
     Name   = Document#document.name,
-    #panel{id=Name, body= [BuildBlock(Document, Object) || BuildBlock <- [fun fields/2]]}.
+    #panel{id=wf:atom([FormId,Name]), body= [BuildBlock(Document, Object) || BuildBlock <- [fun fields/2]]}.
