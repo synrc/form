@@ -80,6 +80,8 @@ fields(Document, Object) ->
 
             % integer money combo sring
             (#field{}=X,Acc) ->
+                Panel = case X#field.name of undefined -> #panel{};
+                                             _         -> #panel{id=wf:atom([wrap,X#field.name,Name])} end,
                 Tooltips = [
                     case Tx of
                         {N} -> #panel{id=wf:atom([tooltip,N,Name]), body=[]};
@@ -100,7 +102,7 @@ fields(Document, Object) ->
                                 {check,_}  -> #checkbox{id=wf:atom([O#opt.name,Name]),source=[wf:atom([O#opt.name,Name])],
                                                         body = O#opt.title, disabled=O#opt.disabled, checked=O#opt.checked, postback={O#opt.name,Name}} end || O <- X#field.options],
 
-                [#panel { class=X#field.boxClass, body=[
+                [Panel#panel { class=X#field.boxClass, body=[
                     #panel { class=X#field.labelClass,  body = X#field.title},
                     #panel { class=X#field.fieldClass,
                         body = case X#field.type of
