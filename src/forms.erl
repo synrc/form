@@ -156,7 +156,7 @@ fields(Document, Object) ->
                                    datepay -> #panel{class=[field,sub,'input-date'], body=
                                    [#calendar{id=wf:atom([X#field.name,Name]), onkeypress="return fieldsFilter(event, 10, 'date');",
                                               validation="Validation.dateRegPay(e)", style="width:70%", disableDayFn="disableDays4Charge",
-                                              class = ['input-date'], format="DD.MM.YYYY", minDate=X#field.min, lang=wf:lang(),value=element(X#field.pos,Object)},
+                                              class = ['input-date'], format="DD.MM.YYYY", minDate=X#field.min, maxDate = X#field.max, lang=wf:lang(),value=element(X#field.pos,Object)},
                                        #span{class=['calendar-area','icon-calendar'],body=[]}]} end},
 
                     #panel { class=tool, body= case Tooltips of
