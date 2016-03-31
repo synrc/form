@@ -52,6 +52,9 @@ fields(Document, Object) ->
         fun (#field{type=empty}=X1,Acc) ->
             [#panel{class=box, style="display:none;",id=wf:atom([X1#field.name,Name])}|Acc];
 
+            %% dynamic component (that is build with fun component/3 and inserted)
+            (#field{type=dynamic}=X4,Acc) -> [X4#field.raw|Acc];
+
             % card row
             (#field{type=card,name=[Name1,Name2,Name3]}=X2,Acc) ->
                 [#panel { id=wf:atom([Name1,Name]), class=[box,pad0], body=[
