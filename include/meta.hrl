@@ -11,6 +11,6 @@
 -record(sel,        { id, name, title, postback }).
 -record(field,      { id, raw, sec=1, name, pos, title, layout, visible=true, disabled=false, format="~w", curr="",
                       postfun=[], desc, wide=normal, type=binary, etc, labelClass=label, fieldClass=field, boxClass=box,
-                      access, tooltips=[], options=[], min=0, max=1000000, length=10, postback, onchange }).
+                      access, tooltips=[], options=[], min=0, max=1000000, length=10, postback, onchange, validation }).
 
 -endif.
