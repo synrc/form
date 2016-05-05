@@ -139,11 +139,10 @@ fields(Document, Object) ->
                                                      validation=wf:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max]),
                                                      onkeypress="return removeAllErrorsFromInput(this);",
                                                      value=element(X#field.pos,Object)};
-                                   phone  -> [#span{ class=plus,body= <<"+">>},
-                                       #input{ id=wf:atom([X#field.name,Name]), class=phone, pattern="[0-9]*",
-                                               onkeypress=wf:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
-                                               validation=wf:f("Validation.nums(e, ~w, ~w, 'phone')",[X#field.min,X#field.max]), value="380"} ];
-                                   p24auth  -> [#span{class=plus,body= <<"&nbsp;&nbsp;">>},
+                                   phone  -> #input{ id=wf:atom([X#field.name,Name]), class=phone, pattern="[0-9]*",
+                                                     onkeypress=wf:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
+                                                     validation=wf:f("Validation.phone(e, ~w, ~w)",[X#field.min,X#field.max]), value="+380"};
+                                   p24auth -> [
                                        #input{ id=wf:atom([X#field.name,Name]), class=phone, type=password,
                                                onkeypress="return removeAllErrorsFromInput(this);",
                                                onkeyup="nextByEnter(event);",
