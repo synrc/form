@@ -1,5 +1,7 @@
-Erlang Business Forms
-=====================
+FORMS: Erlang Business Forms
+============================
+
+[![Build Status](https://travis-ci.org/synrc/forms.svg?branch=master)](https://travis-ci.org/synrc/forms)
 
 Metainformation
 ---------------

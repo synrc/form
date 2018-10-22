@@ -3,8 +3,8 @@
 -autor('Maxim Sokhatsky').
 -export([start/0, start/1, start/2, stop/1, new/2]).
 -export([form/2, steps/2, caption/2, fields/2, buttons/2, component/3]).
--include_lib("n2o/include/wf.hrl").
 -include_lib("nitro/include/nitro.hrl").
+-include_lib("n2o/include/wf.hrl").
 -include_lib("step_wizard.hrl").
 -include("meta.hrl").
 
@@ -19,11 +19,11 @@ new(Document,Object) ->
         id=wf:atom([form,Name]), class=form,
         body= [BuildBlock(Document, Object) || BuildBlock <- [fun steps/2,fun caption/2,fun fields/2,fun buttons/2]]}.
 
-form(Document,Object) ->
+form(Document,_Object) ->
     Name       = Document#document.name,
     #panel { id=wf:atom([form,Name]), class=form}.
 
-steps(Document, Object) ->
+steps(Document, _Object) ->
     % step wizard
     StepWizard = Document#document.steps,
     case StepWizard of
@@ -34,7 +34,7 @@ steps(Document, Object) ->
         _ -> []
     end.
 
-caption(Document, Object) ->
+caption(Document, _Object) ->
     % caption
     SectionList  = Document#document.sections,
     #panel{class=caption,body=
@@ -170,7 +170,7 @@ fields(Document, Object) ->
                                                             _ -> tl(lists:flatten(lists:zipwith(fun(A2,B2) -> [A2,B2] end,
                                                                 lists:duplicate(length(Tooltips),#panel{style="height:10px;"}),Tooltips))) end end} ]}|Acc] end,[],Fields).
 
-buttons(Document, Object) ->
+buttons(Document, _Object) ->
     % buttons
     Name       = Document#document.name,
     Buttons    = Document#document.buttons,
