@@ -12,7 +12,7 @@ This project is a declarative framework for documents and forms.
 Data Model
 ----------
 
-The Metainformation is used to generate KVS Data Model. 
+The Metainformation is used to generate KVS Data Model.
 The [KVS](http://github.com/synrc/kvs) layer along with FEEDS server provide persistence.
 
 Application
