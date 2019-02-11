@@ -1,0 +1,187 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="Maxim Sokhatsky" />
+    <title>FORMS</title>
+    <link rel="stylesheet" href="https://synrc.space/synrc.css" />
+</head>
+
+<body>
+
+<nav>
+    <a href='https://n2o.space'>ECO</a>
+    <a href='https://o7.network'>O7</a>
+</nav>
+
+<header>
+    <a href="https://o7.network"><img src="https://synrc.space/images/Synrc Neo.svg?v=1"></a>
+    <h1>FORMS</h1>
+</header>
+
+<aside>
+    <article>
+        <section>
+            <h3>SYNOPSIS</h3>
+            <div>SYNRC FORMS is a pure Erlang forms protocol for enterprise software.
+                 It suppors following target formats: XML, JSON, HTML, BML, SVG, JavaScript, BERT.
+            </div>
+        <figure>
+        <code>
+ $ git clone git://github.com/synrc/forms
+        </code>
+        </figure>
+        </section>
+    </article>
+</aside>
+<main>
+    <section>
+        <a><h3>INTRO</h3></a>
+
+        <p>FORMS application provides set of CSS stylesheets for
+           compact forms definitions and also it provides database
+           model for storing metadata information about documents,
+           fields and validations.</p>
+
+        <figure>
+        <img src="http://synrc.com/apps/forms/doc//images/otp.png">
+        </figure>
+        <figure>
+        <code>
+ document(Name,Phone) -> #document { name = Name,
+
+  sections = [
+      #sec { name=[<<"Input the password "
+                     "you have received by SMS"/utf8>>,
+            wf:to_list(Phone#phone.number)] } ],
+
+  buttons  = [   #but { name='decline',
+                        title=<<"Cancel"/utf8>>,
+                        class=cancel,
+                        postback={'CloseOpenedForm',Name} },
+
+                 #but { name='proceed',
+                        title = <<"Proceed"/utf8>>,
+                        class = [button,sgreen],
+                        sources = [otp],
+                        postback = {'Spinner',{'OpenForm',Name}}}],
+
+  fields   = [ #field { name='otp',
+                        type=otp,
+                        title= <<"Password:"/utf8>>,
+                        labelClass=label,
+                        fieldClass=column3}]}.
+       </code>
+        </figure>
+
+        <br><br>
+
+    </section>
+    <section>
+       <a><h3>SPEC</h3></a>
+        <p>
+        <b>integer</b> — Number.<br>
+        <b>money</b> — Money with fixed point.<br>
+        <b>pay</b> — Payment Method..<br>
+        <b>combo</b> — General Combo Box.<br>
+        <b>select</b> — Radio Button.<br>
+        <b>check</b> — Checkbox.<br>
+        <b>string</b> — Label control.<br>
+        <b>phone</b> — Telephone Number with +.<br>
+        <b>auth</b> — Credentials.<br>
+        <b>card</b> — Credit Cards.<br>
+        <b>otp</b> — One Time Password.<br>
+        <b>date</b> — Datetime Picker.<br>
+        </p>
+        <h4> DOCUMENT </h4>
+        <figure>
+        <code>
+  -record(document, { ?ITERATOR(feed),
+                      name,
+                      base,
+                      sections,
+                      fields,
+                      buttons,
+                      access }).
+        </code>
+        </figure>
+        <h4> SECTION </h4>
+        <figure>
+        <code>
+ -record(sec,       { id,
+                      name,
+                      desc="" }).
+         </code>
+        </figure>
+        <h4> BUTTON </h4>
+        <figure>
+        <code>
+ -record(but,       { id,
+                      postback,
+                      name,
+                      title,
+                      sources=[],
+                      class }).
+         </code>
+        </figure>
+        <h4> SELECTOR </h4>
+        <figure>
+        <code>
+  -record(sel,      { id,
+                      postback,
+                      name,
+                      title }).
+         </code>
+        </figure>
+        <h4> OPTION </h4>
+        <figure>
+        <code>
+ -record(opt,       { id,
+                      postback,
+                      name,
+                      title,
+                      checked=false,
+                      disabled=false,
+                      noRadioButton=false }).
+         </code>
+        </figure>
+        <h4> FIELD </h4>
+        <figure>
+        <code>
+ -record(field,     { id, sec=1, name, pos, title,
+                      layout, visible=true,
+                      disabled=false, format="~w",
+                      curr=[], postfun=[], desc,
+                      wide=normal, type=binary,
+                      etc, labelClass=label,
+                      fieldClass=field,
+                      boxClass=box,
+                      access, tooltips=[],
+                      options=[], min=0, max=1000000,
+                      length=10, postback }).
+        </code>
+        </figure>
+        <h4> VALIDATION </h4>
+        <figure>
+        <code>
+ -record(validation, { name, type, msg,
+                       extract = fun(X) -> X end,
+                       options=[], function,
+                       field={record,pos} }).
+        </code>
+        </figure>
+    </section>
+
+</main>
+
+<footer>
+    Made with <span class="heart">❤</span> to EMQ
+</footer>
+
+</body>
+</html>
+
+
