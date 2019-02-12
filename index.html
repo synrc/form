@@ -51,14 +51,12 @@
         </figure>
         <figure>
         <code>
- document(Name,Phone) -> #document { name = Name,
-
-  sections = [
+  #document { name = Name, sections = [
       #sec { name=[<<"Input the password "
                      "you have received by SMS"/utf8>>,
              nitro:to_list(Phone#phone.number)] } ],
 
-  buttons  = [   #but { name='decline',
+    buttons  = [ #but { name='decline',
                         title=<<"Cancel"/utf8>>,
                         class=cancel,
                         postback={'CloseOpenedForm',Name} },
@@ -69,7 +67,7 @@
                         sources = [otp],
                         postback = {'Spinner',{'OpenForm',Name}}}],
 
-  fields   = [ #field { name='otp',
+    fields = [ #field { name='otp',
                         type=otp,
                         title= <<"Password:"/utf8>>,
                         labelClass=label,
@@ -106,6 +104,22 @@
                       fields,
                       buttons,
                       access }).
+        </code>
+        </figure>
+        <h4> FIELD </h4>
+        <figure>
+        <code>
+ -record(field,     { id, sec=1, name, pos, title,
+                      layout, visible=true,
+                      disabled=false, format="~w",
+                      curr=[], postfun=[], desc,
+                      wide=normal, type=binary,
+                      etc, labelClass=label,
+                      fieldClass=field,
+                      boxClass=box,
+                      access, tooltips=[],
+                      options=[], min=0, max=1000000,
+                      length=10, postback }).
         </code>
         </figure>
         <h4> SECTION </h4>
@@ -148,22 +162,6 @@
                       noRadioButton=false }).
          </code>
         </figure>
-        <h4> FIELD </h4>
-        <figure>
-        <code>
- -record(field,     { id, sec=1, name, pos, title,
-                      layout, visible=true,
-                      disabled=false, format="~w",
-                      curr=[], postfun=[], desc,
-                      wide=normal, type=binary,
-                      etc, labelClass=label,
-                      fieldClass=field,
-                      boxClass=box,
-                      access, tooltips=[],
-                      options=[], min=0, max=1000000,
-                      length=10, postback }).
-        </code>
-        </figure>
         <h4> VALIDATION </h4>
         <figure>
         <code>
@@ -178,7 +176,7 @@
 </main>
 
 <footer>
-    Made with <span class="heart">❤</span> to EMQ
+    Made with <span class="heart">❤</span> to N2O
 </footer>
 
 </body>
