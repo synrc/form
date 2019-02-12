@@ -67,6 +67,7 @@ It mey also contain fields of customizable types.
                       name,
                       desc="" }).
 ```
+```
  -record(but,       { id,
                       postback,
                       name,
