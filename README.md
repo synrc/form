@@ -1,4 +1,4 @@
-FORMS: Erlang Business Forms
+FORMS: Declarative Documents
 ============================
 
 [![Build Status](https://travis-ci.org/synrc/forms.svg?branch=master)](https://travis-ci.org/synrc/forms)
@@ -101,13 +101,13 @@ KVX Data Model
 --------------
 
 The Metainformation is used to generate KVS Data Model.
-The [KVS](http://github.com/synrc/kvs) layer provides persistence.
+The [KVS](http://github.com/o7/kvx) layer provides persistence.
 
 NITRO Applications
 -----------------
 
 JavaScript Web Application is generated using Metainformation and Data Model.
-[N2O](http://github.com/5HT/n2o) is used as a domain specific language to generate forms.
+[N2O](http://github.com/o7/n2o) is used as a domain specific language to generate forms.
 JavaScript/OTP is used to generate forms. Average rendering speed is 25 forms per second.
 Erlang and JavaScript/OTP are used to define validation
 rules applied to documents during workflow.
