@@ -56,7 +56,7 @@
   sections = [
       #sec { name=[<<"Input the password "
                      "you have received by SMS"/utf8>>,
-            wf:to_list(Phone#phone.number)] } ],
+             nitro:to_list(Phone#phone.number)] } ],
 
   buttons  = [   #but { name='decline',
                         title=<<"Cancel"/utf8>>,
