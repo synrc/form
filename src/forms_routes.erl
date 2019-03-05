@@ -13,11 +13,11 @@ route_prefix(<<"/ws/",P/binary>>) -> route(P);
 route_prefix(<<"/",P/binary>>) -> route(P);
 route_prefix(P) -> route(P).
 
-route(<<>>)                     -> forms_login;
+route(<<>>)                     -> forms_index;
 route(<<"index",_/binary>>    ) -> forms_index;
 route(<<"login",_/binary>>)     -> forms_login;
 route(<<"stand",_/binary>>)     -> forms_stand;
 route(<<"app/index",_/binary>>) -> forms_index;
 route(<<"app/login",_/binary>>) -> forms_login;
 route(<<"app/stand",_/binary>>) -> forms_stand;
-route(_) -> login.
+route(_) -> forms_index.
