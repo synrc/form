@@ -1,13 +1,16 @@
 -module(forms_otp).
 -include("meta.hrl").
--compile(export_all).
-
+-export(?EXP).
+-record(phone, {code="+380",number="490000000"}).
+id() -> #phone{}.
 new(Name,Phone) ->
 
   #document { name = Name, sections = [
       #sec { name=[<<"Input the password "
-                     "you have received by SMS"/utf8>>,
-             nitro:to_list(Phone)] } ],
+                     "you have received by SMS: "/utf8>>,
+             nitro:to_list(Phone#phone.code),
+             nitro:to_list(Phone#phone.number)
+             ] } ],
 
     buttons  = [ #but { name='decline',
                         title= <<"Cancel"/utf8>>,

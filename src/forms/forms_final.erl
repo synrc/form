@@ -1,16 +1,17 @@
 -module(forms_final).
 -include_lib("n2o/include/n2o.hrl").
 -include_lib("nitro/include/nitro.hrl").
--export([new/0]).
-
-new() ->
-    #panel{id=results, class=form, style="max-width:500px", body=[
+-include("meta.hrl").
+-export(?EXP).
+-record(otp, {error,code="OK"}).
+id() -> #otp{}.
+new(Name, O) ->
+    #panel{id=results, class=form, body=[
         #panel{class=caption, body=[
-            #h3{body= <<"Success Operation"/utf8>>}]},
-
+            #h4{body= [<<"Success Operation: "/utf8>>, O#otp.code]}]},
         #panel{class=buttons, body=[
-            #link{postback={admin_bo_rastr,backToListAfterFinish}, class=[button,sgreen],
-                  body=forms:translate(proceed,ru), source=[reason,type],
+            #link{postback={confirmSuccess}, class=[button,sgreen],
+                  body= "Confirm", source=[reason,type],
                        validate="preloadWithTimeout(this);"}
         ]}
     ]}.

@@ -26,12 +26,13 @@ start(_,_) -> cowboy:start_clear(http, [{port, 8002}],
 atom(List) when is_list(List) -> nitro:to_atom(string:join([ nitro:to_list(L) || L <- List],"_"));
 atom(Scalar) -> nitro:to_atom(Scalar).
 
-new(Document,Object) ->
+new(Document = #document{},Object) ->
     Name   = Document#document.name,
     #panel{
         id=forms:atom([form,Name]), class=form,
         body= [BuildBlock(Document, Object)
-        || BuildBlock <- [fun steps/2,fun caption/2,fun fields/2,fun buttons/2]]}.
+        || BuildBlock <- [fun steps/2,fun caption/2,fun fields/2,fun buttons/2]]};
+new(Document,Object) -> Document.
 
 form(Document,_Object) ->
     Name       = Document#document.name,
