@@ -2,6 +2,6 @@
    [{description, "FORMS Business Forms"},
     {vsn, "1.0"},
     {registered, []},
-    {applications, [kernel,stdlib,n2o,kvs]},
+    {applications, [kernel,stdlib,n2o]},
     {mod, { forms, []}},
     {env, []} ]}.

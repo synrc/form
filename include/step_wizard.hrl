@@ -1,5 +1,3 @@
--author("G-Grand").
-
 -ifndef(STEP_WIZARD_HRL).
 -define(STEP_WIZARD_HRL, "step_wizard").
 

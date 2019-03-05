@@ -116,7 +116,7 @@ BPE Processes
 -------------
 
 Workflows are complimentary to business rules and could be specified separately.
-BPE defenitions provide front API to end-user applications.
+[BPE](http://github.com/o7/bpe) defenitions provide front API to end-user applications.
 
 Credits
 -------
