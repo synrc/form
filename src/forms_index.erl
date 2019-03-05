@@ -19,18 +19,18 @@ event(init) ->
       % Module name as a title
       nitro:insert_bottom(stand, lists:flatten(nitro:to_list(nitro:render(#h3{body=Module})))),
 
+      % Display form information
+      nitro:insert_bottom(stand, #p{body = [nitro:f("Size: ~p/HTML ~p/BERT",
+                                   [size(Bin),size(term_to_binary(FORM,[compressed]))]), "<br>",
+                                    nitro:f("Type: ~p", [element(1,FORM)])]}),
+
       % Form itself as HTML5 piece of code
       nitro:insert_bottom(stand, lists:flatten(nitro:to_list(Bin))),
 
       % Display Form Instance in BERT
       nitro:insert_bottom(stand, lists:flatten(nitro:jse(nitro:to_list("<figure><code>\n  "
                                                            ++ forms:translate(FORM) ++
-                                                                 "\n\n</code></figure>")))),
-
-      % Display form information
-      nitro:insert_bottom(stand, #p{body = [nitro:f("Size: ~p/HTML ~p/BERT",
-                                   [size(Bin),size(term_to_binary(FORM,[compressed]))]), "<br>",
-                                    nitro:f("Type: ~p", [element(1,FORM)])]})
+                                                                 "\n\n</code></figure>"))))
 
     end || F <- lists:sort(mad_repl:wildcards(["src/forms/**/*.erl"])) ],
     io:format("HELO: OK~n");
