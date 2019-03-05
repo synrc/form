@@ -1,5 +1,5 @@
 -module(forms_routes).
--copyright("N2O Community").
+-copyright('Maxim Sokhatsky').
 -include_lib("n2o/include/n2o.hrl").
 -export([init/2, finish/2]).
 

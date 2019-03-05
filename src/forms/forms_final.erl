@@ -1,4 +1,5 @@
 -module(forms_final).
+-copyright('Maxim Sokhatsky').
 -include_lib("n2o/include/n2o.hrl").
 -include_lib("nitro/include/nitro.hrl").
 -include("meta.hrl").

@@ -1,4 +1,5 @@
 -module(forms_otp).
+-copyright('Maxim Sokhatsky').
 -include("meta.hrl").
 -export(?EXP).
 -record(phone, {code="+380",number="490000000"}).
