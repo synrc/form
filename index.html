@@ -7,7 +7,7 @@
     <meta name="description" content="" />
     <meta name="author" content="Maxim Sokhatsky" />
     <title>FORMS</title>
-    <link rel="stylesheet" href="priv/green/forms.css" />
+    <link rel="stylesheet" href="https://forms.n2o.space/priv/static/css/forms.css?v=1" />
     <link rel="stylesheet" href="https://synrc.space/synrc.css" />
 </head>
 
@@ -47,38 +47,12 @@
            model for storing metadata information about documents,
            fields and validations.</p>
 
-        <figure>
-        <img src="https://synrc.com/apps/forms/doc//images/otp.png">
-        </figure>
-        <figure>
-        <code>
-  #document { name = Name, sections = [
-      #sec { name=[<<"Input the password "
-                     "you have received by SMS"/utf8>>,
-             nitro:to_list(Phone#phone.number)] } ],
-
-    buttons  = [ #but { name='decline',
-                        title=<<"Cancel"/utf8>>,
-                        class=cancel,
-                        postback={'CloseOpenedForm',Name} },
-
-                 #but { name='proceed',
-                        title = <<"Proceed"/utf8>>,
-                        class = [button,sgreen],
-                        sources = [otp],
-                        postback = {'Spinner',{'OpenForm',Name}}}],
-
-    fields = [ #field { name='otp',
-                        type=otp,
-                        title= <<"Password:"/utf8>>,
-                        labelClass=label,
-                        fieldClass=column3}]}.
-       </code>
-        </figure>
-
-        <br><br>
-
     </section>
+    <section>
+       <div id=stand class="box">
+       </div>
+    </section>
+
     <section>
        <a><h3>SPEC</h3></a>
         <p>
@@ -179,6 +153,17 @@
 <footer>
     Made with <span class="heart">❤</span> to N2O
 </footer>
+
+    <script src='https://ws.n2o.space/priv/utf8.js?v=1'></script>
+    <script src='https://ws.n2o.space/priv/bert.js?v=1'></script>
+    <script src='https://ws.n2o.space/priv/heart.js?v=1'></script>
+    <script src='https://ws.n2o.space/priv/ieee754.js?v=1'></script>
+    <script src='https://ws.n2o.space/priv/n2o.js?v=4'></script>
+        <script>host = location.hostname === 'forms.n2o.space' ? 'ns.synrc.com' : location.hostname;
+                port = 8002;</script>
+        <script src='https://ws.n2o.space/priv/ftp.js?v=1'></script>
+        <script src='https://ws.n2o.space/priv/nitro.js?v=1'></script>
+        <script>protos = [$bert]; N2O_start();</script>
 
 </body>
 </html>
