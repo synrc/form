@@ -8,13 +8,18 @@ main() -> [].
 body() -> [].
 
 event(init) ->
-   [ begin
+
+    % ensure blank page
+    nitro:clear(stand),
+
+    [ begin
 
       Module = nitro:to_atom(filename:basename(F,".erl")),
       FORM   = Module:new([],Module:id()),
       NITRO  = forms:new(FORM, []),
       HTML5  = nitro:render(lists:flatten(nitro:render(NITRO))),
       Bin    = nitro:to_binary(HTML5),
+
 
       % Module name as a title
       nitro:insert_bottom(stand, lists:flatten(nitro:to_list(nitro:render(#h3{body=Module})))),
@@ -32,7 +37,7 @@ event(init) ->
                                                            ++ forms:translate(FORM) ++
                                                                  "\n\n</code></figure>"))))
 
-    end || F <- lists:sort(mad_repl:wildcards(["src/forms/**/*.erl"])) ],
+      end || F <- lists:sort(mad_repl:wildcards(["src/forms/**/*.erl"])) ],
     io:format("HELO: OK~n");
 
 event(Event) ->   n2o:info(?MODULE,"unknown: ~p",    [Event]).
