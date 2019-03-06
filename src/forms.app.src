@@ -1,6 +1,6 @@
 {application, forms,
    [{description, "FORMS Document Model"},
-    {vsn, "1.0"},
+    {vsn, "4.3"},
     {registered, []},
     {applications, [kernel,stdlib,n2o]},
     {mod, { forms, []}},
