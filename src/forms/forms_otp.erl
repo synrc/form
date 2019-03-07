@@ -6,7 +6,7 @@
 id() -> #phone{}.
 new(Name,Phone) ->
 
-  #document { name = Name, sections = [
+  #document { name = forms:atom([otp,Name]), sections = [
       #sec { name=[<<"Input the password "
                      "you have received by SMS: "/utf8>>,
              nitro:to_list(Phone#phone.code),

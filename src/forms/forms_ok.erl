@@ -1,4 +1,4 @@
--module(forms_final).
+-module(forms_ok).
 -copyright('Maxim Sokhatsky').
 -include_lib("n2o/include/n2o.hrl").
 -include_lib("nitro/include/nitro.hrl").
@@ -7,7 +7,7 @@
 -record(otp, {error,code="OK"}).
 id() -> #otp{}.
 new(Name, O) ->
-    #panel{id=results, class=form, body=[
+    #panel{id=forms:atom([ok,Name]), class=form, body=[
         #panel{class=caption, body=[
             #h4{body= [<<"Success Operation: "/utf8>>, O#otp.code]}]},
         #panel{class=buttons, body=[
