@@ -13,18 +13,21 @@ new(Name,Phone) ->
              nitro:to_list(Phone#phone.number)
              ] } ],
 
-    buttons  = [ #but { name='decline',
+    buttons  = [ #but { id=decline,
+                        name=decline,
                         title= <<"Cancel"/utf8>>,
                         class=cancel,
-                        postback={'CloseOpenedForm',Name} },
+                        postback={'Close',Name} },
 
-                 #but { name='proceed',
+                 #but { id=proceed,
+                        name=proceed,
                         title = <<"Proceed"/utf8>>,
                         class = [button,sgreen],
                         sources = [otp],
-                        postback = {'Spinner',{'OpenForm',Name}}}],
+                        postback = {'Next',Name}}],
 
-    fields = [ #field { name='otp',
+    fields = [ #field { id=otp,
+                        name=otp,
                         type=otp,
                         title= <<"Password:"/utf8>>,
                         labelClass=label,

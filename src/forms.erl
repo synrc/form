@@ -152,8 +152,8 @@ fields(Document, Object) ->
                                                  _ -> tl(lists:flatten(lists:zipwith(fun(A,B) -> [A,B] end,
                                                      lists:duplicate(length(Options),#panel{}),Options))) end;
                                    string -> #input{ class=dep_name,id=forms:atom([X#field.name,Name]),
-                                                     validation=nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max]),
-                                                     onkeypress="return removeAllErrorsFromInput(this);",
+%                                                     validation=nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max]),
+%                                                     onkeypress="return removeAllErrorsFromInput(this);",
                                                      value=element(X#field.pos,Object)};
                                    phone  -> #input{ id=forms:atom([X#field.name,Name]), class=phone, pattern="[0-9]*",
                                                      onkeypress=nitro:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
