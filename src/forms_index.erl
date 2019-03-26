@@ -29,4 +29,5 @@ event(init) ->
     n2o:info(?MODULE,"HELO: OK~n",[]);
 
 event(Event) ->
+    nitro:wire(lists:concat(["console.log(\"",io_lib:format("~p",[Event]),"\");"])),
     n2o:info(?MODULE,"Unknown: ~p~n", [{Event,nitro:q('otp_otp_forms_otp')}]).
