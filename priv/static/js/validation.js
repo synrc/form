@@ -1,7 +1,5 @@
 var Validation = {
 
-    bonusCode: "",
-
     "money": function(e, min, max, msg) {
         var money = e.detail.replace(/ /g,"");
         if( !/^(0\.\d{1,2}|[1-9]{1}\d{0,}(\.\d{1,2}){0,1})$/.test(money) ) {
