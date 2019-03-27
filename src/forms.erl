@@ -101,7 +101,7 @@ fields(Document, Object) ->
 
             % integer money combo sring
             (#field{}=X,Acc) ->
-8                Panel = case X#field.name of undefined -> #panel{};
+                Panel = case X#field.name of undefined -> #panel{};
                                              _         -> #panel{id=forms:atom([wrap,X#field.name,Name])} end,
                 Tooltips = [
                     case Tx of
