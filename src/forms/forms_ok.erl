@@ -11,7 +11,7 @@ new(Name, O) ->
         #panel{class=caption, body=[
             #h4{body= [<<"Success Operation: "/utf8>>, O#otp.code]}]},
         #panel{class=buttons, body=[
-            #link{postback=confirmSuccess, class=[button,sgreen],
+            #link{postback={confirmSuccess}, class=[button,sgreen],
                   body= "Confirm", source=[],
                        validate=[]}
         ]}

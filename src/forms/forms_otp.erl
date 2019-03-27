@@ -17,14 +17,14 @@ new(Name,Phone) ->
                         name=decline,
                         title= <<"Cancel"/utf8>>,
                         class=cancel,
-                        postback={'Close',Name} },
+                        postback={'Close',[]} },
 
                  #but { id=proceed,
                         name=proceed,
                         title = <<"Proceed"/utf8>>,
                         class = [button,sgreen],
                         sources = [otp],
-                        postback = {'Next',Name}}],
+                        postback = {'Next',forms:atom([otp,otp,Name])}}],
 
     fields = [ #field { id=otp,
                         name=otp,
