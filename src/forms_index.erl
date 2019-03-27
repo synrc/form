@@ -11,11 +11,10 @@ event({client,{form,F}}) ->
 
       Module = nitro:to_atom(filename:basename(F,".erl")),
       FORM   = Module:new(Module,Module:id()),
-      NITRO  = forms:new(FORM, []),
 
       nitro:insert_bottom(stand, #h3{body=nitro:to_binary(Module)}),
-      nitro:insert_bottom(stand, NITRO),
-      nitro:insert_bottom(stand, nitro:jse(nitro:f("<figure><code>\n~s\n\n</code></figure>",[forms:translate(FORM)]))),
+      nitro:insert_bottom(stand, forms:new(FORM, [])),
+      nitro:insert_bottom(stand, nitro:jse(nitro:f("<figure><code>~n ~s~n~n</code></figure>",[forms:translate(FORM)]))),
       nitro:insert_bottom(stand, #p{body = [nitro:f("Size: ~p/BERT",[size(term_to_binary(FORM,[compressed]))]), "<br>",
                                             nitro:f("Type: ~p", [element(1,FORM)])]}), ok;
 
