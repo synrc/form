@@ -19,8 +19,10 @@ main(A)    -> mad:main(A).
 start()    -> start(normal,[]).
 start(_)   -> start().
 init([])   -> {ok, {{one_for_one, 5, 10}, [] }}.
-start(_,_) -> cowboy:start_clear(http, [{port, 8002}],
-              #{ env => #{dispatch => n2o_cowboy2:points()} }),
+start(_,_) -> case application:get_env(forms,nostand,false) of
+                   false -> cowboy:start_clear(http, [{port, 8002}],
+                            #{ env => #{dispatch => n2o_cowboy2:points()} });
+                   true -> skip end,
               supervisor:start_link({local,forms},forms,[]).
 
 atom(List) when is_list(List) -> nitro:to_atom(string:join([ nitro:to_list(L) || L <- List],"_"));
@@ -99,7 +101,7 @@ fields(Document, Object) ->
 
             % integer money combo sring
             (#field{}=X,Acc) ->
-                Panel = case X#field.name of undefined -> #panel{};
+8                Panel = case X#field.name of undefined -> #panel{};
                                              _         -> #panel{id=forms:atom([wrap,X#field.name,Name])} end,
                 Tooltips = [
                     case Tx of
@@ -110,7 +112,7 @@ fields(Document, Object) ->
 
                 Options = [ case {X#field.type, O#opt.noRadioButton} of
                                 {_,true} -> #label{id=forms:atom([label,O#opt.name,Name]), body=[]};
-                                {combo,_} -> #panel{style="height:30px;",body= #label{body=
+                                {combo,_} -> #panel{body= #label{body=
                                                  #radio{name=forms:atom([X#field.name,combo]),
                                                         id=forms:atom([O#opt.name,Name]),
                                                         body = O#opt.title,
