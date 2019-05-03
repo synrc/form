@@ -21,11 +21,11 @@ event({client,{form,F}}) ->
 event(init) ->
     nitro:clear(stand),
     [ self() ! {client,{form,F}} || F <- lists:sort(mad_repl:wildcards(["src/forms/**/*.erl"])) ],
-    n2o:info(?MODULE,"HELO.~n",[]);
+    ?LOG_INFO("HELO.~n",[]);
 
 event({Event,Name}) ->
     nitro:wire(lists:concat(["console.log(\"",io_lib:format("~p",[{Event,Name}]),"\");"])),
-    n2o:info(?MODULE,"Event:~p.~n", [{Event,nitro:q(nitro:to_atom(Name))}]);
+    ?LOG_INFO("Event:~p.~n", [{Event,nitro:q(nitro:to_atom(Name))}]);
 
 event(Event) ->
-    n2o:info(?MODULE,"Unknown:~p.~n", [Event]).
+    ?LOG_INFO("Unknown:~p.~n", [Event]).
