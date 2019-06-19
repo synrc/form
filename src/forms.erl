@@ -19,11 +19,7 @@ main(A)    -> mad:main(A).
 start()    -> start(normal,[]).
 start(_)   -> start().
 init([])   -> {ok, {{one_for_one, 5, 10}, [] }}.
-start(_,_) -> case application:get_env(forms,nostand,false) of
-                   false -> cowboy:start_clear(http, [{port, 8002}],
-                            #{ env => #{dispatch => n2o_cowboy2:points()} });
-                   true -> skip end,
-              supervisor:start_link({local,forms},forms,[]).
+start(_,_) -> supervisor:start_link({local,forms},forms,[]).
 
 atom(List) when is_list(List) -> nitro:to_atom(string:join([ nitro:to_list(L) || L <- List],"_"));
 atom(Scalar) -> nitro:to_atom(Scalar).
