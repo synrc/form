@@ -21,7 +21,9 @@ defmodule FORMS do
           alias unquote(mod), as: unquote(upcased)
         end
       else
-        IO.warn("🚨 Unknown module #{mod} was requested to be used by ::forms. Skipping.")
+        IO.warn(
+          "🚨 Unknown module #{mod} was requested to be used by :forms. Skipping."
+        )
       end
     end)
   end

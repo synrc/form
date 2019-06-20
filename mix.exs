@@ -22,8 +22,7 @@ defmodule FORMS.Mixfile do
 
   def deps do
     [
-      {:nitro, github: "synrc/nitro"},
-      {:n2o, github: "synrc/n2o"}
+      {:nitro, github: "synrc/nitro"}
     ]
   end
 end
