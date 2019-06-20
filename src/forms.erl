@@ -3,12 +3,14 @@
 -behaviour(application).
 -copyright('Maxim Sokhatsky').
 -compile(export_all).
--export([start/0, start/1, start/2, stop/1, new/2, init/1]).
+-export([start/0, start/1, start/2, stop/1, new/2, init/1, id/0]).
 -export([form/2, steps/2, caption/2, fields/2, buttons/2, component/3]).
 -include_lib("nitro/include/nitro.hrl").
 -include_lib("n2o/include/n2o.hrl").
 -include("step_wizard.hrl").
 -include("meta.hrl").
+
+id() -> fun (X) -> X end.
 
 translate_error(A,B) -> io_lib:format("~p",[{A,B}]).
 translate(A,B)       -> io_lib:format("~p",[{A,B}]).
