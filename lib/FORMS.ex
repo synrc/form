@@ -10,7 +10,7 @@ defmodule FORMS do
     imports =
       opts
       |> Macro.expand(__CALLER__)
-      |> Keyword.get(:with, [:n2o])
+      |> Keyword.get(:with, [:forms])
 
     Enum.map(imports, fn mod ->
       if Code.ensure_compiled?(mod) do
