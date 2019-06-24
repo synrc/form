@@ -16,13 +16,15 @@ defmodule FORMS.Mixfile do
     [
       files: ~w(doc include man lib src mix.exs rebar.config LICENSE),
       licenses: ["ISC"],
+      maintainers: ["Namdak Tonpa"],
       links: %{"GitHub" => "https://github.com/synrc/forms"}
     ]
   end
 
   def deps do
     [
-      {:nitro, github: "synrc/nitro"}
+      {:ex_doc, "~> 0.11", only: :dev},
+      {:nitro, "~> 4.4.1"}
     ]
   end
 end
