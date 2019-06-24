@@ -1,4 +1,4 @@
--module(forms_otp).
+-module(form_otp).
 -copyright('Maxim Sokhatsky').
 -include("meta.hrl").
 -export(?EXP).
@@ -6,7 +6,7 @@
 id() -> #phone{}.
 new(Name,Phone) ->
   #document {
-    name     = forms:atom([otp,Name]),
+    name     = form:atom([otp,Name]),
     sections = [ #sec { name=[<<"Input the password you have received by SMS: "/utf8>> ] } ],
     buttons  = [ #but { id=decline,
                         name=decline,
@@ -18,7 +18,7 @@ new(Name,Phone) ->
                         title = <<"Proceed"/utf8>>,
                         class = [button,sgreen],
                         sources = [otp],
-                        postback = {'Next',forms:atom([otp,otp,Name])}}],
+                        postback = {'Next',form:atom([otp,otp,Name])}}],
     fields = [ #field { id=otp,
                         name=otp,
                         type=otp,

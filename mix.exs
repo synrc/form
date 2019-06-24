@@ -1,12 +1,12 @@
-defmodule FORMS.Mixfile do
+defmodule FORM.Mixfile do
   use Mix.Project
-  def application, do: [mod: {:forms, []}]
+  def application, do: [mod: {:form, []}]
 
   def project do
     [
-      app: :forms,
+      app: :form,
       version: "4.6.0",
-      description: "FORMS",
+      description: "FORM Business X-Forms",
       package: package(),
       deps: deps()
     ]

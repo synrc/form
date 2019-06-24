@@ -1,4 +1,4 @@
-defmodule FORMS do
+defmodule FORM do
   require Record
 
   Enum.each(Record.extract_all(from_lib: "forms/include/meta.hrl"), fn {name,
@@ -10,7 +10,7 @@ defmodule FORMS do
     imports =
       opts
       |> Macro.expand(__CALLER__)
-      |> Keyword.get(:with, [:forms])
+      |> Keyword.get(:with, [:form])
 
     Enum.map(imports, fn mod ->
       if Code.ensure_compiled?(mod) do

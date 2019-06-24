@@ -1,7 +1,7 @@
-FORMS: Declarative Documents
+FORM: Declarative Documents
 ============================
 
-[![Build Status](https://travis-ci.org/synrc/forms.svg?branch=master)](https://travis-ci.org/synrc/forms)
+[![Build Status](https://travis-ci.org/synrc/form.svg?branch=master)](https://travis-ci.org/synrc/form)
 
 Intro
 -----
@@ -108,7 +108,7 @@ NITRO Applications
 
 JavaScript Web Application is generated using Metainformation and Data Model.
 [N2O](http://github.com/o7/n2o) is used as a domain specific language to generate forms.
-JavaScript/OTP is used to generate forms. Average rendering speed is 25 forms per second.
+JavaScript/OTP is used to generate form. Average rendering speed is 25 forms per second.
 Erlang and JavaScript/OTP are used to define validation
 rules applied to documents during workflow.
 

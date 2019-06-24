@@ -1,7 +1,7 @@
-{application, forms,
-   [{description, "FORMS Document Model"},
+{application, form,
+   [{description, "FORM Document Model"},
     {vsn, "4.6.0"},
     {registered, []},
     {applications, [kernel,stdlib]},
-    {mod, { forms, []}},
+    {mod, { form, []}},
     {env, []} ]}.
