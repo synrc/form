@@ -16,6 +16,7 @@ defmodule FORMS.Mixfile do
     [
       files: ~w(doc include man lib src mix.exs rebar.config LICENSE),
       licenses: ["ISC"],
+      maintainers: ["Namdak Tonpa"],
       links: %{"GitHub" => "https://github.com/synrc/forms"}
     ]
   end
