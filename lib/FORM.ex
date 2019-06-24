@@ -1,7 +1,7 @@
 defmodule FORM do
   require Record
 
-  Enum.each(Record.extract_all(from_lib: "forms/include/meta.hrl"), fn {name,
+  Enum.each(Record.extract_all(from_lib: "form/include/meta.hrl"), fn {name,
                                                                         definition} ->
     Record.defrecord(name, definition)
   end)
