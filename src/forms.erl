@@ -22,8 +22,8 @@ start(_)   -> start().
 init([])   -> {ok, {{one_for_one, 5, 10}, [] }}.
 start(_,_) -> supervisor:start_link({local,forms},forms,[]).
 
-atom(List) when is_list(List) -> nitro:to_atom(string:join([ nitro:to_list(L) || L <- List],"_"));
-atom(Scalar) -> nitro:to_atom(Scalar).
+atom(List) when is_list(List) -> string:join([ nitro:to_list(L) || L <- List],"_");
+atom(Scalar) -> nitro:to_list(Scalar).
 
 new(Document = #document{},Object) ->
     Name   = Document#document.name,
