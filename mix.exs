@@ -22,7 +22,8 @@ defmodule FORMS.Mixfile do
 
   def deps do
     [
-      {:nitro, github: "synrc/nitro"}
+      {:ex_doc, "~> 0.11", only: :dev},
+      {:nitro, "~> 4.4.1"}
     ]
   end
 end
