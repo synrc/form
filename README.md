@@ -2,6 +2,7 @@ FORM: Declarative Documents
 ============================
 
 [![Build Status](https://travis-ci.org/synrc/form.svg?branch=master)](https://travis-ci.org/synrc/form)
+[![Hex pm](http://img.shields.io/hexpm/v/form.svg?style=flat)](https://hex.pm/packages/form)
 
 Intro
 -----
