@@ -102,13 +102,13 @@ KVX Data Model
 --------------
 
 The Metainformation is used to generate KVS Data Model.
-The [KVS](http://github.com/o7/kvx) layer provides persistence.
+The [KVS](http://github.com/synrc/kvx) layer provides persistence.
 
 NITRO Applications
 -----------------
 
 JavaScript Web Application is generated using Metainformation and Data Model.
-[N2O](http://github.com/o7/n2o) is used as a domain specific language to generate forms.
+[N2O](http://github.com/synrc/n2o) is used as a domain specific language to generate forms.
 JavaScript/OTP is used to generate form. Average rendering speed is 25 forms per second.
 Erlang and JavaScript/OTP are used to define validation
 rules applied to documents during workflow.
@@ -117,7 +117,7 @@ BPE Processes
 -------------
 
 Workflows are complimentary to business rules and could be specified separately.
-[BPE](http://github.com/o7/bpe) defenitions provide front API to end-user applications.
+[BPE](http://github.com/synrc/bpe) defenitions provide front API to end-user applications.
 
 Credits
 -------
