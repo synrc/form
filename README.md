@@ -102,7 +102,7 @@ KVX Data Model
 --------------
 
 The Metainformation is used to generate KVS Data Model.
-The [KVS](http://github.com/synrc/kvx) layer provides persistence.
+The [KVS](http://github.com/synrc/kvs) layer provides persistence.
 
 NITRO Applications
 -----------------
