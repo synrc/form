@@ -23,14 +23,14 @@ ul,li { margin-left: -7px; }
 .rate .small { font-size: 10px; }
 
 /* MENU */
-.item { background-color: #e6f5bf; color: #666; float:left; min-width:186px; width:23%; text-align: center; }
+.item { background-color: #99AFDA; color: #666; float:left; min-width:186px; width:23%; text-align: center; }
 .item a { text-decoration: none; display: block; color: inherit; padding: 7px 7px 7px 7px; }
 .item a:hover { background-color: #f0f0f0; }
-.item.active { padding: 7px 7px 7px 7px; background-color: #5ca135; color: #f0f0f0; }
-.submenu { background-color: #5ca135; color: #f0f0f0; padding: 5px; }
+.item.active { padding: 7px 7px 7px 7px; background-color: #3E61AC; color: #f0f0f0; }
+.submenu { background-color: #3E61AC; color: #f0f0f0; padding: 5px; }
 .submenu .item { min-width: 100px; color: #f0f0f0; background-color: inherit; width: auto; margin-right: 3px; }
 .submenu .item a:hover { border-radius: 5px; color: #666; background-color: #f0f0f0; }
-.submenu .item.active { border-radius: 5px; color: #666; background-color: #e6f5bf; }
+.submenu .item.active { border-radius: 5px; color: #666; background-color: #99AFDA; }
 
 /*Under menu*/
 .section { background-color: #f0f0f0; border-top: 1px solid #e4e4e4; }
@@ -48,7 +48,7 @@ ul,li { margin-left: -7px; }
 .tool { float:left; width:8.33%; text-align:center; padding:0 2px; margin: 5px -25px 0 10px; }
 .label{ width: 33.33%; float:left; padding: 0 10px; text-align: right; }
 .label.large { padding-top: 1px }
-.form { width: 100%; background-color: #e6f5bf; display: inline-block; padding: 10px; }
+.form { width: 100%; background-color: #99AFDA; display: inline-block; padding: 10px; }
 .form .box { padding: 10px 0 0; }
 .caption { text-align: left; }
 .caption .small { text-align: left; margin-top: -10px;font-weight: normal;}
@@ -79,9 +79,9 @@ input[type="radio"], input[type="checkbox"] { width: auto; }
 
 /*Buttons*/
 .buttons { width: 100%; float:left; margin: 10px 0 20px; text-align:center; }
-.sgreen {  cursor: pointer; background-color: #5ca135; }
-.sgreen:hover { background-image: linear-gradient(to top, green, #5ca135); }
-.sgreen:active { background-image: linear-gradient(to top, #5ca135, green); }
+.sgreen {  cursor: pointer; background-color: #3E61AC; }
+.sgreen:hover { background-image: linear-gradient(to top, green, #3E61AC); }
+.sgreen:active { background-image: linear-gradient(to top, #3E61AC, green); }
 .button {
     min-width: 65px;
     display: inline-block;
@@ -113,7 +113,7 @@ input[type="radio"], input[type="checkbox"] { width: auto; }
 .table { display: table; width: 100%; }
 .table > div.trGroup {display: table-row-group; background-color: #fff;}
 .th, .td { display: table-row; text-align: center; font-size: 1.2em; }
-.th { background-color: #5ca135; color: #f0f0f0; font-weight: bold; }
+.th { background-color: #3E61AC; color: #f0f0f0; font-weight: bold; }
 .td { background-color: inherit; color: #333; }
 .table .column14, .table .column12, .table .column10, .table .column20, .table .column6, .table .column3  {
     float: none; display: table-cell; vertical-align: middle; padding: 10px 3px; border-bottom: 1px solid #f0f0f0; border-right: 1px solid #f0f0f0;
@@ -178,7 +178,7 @@ a:hover.tooltips span {
     min-width: 500px;
     min-height: 100px;
     border-radius: 5px;
-    border: 1px #5CA135 solid;
+    border: 1px #3E61AC solid;
     background: #fff;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
     position: fixed;
