@@ -284,6 +284,7 @@ function nextByEnter(ev) {
 
 function removeAllErrorsFromInput(el) {
     el.classList.remove('error');
+    el.style.background = '';
     showErrorMSG(el, ""); }
 
 function fieldsFilter(ev, maxLength, fieldType) {
