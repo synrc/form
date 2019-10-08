@@ -268,3 +268,84 @@ function showErrorMSG(el, msg, elId, position) {
         }
     }
 }
+
+function nextByEnter(ev) {
+    if (ev.keyCode == 13) {
+        var form = ev.target;
+        while(true) {
+            form = form.parentNode;
+            if(form.getAttribute("id") != null && form.getAttribute("id").substring(0, 4) == "form")
+              break;
+        }
+        form.querySelector("a.button.sgreen").click();
+        return;
+    }
+}
+
+function removeAllErrorsFromInput(el) {
+    el.classList.remove('error');
+    showErrorMSG(el, ""); }
+
+function fieldsFilter(ev, maxLength, fieldType) {
+    var char  = String.fromCharCode(ev.charCode);
+    nextByEnter(ev);
+    if( (ev.charCode == 0) ) { return true; }
+    else if( /[^\d,\.\-\+]/.test(char)) { return false; }
+    else{
+        var input = ev.target;
+        var clearVal = input.value.replace(/ /g,"");
+        removeAllErrorsFromInput(input);
+        switch(fieldType){
+            case   'otp':
+            case 'bonus':
+            case 'phone':
+                if (/[^\d,\+]/.test(char)) return false;                        // первый символ может быть '+'
+                if (clearVal.length > 0 && /[^\d]/.test(char)) return false;    // все символы кроме первого должны быть цифрами
+                if (input.selectionStart != input.selectionEnd) return true;
+                break;
+            case 'money':
+                if (/[^\d,\.]/.test(char)) return false;
+                char = (char==",") ? ".": char;
+                if( input.selectionStart != input.selectionEnd && char!=".") return true;
+                if( /^0(\.\d{1,2}){0,1}/.test(clearVal) && char == "0" && (input.selectionStart == 0 || input.selectionStart == 1) ) return false;
+                if( /^0(\.\d{1,2}){1}/.test(clearVal) && char != "0" && char != "." && (input.selectionStart == 1) ) {
+                    input.value = char + clearVal.substring(1);
+                    return false; }
+                if( /^\d+\.\d{2,}/.test(clearVal) && (input.selectionStart <= clearVal.indexOf(".")) && (clearVal.length < maxLength) && char!="." ) return true;
+                if( /^\./.test(clearVal) && (input.selectionStart == 0) && (char == ".") ) {
+                    input.value = "0" + clearVal.substring(input.selectionStart);
+                    return false; }
+                if( (clearVal == "") && (char == ".") ) {
+                    input.value = "0"+char;
+                    return false; }
+                if( /^0$/.test(clearVal) && char != "." ) {
+                    input.value+= "."+char;
+                    return false; }
+                if(/^\d+$/.test(clearVal) && (char == ".") && (clearVal.length< maxLength) ) {
+                    input.value = clearVal.substring(0,input.selectionStart) + "." + clearVal.substr(input.selectionStart,2);
+                    return false; }
+                if(/^\d+\..*\.|\d+\.\d{2,}/.test(clearVal) || (/^\d+\./.test(clearVal) && char == ".") ) return false;
+                break;
+            case 'date':
+                var start = input.selectionStart;
+                if( input.type == "date") return true;
+                if( /[^\d\-]/.test(char)) return false;
+                if( input.selectionStart != input.selectionEnd) return true;
+                if( /^\d{4}\-\d{1}\-\d{0,2}$/.test(clearVal) && (start > 4) && (start < clearVal.length-2) && char!="-" ) return true;
+                else if( /^\d{4}\-\d{1}\-\d{2}$/.test(clearVal) ) return false;
+                if( ((start == 4) || (start == 7) || (start == 6)) && char=="-" && clearVal[start-1]!="-" && clearVal[start]!="-" ) return true;
+                else if( ((start != 4) && (start != 7)) && char!="-") {}
+                else return false;
+                break;
+        }
+        if(fieldType=='phone' && /^\+/.test(clearVal)) {        // если вводится телефон, и его начали вводить со знака '+'
+            if(clearVal.length >= (maxLength + 1)) {
+                input.value = clearVal.slice(0,maxLength+1);
+                return false;
+            }
+        } else if(clearVal.length >= maxLength) {
+            input.value = clearVal.slice(0,maxLength);
+            return false;
+        }
+    }
+}

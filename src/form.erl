@@ -5,8 +5,8 @@
 -export([start/0, start/1, start/2, stop/1, new/2, init/1, id/0]).
 -export([form/2, steps/2, caption/2, fields/2, buttons/2, component/3]).
 -include_lib("nitro/include/nitro.hrl").
--include("step_wizard.hrl").
--include("meta.hrl").
+-include_lib("form/include/step_wizard.hrl").
+-include_lib("form/include/meta.hrl").
 
 id() -> fun (X) -> X end.
 
@@ -159,7 +159,6 @@ fieldType(money,X,Options,Object) ->
  [ #input{ id=X#field.name, pattern="[0-9]*",
            validation=nitro:f("Validation.money(e, ~w, ~w, '~s')",
              [X#field.min,X#field.max, form:translate({?MODULE, error})]),
-           onkeypress=nitro:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
            onkeyup="beautiful_numbers(event);",
            value=nitro:to_list(element(X#field.pos,Object)) },
            #panel{ class=pt10,body= [ form:translate({?MODULE, warning}),
@@ -217,14 +216,12 @@ fieldType(auth,X,Options,Object) ->
                            body= form:translate({auth, change_login}) }]} ];
 
 fieldType(otp,X,Options,Object) ->
-   #input{ class=[phone,pass],id=X#field.name, placeholder="(XXXX)", pattern="[0-9]*"
-   %       validation="Validation.nums(e, 4, 4, 'otp')",
-   %       onkeypress="return fieldsFilter(event, 4, 'otp');"
+   #input{ class=[phone,pass],id=X#field.name, placeholder="(XXXX)", pattern="[0-9]*",
+           validation="Validation.nums(e, 4, 4, \"otp\")"
          };
 
 fieldType(calendar,X,Options,Object) ->
    #panel{class=[field],
           body=[#calendar{id=X#field.name,
-       %  onkeypress="return fieldsFilter(event, 4, \"date\");",
           validation="Validation.dateRegPay(e)", disableDayFn="disableDays4Charge",
           class = ['input-date'], minDate=X#field.min, maxDate = X#field.max, lang=ua}]}.
