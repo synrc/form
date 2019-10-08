@@ -80,8 +80,8 @@ input[type="radio"], input[type="checkbox"] { width: auto; }
 /*Buttons*/
 .buttons { width: 100%; float:left; margin: 10px 0 20px; text-align:center; }
 .sgreen {  cursor: pointer; background-color: #3E61AC; }
-.sgreen:hover { background-image: linear-gradient(to top, green, #3E61AC); }
-.sgreen:active { background-image: linear-gradient(to top, #3E61AC, green); }
+.sgreen:hover { background-image: linear-gradient(to top, #2E519C, #3E61AC); }
+.sgreen:active { background-image: linear-gradient(to top, #3E61AC, #2E519C); }
 .button {
     min-width: 65px;
     display: inline-block;
