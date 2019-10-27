@@ -1,6 +1,7 @@
 FORM: Declarative Documents
 ============================
 
+[![Actions Status](https://github.com/synrc/form/workflows/mix/badge.svg)](https://github.com/synrc/form/actions)
 [![Build Status](https://travis-ci.org/synrc/form.svg?branch=master)](https://travis-ci.org/synrc/form)
 [![Hex pm](http://img.shields.io/hexpm/v/form.svg?style=flat)](https://hex.pm/packages/form)
 

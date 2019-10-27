@@ -42,8 +42,8 @@ steps(Document, _Object) ->
     case StepWizard of
         #step_wizard{} ->
             #panel{class=steps, body=
-            #b{body= [ nitro:f(translate(step_wizard),
-                [StepWizard#step_wizard.current_step,StepWizard#step_wizard.steps]) ]} };
+            [ "<b>",nitro:f(translate(step_wizard),
+                [StepWizard#step_wizard.current_step,StepWizard#step_wizard.steps]), "</b>" ] };
         _ -> []
     end.
 
@@ -150,10 +150,10 @@ fieldType(text,X,Options,Object) ->
     #panel{id=X#field.name, body=X#field.desc};
 
 fieldType(integer,X,Options,Object) ->
-   #b{body= nitro:f(X#field.format,
+   nitro:f(X#field.format,
            [ case X#field.postfun of
                   [] -> element(X#field.pos,Object);
-                  PostFun -> PostFun(element(X#field.pos,Object)) end] )};
+                  PostFun -> PostFun(element(X#field.pos,Object)) end] );
 
 fieldType(money,X,Options,Object) ->
  [ #input{ id=X#field.name, pattern="[0-9]*",
