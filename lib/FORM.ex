@@ -6,6 +6,11 @@ defmodule FORM do
     Record.defrecord(name, definition)
   end)
 
+  Enum.each(Record.extract_all(from_lib: "form/include/doc.hrl"), fn {name,
+                                                                        definition} ->
+    Record.defrecord(name, definition)
+  end)
+
   defmacro __using__(opts \\ []) do
     imports =
       opts

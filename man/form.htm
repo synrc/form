@@ -57,7 +57,23 @@
         <h3>STATIC API</h3>
         <h4>new(Form :: #document{}, BusinessObject :: tuple()) -> binary() | list().</h4>
         <p>Renders the form fullfilled with values from a given business object.</p>
-        <figure><code> doc() -> "simple".</code></figure>
+        <figure><code> > :form.new(:form_ok.new("name",otp(),[]),otp())
+  {:panel, :element, 'ok_name', [], [], [], [], [],
+           :form, [], [], [], [], [], [], [], [], [], [], [],
+ [{:panel, :element, [], [], [], [], [], [],
+           :caption, [], [], [], [], [], [], [], [], [], [], [],
+         [{:h4, :element, [], [], [], [], ...}], [], ...},
+          {:panel, :element, [], [], [], [], [], [],
+                   :buttons, [], [], [], [], [], [], ...}], ...}</code></figure>
+        <figure><code> > :erlang.iolist_to_binary(
+   :nitro.render(
+   :form.new(
+   :form_ok.new("name",otp(),[]),otp())))
+"&lt;div id=\"ok_name\" class=\"form\"&gt;&lt;div class=\"caption\"&gt;&lt;h4&gt;
+Success Operation: CODE&lt;/h4&gt;&lt;/div&gt;&lt;div class=\"buttons\"&gt;&lt;a
+class=\"button sgreen\" id=\"auto-422845\"
+href=\"javascript:void(0);\"&gt;Confirm&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;"
+</code></figure>
         <br/>
         <br/>
         <br/>

@@ -1,10 +1,12 @@
 -module(form_otp).
 -copyright('Maxim Sokhatsky').
 -include("meta.hrl").
+-include("doc.hrl").
 -export(?EXP).
--record(phone, {code="+380",number="490000000"}).
 id() -> #phone{}.
-new(Name,Phone) ->
+doc() -> [].
+new(Name, O) -> new(Name, O, []).
+new(Name,Phone, _) ->
   #document {
     name     = form:atom([otp,Name]),
     sections = [ #sec { name=[<<"Input the password you have received by SMS: "/utf8>> ] } ],
