@@ -9,7 +9,7 @@
 </head><body><nav>
     <a href="https://n2o.dev">DEV</a>
     <a href="https://form.n2o.space">FORM</a>
-    <a href="#" style="background:#ededed;">FORM</a>
+    <a href="#" style="background:#ededed;">API</a>
   <div class="dropdown">
     <a onclick="drop()" class="dropbtn">EN</a>
     <div id="dropdown" class="dropdown-content">
@@ -26,10 +26,10 @@
     <section>
         <h3>INTRO</h3>
         <p>The forms module provides AST transform of FORM model into NITRO model (second stage)
-           which later will be transformed into HTML5 encoding (first stage).
+           which later will be transformed into HTML5 encoding (first stage).</p>
     </section>
     <section>
-        <h3>API</h3>
+        <h3>CALLBACK API</h3>
         <p>The FORMS module expects forms to expose the following API.</p>
         <h4>Module:id() -> tuple().</h4>
         <p>Should return the default instance of this document class.</p>
@@ -51,9 +51,16 @@
         <h4>Module:doc() -> binary() | list().</h4>
         <p>Retrieves the documentation string about this form module.</p>
         <figure><code> doc() -> "simple".</code></figure>
+    </section>
+    <section>
+        <h3>STATIC API</h3>
+        <h4>new() -> binary() | list().</h4>
+        <p>Retrieves the documentation string about this form module.</p>
+        <figure><code> doc() -> "simple".</code></figure>
         <br/>
         <br/>
         <br/>
+    </section>
     <section>
         <p>This module may refer to: MAN_MODULES</p>
     </section>
