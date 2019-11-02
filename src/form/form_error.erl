@@ -6,7 +6,6 @@
 -export(?EXP).
 id() -> #otp{}.
 doc() -> [].
-new(Name, O) -> new(Name, O, []).
 new(Name, #otp{error=ErrorMsg,code=Code}, _) ->
     #panel{id=form:atom([error,Name]), class=form, body=[
         #panel{class=caption, body=[

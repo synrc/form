@@ -5,7 +5,6 @@
 -export(?EXP).
 id() -> #phone{}.
 doc() -> [].
-new(Name, O) -> new(Name, O, []).
 new(Name,Phone, _) ->
   #document {
     name     = form:atom([otp,Name]),

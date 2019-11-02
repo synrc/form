@@ -1,7 +1,7 @@
 -ifndef(FORMS_META_HRL).
 -define(FORMS_META_HRL, "meta_hrl").
 
--define(EXP, [id/0,new/3]).
+-define(EXP, [id/0,new/3,doc/0]).
 -record(document,   { id=[], prev=[],next=[],name=[], base=[], sections=[], fields=[], buttons=[], access=[], steps=[] }).
 -record(validation, { name=[], type, msg=[], extract = fun forms:id/0, options=[], function=[], field={record,pos} }).
 -record(sec,        { id=[], name=[], desc=[], nameClass=[], descClass=small }).
