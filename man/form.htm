@@ -36,14 +36,14 @@
         <figure><code> id() -> #'Document'{}.</code></figure>
         <h4>Module:new(Name :: string(),
                        BusinessObject :: tuple(),
-                       Options ::  list(atom() | { atom(), term() })) -> element().</h4>
+                       Options ::  list({ atom(), term() })) -> element().</h4>
         <p>Should return the document form model by a given business object.</p>
         <p>The standard set of options, provided with form base library:</p>
         <div>
-        <ul><li><b>edit</b> — form for editing purposes.</li>
-            <li><b>new</b> — form for document creation purposes.</li>
-            <li><b>search</b> — form for document search purposes with disabled validators.</li>
-            <li><b>row</b> — form for document row representation inside a table view.</li>
+        <ul><li><b>{edit,true}</b> — form for editing purposes.</li>
+            <li><b>{new,true}</b> — form for document creation purposes.</li>
+            <li><b>{search,true}</b> — form for document search purposes with disabled validators.</li>
+            <li><b>{row,true}</b> — form for document row representation inside a table view.</li>
         </ul>
         </div>
         <figure><code> new(Name,Object,Options) ->
