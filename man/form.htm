@@ -46,8 +46,8 @@
             <li><b>row</b> — form for document row representation inside a table view.</li>
         </ul>
         </div>
-        <figure><code> new(Name,Object,_) ->
-   #'div'{id=Name,body=io_lib:format("~tp",[Object])}.</code></figure>
+        <figure><code> new(Name,Object,Options) ->
+   #'div'{id=Name,body=io_lib:format("~tp",[Object,Options])}.</code></figure>
         <h4>Module:doc() -> binary() | list().</h4>
         <p>Retrieves the documentation string about this form module.</p>
         <figure><code> doc() -> "simple".</code></figure>
