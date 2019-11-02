@@ -32,12 +32,12 @@
         <h3>CALLBACK API</h3>
         <p>The FORMS module expects forms to expose the following API.</p>
         <h4>Module:id() -> tuple().</h4>
-        <p>Should return the default instance of this document class.</p>
+        <p>Should return the default business object instance for this document form.</p>
         <figure><code> id() -> #'Document'{}.</code></figure>
         <h4>Module:new(Name :: string(),
-                       Form :: #document{} | #element{},
+                       BusinessObject :: tuple(),
                        Options ::  list(atom() | { atom(), term() })) -> element().</h4>
-        <p>Generates NITRO object model from FORM.</p>
+        <p>Should return the document form model by a given business object.</p>
         <p>The standard set of options, provided with form base library:</p>
         <div>
         <ul><li><b>edit</b> — form for editing purposes.</li>
@@ -46,16 +46,16 @@
             <li><b>row</b> — form for document row representation inside a table view.</li>
         </ul>
         </div>
-        <figure><code> new(Name,#'Document'{},_) ->
-   #'div'{id=Name,body=io_lib:format("~tp",[Document])}.</code></figure>
+        <figure><code> new(Name,Object,_) ->
+   #'div'{id=Name,body=io_lib:format("~tp",[Object])}.</code></figure>
         <h4>Module:doc() -> binary() | list().</h4>
         <p>Retrieves the documentation string about this form module.</p>
         <figure><code> doc() -> "simple".</code></figure>
     </section>
     <section>
         <h3>STATIC API</h3>
-        <h4>new() -> binary() | list().</h4>
-        <p>Retrieves the documentation string about this form module.</p>
+        <h4>new(Form :: #document{}, BusinessObject :: tuple()) -> binary() | list().</h4>
+        <p>Renders the form fullfilled with values from a given business object.</p>
         <figure><code> doc() -> "simple".</code></figure>
         <br/>
         <br/>
