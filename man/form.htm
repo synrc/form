@@ -1,0 +1,54 @@
+<html><head><meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="" />
+<meta name="author" content="Maxim Sokhatsky" />
+<title>FORM</title>
+<link rel="stylesheet" href="https://n2o.dev/blank.css" />
+<link rel="stylesheet" href="https://n2o.dev/zima.css" />
+</head><body><nav>
+    <a href="https://n2o.dev">DEV</a>
+    <a href="https://form.n2o.space">FORM</a>
+    <a href="#" style="background:#ededed;">FORM</a>
+  <div class="dropdown">
+    <a onclick="drop()" class="dropbtn">EN</a>
+    <div id="dropdown" class="dropdown-content">
+      <a href="https://n2o.dev/deps/form/man/ua/forms.htm">UA</a>
+      <a href="#">EN</a>
+    </div>
+  </div>
+</nav><header>
+    <a href="../index.html"><img src="https://n2o.space/img/Synrc Neo.svg" /></a>
+    <h1>FORM</h1>
+</header>
+<main>
+    <section>
+        <h3>INTRO</h3>
+        <p>The forms module provides AST transform of FORM model into NITRO model (second stage)
+           which later will be transformed into HTML5 encoding (first stage).
+    </section>
+    <section>
+        <h3>API</h3>
+        <p>The FORMS module expects forms to expose the following API.</p>
+        <h4>Module:id() -> tuple().</h4>
+        <p>Should return the default instance of this document class.</p>
+        <figure><code> id() -> #'Document'{}.</code></figure>
+        <h4>Module:new(Name :: string(),
+                       Form :: #document{} | #element{},
+                       Options ::  list({atom(),term()})) -> element().</h4>
+        <p>Generates NITRO object model from FORM.</p>
+        <figure><code> new(Name,#'Document'{},_) ->
+   #'div'{id=Name,body=io_lib:format("~tp",[Document])}.</code></figure>
+        <h4>Module:doc() -> binary() | list().</h4>
+        <p>Retrieves the documentation string about this form module.</p>
+        <figure><code> doc() -> "simple".</code></figure>
+        <br/>
+        <br/>
+        <br/>
+    <section>
+        <p>This module may refer to: MAN_MODULES</p>
+    </section>
+</main>
+<footer>2005—2019 © Synrc Research Center</footer>
+<script>function drop(){document.getElementById("dropdown").classList.toggle("show");}</script>
+</body></html>
