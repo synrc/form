@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="" />
+<meta name="author" content="Maxim Sokhatsky" />
+<title>VALIDATION.JS</title>
+<link rel="stylesheet" href="https://n2o.dev/blank.css?x=15" />
+<link rel="stylesheet" href="https://n2o.dev/zima.css?x=15" />
+<link rel="shortcut icon" type="image/x-icon" href="../img/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="../img/apple-touch-icon.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png" />
+<link rel="manifest" href="../img/site.webmanifest" />
+</head>
+<body>
+<nav>
+  <a href="https://n2o.dev">DEV</a>
+  <a href="https://form.n2o.space">FORM</a>
+  <a href="#" style="background:#ededed;">VALIDATION.JS</a>
+  <div class="dropdown">
+    <a onclick="drop()" class="dropbtn">EN</a>
+    <div id="dropdown" class="dropdown-content">
+      <a href="https://n2o.dev/deps/n2o/man/ua/n2o.js.htm">UA</a>
+      <a href="validation.js.htm">EN</a>
+    </div>
+  </div>
+</nav>
+<header>
+  <a href="../index.html"><img src="https://n2o.space/img/Synrc Neo.svg" /></a>
+  <h1>VALIDATION.JS</h1>
+</header>
+<main>
+<article>
+  <section>
+    <h3>INTRO</h3>
+    <p>The <a href="https://github.com/synrc/form/blob/master/priv/js/validation.js">validation.js</a>
+       module provides JavaScript validation framework compatible with NITRO JavaScript client library.
+       The size of <b>validation.js</b> is 16 kilobytes.
+    </p>
+  </section>
+  <section>
+    <h3>API</h3>
+    <p>Client JavaScript validation functions that may prevent sending NITRO <b>#pickle</b> events.</p>
+    <h4>money(e, min, max, msg)</h4>
+    <p>Checks that input value is money.</p>
+    <h4>pay(e, min, max, deptype, msg)</h4>
+    <p>Checks that input value is acceptable payment amount of money.</p>
+    <h4>date(e)</h4>
+    <p>Checks that input value is date.</p>
+    <h4>card(e, msg)</h4>
+    <p>Checks that input value is EMV credit card.</p>
+    <h4>phone(e, minLength, maxLength)</h4>
+    <p>Checks that input value is phone.</p>
+    <h4>min(e, min)</h4>
+    <p>Checks input float value against minimum threshold.</p>
+    <h4>length(e, minlength, maxlength)</h4>
+    <p>Checks input string value against minimum and maximum threshold.</p>
+    <h4>calendar(e)</h4>
+    <p>Checks calendar input value against minimum and maximum threshold.</p>
+  </section>
+  <section>
+    <p>You may also want to read:
+      <b><a href="form.htm">form</a></b>.
+    </p>
+  </section>
+</article>
+</main>
+<footer>2005—2019 © Synrc Research Center</footer>
+<script>function drop(){document.getElementById("dropdown").classList.toggle("show");}</script>
+</body>
+</html>

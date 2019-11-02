@@ -47,8 +47,7 @@ var Validation = {
         return true;
     },
 
-    "dateRegPay": function(e) {
-    console.log("calendar validation: ");
+    "calendar": function(e) {
         var min, max, val = (e.detail instanceof Date) ? e.detail : null;
         if(val == null || val.toString() == "Invalid Date") { showErrorMSG(e.target, i18n("WrongDate")); return false; }
         if(val.getDate() > 28) { showErrorMSG(e.target, i18n("DateInterval")); return false; }
@@ -70,40 +69,6 @@ var Validation = {
             if(val > max) { showErrorMSG(e.target, i18n("DateMax")); return false; }
         }
         if((e.target.parentNode).lastChild.tagName == "DIV" && (e.target.parentNode).lastChild.className == "errorMSG") (e.target.parentNode).removeChild((e.target.parentNode).lastChild);
-        return true;
-    },
-
-    "chargeMoney": function(e, min, max, curr, msg) {
-        if(!this.money(e, min, max, msg)) return false;
-        if(curr == 980) return true;
-        var cardsRates = userCardsFrom || [];
-        var cardSelect = document.querySelectorAll("select[id^='cardSelectFrom_charge']")[0];
-        var cardId = cardSelect.selectedOptions[0].value;
-        var money = e.detail.replace(/ /g,"");
-        for (var i in cardsRates) {
-            if (cardsRates[i].pan == cardId) {
-                var maxAmount = maxAmtExchange/cardsRates[i].convertation_rate;
-                if(parseFloat(money) > maxAmount) {
-                    showErrorMSG(e.target, msg);
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-        return true;
-    },
-
-    "thPersonDate": function(e) {
-        var val = /^(\d{2})\.(\d{2})\.(\d{4})$/.exec(e.target.value),
-            date= (e.detail instanceof Date) ? e.detail : null,
-            id = e.target.id;
-        if(val) { try { val = new Date(val[3],(val[2]-1),val[1]); }
-                  catch(e) {val = null;} }
-        if(val == null || date == null || date.toString() == "Invalid Date" || date.toString() != val.toString()) {
-            showErrorMSG(e.target, i18n("WrongDate"), id+"_er", "after");
-            return false; }
-        showErrorMSG(e.target, "", id+"_er", "after");
         return true;
     },
 
@@ -135,65 +100,20 @@ var Validation = {
         } else return false;
     },
 
-    "nums": function(e, minLength, maxLength, fieldType){
-        if(this.length(e, minLength, maxLength) == true){
-            if (!/^\d{1,}$/.test(e.detail)){
-                switch(fieldType){
-                    case   'otp': msg = i18n("OtpMsg"); break;
-                    case 'phone': msg = i18n("PhoneMsg"); break;
-                    case 'bonus': msg = i18n("BonusMsg");
-                    default: msg = i18n("WrongData");
-                }
-                showErrorMSG(e.target, msg);
-                return false;
-            }else return true;
-        }else return false;
-    },
-
-    "willNums": function(e, minLength, maxLength, fieldType) {
-        var addHeirRadio = document.getElementById("addHeirRadio");
-        var byEl = (e.target).parentNode;
-        var radio = document.getElementById(byEl.id+"Radio");
-        if(addHeirRadio.checked == false || radio.checked == false) { return true; }
-        return this.nums(e, minLength, maxLength, fieldType);
-    },
-
-    "willLength": function(e, minlength, maxlength) {
-        var addHeirRadio = document.getElementById("addHeirRadio");
-        var byEl = (e.target).parentNode;
-        var radio = document.getElementById(byEl.id+"Radio");
-        if(addHeirRadio.checked == false || radio.checked == false) { return true; }
-        return this.length(e, minLength, maxLength);
-    },
-
-    "emptyDiv": function(e) {
-        var addHeirRadio = document.getElementById("addHeirRadio");
-        var el = e.target;
-        if(el.innerHTML != "" || addHeirRadio.checked == true) {
-            if((el.parentNode.parentNode).lastChild.tagName == "DIV" && (el.parentNode.parentNode).lastChild.className == "errorMSG") {
-                (el.parentNode.parentNode).removeChild((el.parentNode.parentNode).lastChild); }
-            return true; }
-        showErrorMSG(el.parentNode,i18n("WrongData"));
-        return false;
-    },
-
     "length": function(e, minlength, maxlength) {
-        var radio6 = document.getElementById("reason6"),
         field = e.detail,
         el = e.target,
         parent = el.parentNode;
-        if (radio6 != null && radio6.checked) {
-            return field.length >= 1 && field.length <= maxlength;
-        }else {
-            if(field.length >= minlength && field.length <= maxlength) {
-                hint = parent.lastChild;
-                if (parent.lastChild.tagName == "DIV" && parent.lastChild.className == "errorMSG") parent.removeChild(hint);
-                return true;
-            }else {
-                text = (minlength == maxlength) ? i18n("CharQuantity")+ maxlength : i18n("EnterFrom")+ minlength +i18n("EnterTo")+maxlength+i18n("EnterChars");
-                showErrorMSG(el, text);
-                return false;
-            }
+        if(field.length >= minlength && field.length <= maxlength) {
+            hint = parent.lastChild;
+            if (parent.lastChild.tagName == "DIV" && parent.lastChild.className == "errorMSG")
+                parent.removeChild(hint);
+            return true;
+        } else {
+            text = (minlength == maxlength) ? i18n("CharQuantity") + maxlength
+                 : i18n("EnterFrom")+ minlength +i18n("EnterTo")+maxlength+i18n("EnterChars");
+            showErrorMSG(el, text);
+            return false;
         }
     },
 
@@ -204,44 +124,6 @@ var Validation = {
             return false;
         }else return true;
     },
-
-    "empty": function(e) {
-        try { var value = e.detail.trim(); }catch(e) { var value = e.detail; }
-        var id = e.target.id;
-        if(value == "") { showErrorMSG(e.target, i18n("EmptyField"), id+"_er", "after"); return false;}
-        showErrorMSG(e.target, "", id+"_er", "after");
-        return true;
-    },
-
-    "selectDep": function(e) {
-        var allCheckBox = document.querySelectorAll("table.sel_dep input[type='checkbox']");
-        var mainCheckbox = document.getElementById("checkAllDeps");
-        if(mainCheckbox.checked) { return true; }
-        for(var i=1; i<allCheckBox.length; ++i) { if(allCheckBox[i].checked) {return true;} }
-        showErrorMSG(e.target, "выберите депозит");
-        return false;
-    },
-
-    "set": function(form, fieldStart, msg) {
-        form = document.getElementById(form);
-        switch(fieldStart) {
-            case "cardReg":
-                el = form.querySelector("select[id^='cardReg']").parentNode.parentNode; break;
-            case "card":
-                el = form.querySelector("select[id^='card']").parentNode.parentNode; break;
-       //     case "date":
-         //       el = form.querySelector("input[id^='calendar']"); break;
-            case "name":
-                el = form.querySelector("input[id^='depositName']"); break;
-            case "terminationRadio":
-                el = form.querySelector("input[id^='myReason']"); break;
-            case "codeValue":
-                this.bonusCode = "BadCode";
-            default:
-                el = form.querySelector("input[id^='"+ fieldStart +"']");
-        }
-        showErrorMSG(el, msg);
-    }
 
 };
 
