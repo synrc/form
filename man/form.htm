@@ -22,6 +22,7 @@
     <h1>FORM</h1>
 </header>
 <main>
+  <article>
     <section>
         <h3>INTRO</h3>
         <p>The forms module provides AST transform of FORM model into NITRO model (second stage)
@@ -35,8 +36,16 @@
         <figure><code> id() -> #'Document'{}.</code></figure>
         <h4>Module:new(Name :: string(),
                        Form :: #document{} | #element{},
-                       Options ::  list({atom(),term()})) -> element().</h4>
+                       Options ::  list(atom() | { atom(), term() })) -> element().</h4>
         <p>Generates NITRO object model from FORM.</p>
+        <p>The standard set of options, provided with form base library:</p>
+        <div>
+        <ul><li><b>edit</b> — form for editing purposes.</li>
+            <li><b>new</b> — form for document creation purposes.</li>
+            <li><b>search</b> — form for document search purposes with disabled validators.</li>
+            <li><b>row</b> — form for document row representation inside a table view.</li>
+        </ul>
+        </div>
         <figure><code> new(Name,#'Document'{},_) ->
    #'div'{id=Name,body=io_lib:format("~tp",[Document])}.</code></figure>
         <h4>Module:doc() -> binary() | list().</h4>
@@ -48,6 +57,7 @@
     <section>
         <p>This module may refer to: MAN_MODULES</p>
     </section>
+  </article>
 </main>
 <footer>2005—2019 © Synrc Research Center</footer>
 <script>function drop(){document.getElementById("dropdown").classList.toggle("show");}</script>
