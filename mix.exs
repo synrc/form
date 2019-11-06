@@ -5,7 +5,7 @@ defmodule FORM.Mixfile do
   def project do
     [
       app: :form,
-      version: "4.10.5",
+      version: "4.11.0",
       description: "FORM Business X-Forms",
       package: package(),
       deps: deps()
@@ -14,7 +14,7 @@ defmodule FORM.Mixfile do
 
   def package do
     [
-      files: ~w(doc include man lib src mix.exs rebar.config LICENSE),
+      files: ~w(doc include man lib priv src mix.exs rebar.config LICENSE),
       licenses: ["ISC"],
       maintainers: ["Namdak Tonpa"],
       links: %{"GitHub" => "https://github.com/synrc/form"}
