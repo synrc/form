@@ -147,6 +147,12 @@ fieldType(#field{type=card}=X,Acc,Object,Opt) ->
                                 body= #option{selected=true, body= translate(loading)}}},
                        #panel { class=tool, body= [#image{src="/app/img/preloader.gif"}]} ]}} ]}|Acc];
 
+fieldType(#field{type=bool}=X,Acc,Object,Opt) ->
+  Options = [ #opt{name = [], title =  <<>>, checked = true},
+              #opt{name = true, title =  <<"Так"/utf8>>},
+              #opt{name = false, title = <<"Ні"/utf8>>} ],
+  fieldType(X#field{type=select, options=Options},Acc,Object,Opt);
+
 fieldType(#field{}=X,Acc,Object,Opt) ->
    Panel = case X#field.id of [] -> #panel{};
                                  _ -> #panel{id=atom([wrap,X#field.id])} end,
