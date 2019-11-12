@@ -4,6 +4,7 @@
 -compile(export_all).
 -export([start/0, start/1, start/2, stop/1, new/2, new/3, init/1, id/0, dispatch/2]).
 -export([steps/3, caption/3, fields/3, buttons/3]).
+-include_lib("nitro/include/calendar.hrl").
 -include_lib("nitro/include/comboLookup.hrl").
 -include_lib("nitro/include/nitro.hrl").
 -include_lib("form/include/formReg.hrl").
@@ -171,12 +172,13 @@ fieldType(#field{}=X,Acc,Object,Opt) ->
 
           % COMBO/RADIO
 
-          {combo,_}    -> #panel{body= #label{body= #radio{name=atom([X#field.id,combo]),
-                                                           id=atom([O#opt.name]),
+          {combo,_}    -> #panel{body= #label{body= #radio{name=atom([X#field.id,type(Object)]),
+                                                           id=atom([X#field.id,type(Object),O#opt.name]),
                                                            body = O#opt.title,
                                                            checked=O#opt.checked,
                                                            disabled=O#opt.disabled,
-                                                           postback={O#opt.name}}}};
+                                                           value=O#opt.name,
+                                                           postback={X#field.id,type(Object),O#opt.name}}}};
 
           % CHECKBOX
 
@@ -294,6 +296,8 @@ fieldType(comboLookup,X,Options,Object,Opt) ->
                feed=X#field.bind,
                reader=[],
                chunk=20};
+
+fieldType(file,X,Options,Object,Opt) -> [];
 
 fieldType(calendar,X,Options,Object,Opt) ->
    #panel{class=[field],
