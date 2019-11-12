@@ -50,20 +50,12 @@ atom(Scalar) -> nitro:to_list(Scalar).
 
 dispatch(Object, Options) ->
    Name = proplists:get_value(name,Options,false),
-   View = proplists:get_value(view,Options,false),
-   Edit = proplists:get_value(edit,Options,false),
-   New  = proplists:get_value(new,Options,false),
-   Search = proplists:get_value(search,Options,false),
    Row = proplists:get_value(row,Options,false),
    Registry = application:get_env(form,registry,[]),
    #formReg{vertical = V, horizontal = H} = lists:keyfind(element(1,Object),2,Registry:registry()),
-   case {New,Search,Edit,View,Row} of
-      {true,_,_,_,_} ->  new(V:new(nitro:compact(Name),Object,Options),Object,Options);
-      {_,true,_,_,_} ->  new(V:new(nitro:compact(Name),Object,Options),Object,Options);
-      {_,_,true,_,_} ->  new(V:new(nitro:compact(Name),Object,Options),Object,Options);
-      {_,_,_,true,_} ->  new(V:new(nitro:compact(Name),Object,Options),Object,Options);
-      {_,_,_,_,true} ->  new(H:new(nitro:compact(Name),Object,Options),Object,Options)
-   end.
+   case proplists:get_value(row,Options,false) of
+         true -> new(H:new(nitro:compact(Name),Object,Options),Object,Options);
+        false -> new(V:new(nitro:compact(Name),Object,Options),Object,Options) end.
 
 new(Document = #document{},Object,Opt) ->
     Name = Document#document.name,
