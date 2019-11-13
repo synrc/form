@@ -53,9 +53,8 @@ dispatch(Object, Options) ->
    Row = proplists:get_value(row,Options,false),
    Registry = application:get_env(form,registry,[]),
    #formReg{vertical = V, horizontal = H} = lists:keyfind(element(1,Object),2,Registry:registry()),
-   case proplists:get_value(row,Options,false) of
-         true -> new(H:new(nitro:compact(Name),Object,Options),Object,Options);
-        false -> new(V:new(nitro:compact(Name),Object,Options),Object,Options) end.
+   Module = case proplists:get_value(row,Options,false) of true -> H; false -> V end,
+   new(Module:new(nitro:compact(Name),Object,Options),Object,Options).
 
 new(Document = #document{},Object,Opt) ->
     Name = Document#document.name,
@@ -157,26 +156,30 @@ fieldType(#field{}=X,Acc,Object,Opt) ->
                        body=[ #image { src= "app/img/question.png" },
                               #span  { body=Tx } ]} end || Tx <- lists:reverse(X#field.tooltips) ],
 
-   Options =
-   [ case {X#field.type, O#opt.noRadioButton} of
-          {_,true}     -> #label{id=atom([label,O#opt.name]),
-                                 body=[]};
+   Options = [ case {X#field.type, O#opt.noRadioButton} of
+
+          {_,true}     -> #label{ id=atom([label,O#opt.name]),
+                                  body=[]};
 
           % SELECT/OPTION
 
-          {select,_}   -> #option{value = O#opt.name,
+          {select,_}  -> #option{ value = O#opt.name,
                                   body = O#opt.title,
                                   selected = O#opt.checked};
 
           % COMBO/RADIO
 
-          {combo,_}    -> #panel{body= #label{body= #radio{name=atom([X#field.id,type(Object)]),
-                                                           id=atom([X#field.id,type(Object),O#opt.name]),
-                                                           body = O#opt.title,
-                                                           checked=O#opt.checked,
-                                                           disabled=O#opt.disabled,
-                                                           value=O#opt.name,
-                                                           postback={X#field.id,type(Object),O#opt.name}}}};
+          {combo,_}    -> #panel{ body=
+                          #label{ body=
+                          #radio{ name=atom([X#field.id,type(Object)]),
+                                  id=atom([X#field.id,type(Object),O#opt.name]),
+                                  body = O#opt.title,
+                                  checked=O#opt.checked,
+                                  disabled=O#opt.disabled,
+                                  value=O#opt.name,
+                                  postback = { X#field.id,
+                                               type(Object),
+                                               O#opt.name}}}};
 
           % CHECKBOX
 
@@ -185,7 +188,9 @@ fieldType(#field{}=X,Acc,Object,Opt) ->
                                    body = O#opt.title,
                                    disabled=O#opt.disabled,
                                    checked=O#opt.checked,
-                                   postback={O#opt.name}} end || O <- X#field.options ],
+                                   postback={O#opt.name}}
+
+            end || O <- X#field.options ],
 
 
 %   io:format("O: ~p~n",[{X,Object}]),
@@ -195,12 +200,12 @@ fieldType(#field{}=X,Acc,Object,Opt) ->
           #panel { class=X#field.fieldClass, body = fieldType(X#field.type,X,Options,Object,Opt)},
           #panel { class=tool, body= case Tooltips of
                    [] -> [];
-                    _ -> case length(Tooltips) of
-                              1 -> tl(lists:flatten(lists:zipwith(fun(A2,B2) -> [A2,B2] end,
-                                      lists:duplicate(length(Tooltips),#br{}),Tooltips)));
-                              _ -> tl(lists:flatten(lists:zipwith(fun(A2,B2) -> [A2,B2] end,
-                                      lists:duplicate(length(Tooltips),#panel{style="height:10px;"}),
-                                      Tooltips))) end end} ]}|Acc].
+                    _ -> Dom = case length(Tooltips) of
+                              1 -> #br{};
+                              _ -> #panel{style="height:10px;"} end,
+                         tl(lists:flatten(lists:zipwith(fun(A2,B2) -> [A2,B2] end,
+                            lists:duplicate(length(Tooltips),Dom),Tooltips)))
+                  end} ]}|Acc].
 
 % SECOND LEVEL MATCH
 
@@ -230,22 +235,13 @@ fieldType(pay,X,Options,Object,Opt) ->
                         value=nitro:to_list(extract(Object,X)) }, <<" ">>,
                  #span{ body=X#field.curr}]};
 
-fieldType(combo,X,Options,Object,Opt) ->
-   case length(Options) of
-        1 -> tl(lists:flatten(lists:zipwith(fun(A,B) -> [A,B] end,
-                lists:duplicate(length(Options),#br{}),Options)));
-        _ -> tl(lists:flatten(lists:zipwith(fun(A,B) -> [A,B] end,
-                lists:duplicate(length(Options),#panel{}),Options))) end;
+fieldType(ComboCheck,X,Options,_Object,_Opt) when ComboCheck == combo orelse ComboCheck == check ->
+   Dom = case length(Options) of 1 -> #br{}; _ -> #panel{} end,
+   tl(lists:flatten(lists:zipwith(fun(A,B) -> [A,B] end,
+      lists:duplicate(length(Options),Dom),Options)));
 
 fieldType(select,X,Options,Object,Opt) ->
    #select{ id=atom([X#field.id,type(Object)]), postback=X#field.postback, body=Options};
-
-fieldType(check,X,Options,Object,Opt) ->
-   case length(Options) of
-        1 -> tl(lists:flatten(lists:zipwith(fun(A,B) -> [A,B] end,
-                lists:duplicate(length(Options),#br{}),Options)));
-        _ -> tl(lists:flatten(lists:zipwith(fun(A,B) -> [A,B] end,
-                lists:duplicate(length(Options),#panel{}),Options))) end;
 
 fieldType(string,X,Options,Object,Opt) ->
    #input{ class=column,
