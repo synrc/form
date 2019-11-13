@@ -220,7 +220,8 @@ fieldType(integer,X,Options,Object,Opt) ->
 
 fieldType(money,X,Options,Object,Opt) ->
  [ #input{ id=atom([X#field.id,type(Object)]), pattern="[0-9]*",
-           validation=val(Opt,nitro:f("Validation.money(e, ~w, ~w, '~s')",[X#field.min,X#field.max, translate({?MODULE, error})])),
+           validation=val(Opt,nitro:f("Validation.money(e, ~w, ~w, '~s')",
+                                      [X#field.min,X#field.max, translate({?MODULE, error})])),
            onkeyup="beautiful_numbers(event);",
            value=nitro:to_list(extract(Object,X)) },
            #panel{ class=pt10,body= [ translate({?MODULE, warning}),
