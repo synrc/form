@@ -15,7 +15,7 @@ sources(Object,Options)   -> ?M:sources(Object,Options).
 type(Object)              -> ?M:type(Object).
 kind(Options)             -> ?M:kind(Options).
 pos(Object,X)             -> ?M:pos(Object,X).
-extract(Object,X)         -> ?M:pos(Object,X).
+extract(Object,X)         -> ?M:extract(Object,X).
 evoke(Object,X,Value)     -> ?M:evoke(Object,X,Value).
 id()                      -> fun (X) -> X end.
 atom(List) when is_list(List) -> string:join([ nitro:to_list(L) || L <- List],"_");

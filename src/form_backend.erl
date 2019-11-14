@@ -279,6 +279,7 @@ fieldType(comboLookup,X,Options,Object,Opt) ->
                disabled = X#field.disabled,
                validation=form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])),
                feed=X#field.bind,
+               value = form:extract(Object,X),
                reader=[],
                chunk=20};
 
