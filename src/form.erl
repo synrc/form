@@ -28,11 +28,13 @@ steps(Doc, Obj, Opt)      -> ?M:steps(Doc,Obj,Opt).
 caption(Doc, Obj, Opt)    -> ?M:caption(Doc, Obj, Opt).
 fields(Doc, Obj, Opt)     -> ?M:fields(Doc, Obj, Opt).
 buttons(Doc, Obj, Opt)    -> ?M:buttons(Doc,Obj,Opt).
+translate(A,B)            -> ?M:translate(A,B).
+translate(A)              -> ?M:translate(A).
+val(A,B)                  -> ?M:val(A,B).
 
 % OTP
 
 stop(_)    -> ok.
-main(A)    -> mad:main(A).
 start()    -> start(normal,[]).
 start(_)   -> start().
 init([])   -> {ok, {{one_for_one, 5, 10}, [] }}.

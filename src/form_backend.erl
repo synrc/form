@@ -7,9 +7,8 @@
 -include_lib("form/include/step_wizard.hrl").
 -include_lib("form/include/meta.hrl").
 
-sources(Object) -> sources(Object,[]).
 sources(Object,Options) ->
-   M = lists:map(fun(X) -> list_to_atom(atom([X,type(Object),kind(Options)])) end, element(5,kvs:table(type(Object)))),
+   M = lists:map(fun(X) -> list_to_atom(form:atom([X,form:type(Object),form:kind(Options)])) end, element(5,kvs:table(form:type(Object)))),
 %   io:format("sources: ~p~n",[M]),
    M.
 
@@ -30,26 +29,14 @@ pos(Object,X) ->
 
 extract(Object,X) ->
 %   io:format("extract: ~p~n",[{Object,X}]),
-   element(pos(Object,X),Object).
+   element(form:pos(Object,X),Object).
 
 evoke(Object,X,Value) ->
-   setelement(pos(Object,X),Object,Value).
-
-id() -> fun (X) -> X end.
+   setelement(form:pos(Object,X),Object,Value).
 
 translate_error(A,B) -> io_lib:format("~p",[{A,B}]).
 translate(A,B)       -> io_lib:format("~p",[{A,B}]).
 translate(A)         -> io_lib:format("~p",[A]).
-
-stop(_)    -> ok.
-main(A)    -> mad:main(A).
-start()    -> start(normal,[]).
-start(_)   -> start().
-init([])   -> {ok, {{one_for_one, 5, 10}, [] }}.
-start(_,_) -> supervisor:start_link({local,form},form,[]).
-
-atom(List) when is_list(List) -> string:join([ nitro:to_list(L) || L <- List],"_");
-atom(Scalar) -> nitro:to_list(Scalar).
 
 dispatch(Object, Options) ->
    Name = proplists:get_value(name,Options,false),
@@ -57,13 +44,13 @@ dispatch(Object, Options) ->
    Registry = application:get_env(form,registry,[]),
    #formReg{vertical = V, horizontal = H} = lists:keyfind(element(1,Object),2,Registry:registry()),
    Module = case proplists:get_value(row,Options,false) of true -> H; false -> V end,
-   new(Module:new(nitro:compact(Name),Object,Options),Object,Options).
+   form:new(Module:new(nitro:compact(Name),Object,Options),Object,Options).
 
 new(Document = #document{},Object,Opt) ->
 %   io:format("new options: ~p~n",[Opt]),
     Name = Document#document.name,
     #panel{
-        id=atom([form,Name]), class=form,
+        id=form:atom([form,Name]), class=form,
         body= [ BuildBlock(Document, Object, Opt)
              || BuildBlock <- [fun steps/3,fun caption/3,fun fields/3,fun buttons/3]]};
 
@@ -98,7 +85,7 @@ buttons(Document, Object, _Opt) ->
     Buttons  = Document#document.buttons,
     #panel{ id = forpreload, class = buttons,
             body= lists:foldr(fun(#but{}=But,Acc) ->
-                [ #link { id= atom([But#but.id,type(Object),kind(_Opt)]), class=But#but.class,
+                [ #link { id=form:atom([But#but.id,form:type(Object),form:kind(_Opt)]), class=But#but.class,
                           validate=But#but.validation,
                           postback=But#but.postback,
                           body=But#but.title, onclick=But#but.onclick,
@@ -108,52 +95,51 @@ buttons(Document, Object, _Opt) ->
 % GENERIC MATCH
 
 fieldType(#field{type=empty}=X,Acc,Object,Opt) ->
-    [#panel{class=box, style="display:none;",id=atom([X#field.id,type(Object),kind(Opt)])}|Acc];
+    [#panel{class=box, style="display:none;",id=form:atom([X#field.id,form:type(Object),form:kind(Opt)])}|Acc];
 
 fieldType(#field{type=dynamic}=X,Acc,Object,Opt) ->
     [X#field.raw|Acc];
 
 fieldType(#field{type=comment}=X,Acc,Object,Opt) ->
-    [#panel { id=atom([commentBlock,type(Object),kind(Opt)]), class=box, body=[
+    [#panel { id=form:atom([commentBlock,form:type(Object),form:kind(Opt)]), class=box, body=[
          case X#field.tooltips of
               false -> [];
               true -> [ #panel { class=label, body="&nbsp;" },
                         #panel { class=field, body="&nbsp;" },
                         #panel { class=tool, body=[
-                         #link { id=atom([commentlink,X#field.id]),
+                         #link { id=form:atom([commentlink,X#field.id]),
                                  class=tooltips,
                                  onclick=nitro:f("showComment(this);"),
-                                 body=[#image{src="/app/img/icon-comment-blue2.png"} ]} ]}] end,
+                                 body=[#image{src=[]} ]} ]}] end,
                         #panel { class=comment,
-                                 id=atom([X#field.id,type(Object),kind(Opt)]),
+                                 id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
                                  body=[X#field.desc],
                                  style= case X#field.tooltips of
                                              false -> "";
                                              true  -> "display:none;" end} ]}|Acc];
 
 fieldType(#field{type=card}=X,Acc,Object,Opt) ->
-   [#panel { id=atom([X#field.id,type(Object),kind(Opt)]), class=[box,pad0], body=[
+   [#panel { id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]), class=[box,pad0], body=[
              #panel { class=label, body = X#field.title},
              #panel { class=field, style="width:66.63%", body=
-                       #panel { id=atom([X#field.id,1]), body=[
+                       #panel { id=form:atom([X#field.id,1]), body=[
                        #panel { class=field,style="width:90%;", body =
-                      #select { id=atom([X#field.id,2]), disabled=true,
-                                validation=val(Opt,"Validation.card(e)"),
-                                body= #option{selected=true, body= translate(loading)}}},
-                       #panel { class=tool, body= [#image{src="/app/img/preloader.gif"}]} ]}} ]}|Acc];
+                      #select { id=form:atom([X#field.id,2]), disabled=true,
+                                validation=form:val(Opt,"Validation.card(e)"),
+                                body= #option{selected=true, body= form:translate(loading)}}},
+                       #panel { class=tool, body= [#image{src=[]}]} ]}} ]}|Acc];
 
 fieldType(#field{type=bool}=X,Acc,Object,Opt) ->
-  Options = [ #opt{name = [], title =  <<>>, checked = true},
-              #opt{name = true, title =  <<"Так"/utf8>>},
-              #opt{name = false, title = <<"Ні"/utf8>>} ],
-  fieldType(X#field{type=select, options=Options},Acc,Object,Opt);
+  Options = [ #opt{name = <<"true">>, title =  <<"Так"/utf8>>},
+              #opt{name = <<"false">>, title = <<"Ні"/utf8>>} ],
+  fieldType(X#field{type=combo, options=Options},Acc,Object,Opt);
 
 fieldType(#field{}=X,Acc,Object,Opt) ->
    Panel = case X#field.id of [] -> #panel{};
-                                 _ -> #panel{id=atom([wrap,X#field.id,type(Object),kind(Opt)])} end,
+                                 _ -> #panel{id=form:atom([wrap,X#field.id,form:type(Object),form:kind(Opt)])} end,
    Tooltips =
    [ case Tx of
-          {N} -> #panel{ id=atom([tooltip,N]), body=[]};
+          {N} -> #panel{ id=form:atom([tooltip,N]), body=[]};
           _ -> #link { class=tooltips,
                        tabindex="-1",
                        onmouseover="setHeight(this);",
@@ -162,7 +148,7 @@ fieldType(#field{}=X,Acc,Object,Opt) ->
 
    Options = [ case {X#field.type, O#opt.noRadioButton} of
 
-          {_,true}     -> #label{ id=atom([label,O#opt.name]),
+          {_,true}     -> #label{ id=form:atom([label,O#opt.name]),
                                   body=[]};
 
           % SELECT/OPTION
@@ -175,8 +161,8 @@ fieldType(#field{}=X,Acc,Object,Opt) ->
 
           {combo,_}    -> #panel{ body=
                           #label{ body=
-                          #radio{ name=atom([X#field.id,type(Object),kind(Opt)]),
-                                  id=atom([X#field.id,type(Object),O#opt.name]),
+                          #radio{ name=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
+                                  id=form:atom([X#field.id,form:type(Object),O#opt.name]),
                                   body = O#opt.title,
                                   checked=O#opt.checked,
                                   disabled=O#opt.disabled,
@@ -187,8 +173,8 @@ fieldType(#field{}=X,Acc,Object,Opt) ->
 
           % CHECKBOX
 
-          {check,_}  ->  #checkbox{id=atom([O#opt.name,type(Object),kind(Opt)]),
-                                   source=[atom([O#opt.name])],
+          {check,_}  ->  #checkbox{id=form:atom([O#opt.name,form:type(Object),form:kind(Opt)]),
+                                   source=[form:atom([O#opt.name])],
                                    body = O#opt.title,
                                    disabled=O#opt.disabled,
                                    checked=O#opt.checked,
@@ -214,7 +200,7 @@ fieldType(#field{}=X,Acc,Object,Opt) ->
 % SECOND LEVEL MATCH
 
 fieldType(text,X,Options,Object,Opt) ->
-    #panel{id=atom([X#field.id,type(Object),kind(Opt)]), body=X#field.desc};
+    #panel{id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]), body=X#field.desc};
 
 fieldType(integer,X,Options,Object,Opt) ->
     nitro:f(X#field.format,
@@ -223,21 +209,21 @@ fieldType(integer,X,Options,Object,Opt) ->
                   PostFun -> PostFun(pos(Object,X)) end] );
 
 fieldType(money,X,Options,Object,Opt) ->
- [ #input{ id=atom([X#field.id,type(Object),kind(Opt)]), pattern="[0-9]*",
-           validation=val(Opt,nitro:f("Validation.money(e, ~w, ~w, '~s')",
-                                      [X#field.min,X#field.max, translate({?MODULE, error})])),
+ [ #input{ id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]), pattern="[0-9]*",
+           validation=form:val(Opt,nitro:f("Validation.money(e, ~w, ~w, '~s')",
+                                      [X#field.min,X#field.max, form:translate({?MODULE, error})])),
            onkeyup="beautiful_numbers(event);",
-           value=nitro:to_list(extract(Object,X)) },
-           #panel{ class=pt10,body= [ translate({?MODULE, warning}),
+           value=nitro:to_list(form:extract(Object,X)) },
+           #panel{ class=pt10,body= [ form:translate({?MODULE, warning}),
                                       nitro:to_binary(X#field.min), " ", X#field.curr ] } ];
 
 fieldType(pay,X,Options,Object,Opt) ->
-   #panel{body=[#input{ id=atom([X#field.id,type(Object),kind(Opt)]), pattern="[0-9]*",
-                        validation=val(Opt,X#field.validation),
+   #panel{body=[#input{ id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]), pattern="[0-9]*",
+                        validation=form:val(Opt,X#field.validation),
                         onkeypress=nitro:f("return fieldsFilter(event, ~w, '~w');",
                            [X#field.length,X#field.type]),
                         onkeyup="beautiful_numbers(event);",
-                        value=nitro:to_list(extract(Object,X)) }, <<" ">>,
+                        value=nitro:to_list(form:extract(Object,X)) }, <<" ">>,
                  #span{ body=X#field.curr}]};
 
 fieldType(ComboCheck,X,Options,_Object,_Opt) when ComboCheck == combo orelse ComboCheck == check ->
@@ -246,52 +232,52 @@ fieldType(ComboCheck,X,Options,_Object,_Opt) when ComboCheck == combo orelse Com
       lists:duplicate(length(Options),Dom),Options)));
 
 fieldType(select,X,Options,Object,Opt) ->
-   #select{ id=atom([X#field.id,type(Object),kind(Opt)]), postback=X#field.postback, body=Options};
+   #select{ id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]), postback=X#field.postback, body=Options};
 
 fieldType(string,X,Options,Object,Opt) ->
    #input{ class=column,
-           id=atom([X#field.id,type(Object),kind(Opt)]),
+           id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
            disabled = X#field.disabled,
-           validation=val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])),
+           validation=form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])),
            value=extract(Object,X)};
 
 fieldType(phone,X,Options,Object,Opt) ->
-   #input{ id=atom([X#field.id,type(Object),kind(Opt)]),
+   #input{ id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
            class=phone,
            pattern="[0-9]*",
            onkeypress=nitro:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
-           validation=val(Opt,nitro:f("Validation.phone(e, ~w, ~w)",[X#field.min,X#field.max])),
+           validation=form:val(Opt,nitro:f("Validation.phone(e, ~w, ~w)",[X#field.min,X#field.max])),
            value=extract(Object,X)};
 
 fieldType(auth,X,Options,Object,Opt) ->
- [ #input{ id=atom([X#field.id,type(Object),kind(Opt)]),
+ [ #input{ id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
            class=phone,
            type=password,
            onkeypress="return removeAllErrorsFromInput(this);",
            onkeyup="nextByEnter(event);",
-           validation=val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])),
-           placeholder= translate({auth, holder}) },
+           validation=form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])),
+           placeholder= form:translate({auth, holder}) },
     #span{ class=auth_link,
-           body = [ #link{ href= translate({auth, lost_pass_link}),
+           body = [ #link{ href= form:translate({auth, lost_pass_link}),
                            target="_blank", postback=undefined,
-                           body= translate({auth, lost_pass}) }, #br{},
-                    #link{ href= translate({auth, change_login_link}),
+                           body= form:translate({auth, lost_pass}) }, #br{},
+                    #link{ href= form:translate({auth, change_login_link}),
                            target="_blank", postback=undefined,
-                           body= translate({auth, change_login}) }]} ];
+                           body= form:translate({auth, change_login}) }]} ];
 
 fieldType(otp,X,Options,Object,Opt) ->
    #input{ class=[phone,pass],
            type=password,
-           id=atom([X#field.id,type(Object),kind(Opt)]),
+           id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
            placeholder="(XXXX)",
            pattern="[0-9]*",
-           validation=val(Opt,"Validation.nums(e, 4, 4, \"otp\")")
+           validation=form:val(Opt,"Validation.nums(e, 4, 4, \"otp\")")
          };
 
 fieldType(comboLookup,X,Options,Object,Opt) ->
-  #comboLookup{id=atom([X#field.id,type(Object),kind(Opt)]),
+  #comboLookup{id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
                disabled = X#field.disabled,
-               validation=val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])),
+               validation=form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])),
                feed=X#field.bind,
                reader=[],
                chunk=20};
@@ -300,11 +286,11 @@ fieldType(file,X,Options,Object,Opt) -> [];
 
 fieldType(calendar,X,Options,Object,Opt) ->
    #panel{class=[field],
-          body=[#calendar{value = extract(Object,X),
-                           id=atom([X#field.id,type(Object),kind(Opt)]),
+          body=[#calendar{value = form:extract(Object,X),
+                           id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
                            disabled = X#field.disabled,
                            onkeypress="return removeAllErrorsFromInput(this);",
-                           validation=val(Opt,"Validation.calendar(e)"),
+                           validation=form:val(Opt,"Validation.calendar(e)"),
                            disableDayFn="disableDays4Charge",
                            class = ['input-date'],
                            minDate=X#field.min,
