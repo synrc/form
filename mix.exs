@@ -5,7 +5,7 @@ defmodule FORM.Mixfile do
   def project do
     [
       app: :form,
-      version: "4.11.10",
+      version: "4.11.11",
       description: "FORM Business X-Forms",
       package: package(),
       deps: deps()
@@ -24,7 +24,7 @@ defmodule FORM.Mixfile do
   def deps do
     [
       {:ex_doc, "~> 0.11", only: :dev},
-      {:nitro, "~> 4.11.5"}
+      {:nitro, "~> 4.11.7"}
     ]
   end
 end

@@ -31,6 +31,8 @@ buttons(Doc, Obj, Opt)    -> ?M:buttons(Doc,Obj,Opt).
 translate(A,B)            -> ?M:translate(A,B).
 translate(A)              -> ?M:translate(A).
 val(A,B)                  -> ?M:val(A,B).
+fieldType(A,B,C,D,E)      -> ?M:fieldType(A,B,C,D,E).
+fieldType(A,B,C,D)        -> ?M:fieldType(A,B,C,D).
 
 % OTP
 
