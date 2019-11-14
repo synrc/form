@@ -132,7 +132,7 @@ fieldType(#field{type=card}=X,Acc,Object,Opt) ->
 fieldType(#field{type=bool}=X,Acc,Object,Opt) ->
   Options = [ #opt{name = <<"true">>, title =  <<"Так"/utf8>>},
               #opt{name = <<"false">>, title = <<"Ні"/utf8>>} ],
-  fieldType(X#field{type=combo, options=Options},Acc,Object,Opt);
+  fieldType(X#field{type=select, options=Options},Acc,Object,Opt);
 
 fieldType(#field{}=X,Acc,Object,Opt) ->
    Panel = case X#field.id of [] -> #panel{};
@@ -280,6 +280,7 @@ fieldType(comboLookup,X,Options,Object,Opt) ->
                validation=form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])),
                feed=X#field.bind,
                value = form:extract(Object,X),
+               delegate = X#field.module,
                reader=[],
                chunk=20};
 
