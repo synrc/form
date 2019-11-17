@@ -30,8 +30,8 @@
            transformed into HTML5 encoding (first layer).</p>
     </section>
     <section>
-        <h3>CALLBACK API</h3>
-        <p>The FORMS module expects forms to expose the following API.</p>
+        <h3>FORM PROVIDER</h3>
+        <p>The input FORM module expects forms to expose the following API.</p>
         <h4>Module:id() -> tuple().</h4>
         <p>Should return the default business object instance for this document form.</p>
         <figure><code> id() -> #'Document'{}.</code></figure>
@@ -41,11 +41,16 @@
         <p>Should return the document form model by a given business object.</p>
         <p>The standard set of options, provided with form base library:</p>
         <div>
-        <ul><li><b>{edit,true}</b> — form for editing purposes.</li>
-            <li><b>{new,true}</b> — form for document creation purposes.</li>
-            <li><b>{view,true}</b> — form for document read only view mode.</li>
-            <li><b>{search,true}</b> — form for document search purposes with disabled validators.</li>
-            <li><b>{row,true}</b> — form for document row representation inside a table view.</li>
+        <h4>EDIT</h4>
+        <p><b>{edit,true}</b> — form for editing purposes.</p>
+        <h4>CREATE</h4>
+        <p><b>{create,true}</b> — form for document creation purposes.</p>
+        <h4>EDIT</h4>
+        <p><b>{view,true}</b> — form for document read only view mode.</p>
+        <h4>SEARCH</h4>
+        <p><b>{search,true}</b> — form for document search purposes with disabled validators.</p>
+        <h4>ROW</h4>
+        <p><b>{row,true}</b> — form for document row representation inside a table view.</p>
         </ul>
         </div>
         <figure><code> new(Name,Object,Options) ->
@@ -55,9 +60,25 @@
         <figure><code> doc() -> "simple".</code></figure>
     </section>
     <section>
-        <h3>STATIC API</h3>
-        <h4>new(Form :: #document{}, BusinessObject :: tuple()) -> binary() | list().</h4>
-        <p>Renders the form fullfilled with values from a given business object.</p>
+        <h3>FORM API</h3>
+        <h4>sources(Object :: tuple()) -> list().</h4>
+        <p>Returns the list of atoms that should be used as a value of <b>sources</b> field
+           of NITRO elements used for input data binding.</p>
+        <h4>type(Object :: record()) -> atom().</h4>
+        <p>Returns BEAM preloaded atom used as an object type. Usually second element of a tuple.</p>
+        <h4>kind(Options ::  proplist()) -> atom().</h4>
+        <p>Transforms boolean tuples in options to atoms.</p>
+        <h4>pos(Object :: tuple(), #field{}) -> integer().</h4>
+        <p>Returins position of field in tuple by reffering to KVS metainfo.</p>
+        <h4>extract(Object :: tuple(), #field{}) -> term().</h4>
+        <p>Extracts the value from business object by a given field.</p>
+        <h4>evoke(Object :: tuple(), #field{}, Value :: term()) -> term().</h4>
+        <p>Evoke the new value of business object by a given field.</p>
+        <h4>dispatch(Object :: tuple(), Options :: proplist()) -> #element{}.</h4>
+        <p>Renders the business object to NITRO elements by reffering to FORM registry.</p>
+        <h4>new(#document{}, Object :: tuple(), Options :: proplist()) -> #element().</h4>
+        <p>Renders FORM document to NITRO element.</p>
+        <p>Evoke the new value of business object by a given field.</p>
         <figure><code> > :form.new(:form_ok.new("name",otp(),[]),otp())
   {:panel, :element, 'ok_name', [], [], [], [], [],
            :form, [], [], [], [], [], [], [], [], [], [], [],
@@ -75,6 +96,19 @@ Success Operation: CODE&lt;/h4&gt;&lt;/div&gt;&lt;div class=\"buttons\"&gt;&lt;a
 class=\"button sgreen\" id=\"auto-422845\"
 href=\"javascript:void(0);\"&gt;Confirm&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;"
 </code></figure>
+        <br/>
+        <p>The following functions that are normally called from </b>new</b> builder:</p>
+        <h4>fields(#document{}, Object :: tuple(), Options :: proplists()) -> list(#element{}).</h4>
+        <p>Renders the form fields to NITRO elements.</p>
+        <h4>caption(#document{}, Object :: tuple(), Options :: proplists()) -> #panel{}.</h4>
+        <p>Renders the form caption to NITRO panel.</p>
+        <h4>buttons(#document{}, Object :: tuple(), Options :: proplists()) -> #panel{}.</h4>
+        <p>Renders the form buttons to NITRO panel.</p>
+        <p>The following functions that are normally called from </b>fields</b> builder:</p>
+        <h4>fieldType(#field{}, Acc :: list(#element{}), Object :: tuple(), Options :: proplists()) -> list(#element{}).</h4>
+        <p>Renders the particular field of a from inside a fields loop.</p>
+        <h4>fieldType(Type :: atom(), #field{}, Vector :: list(#element{}), Object :: tuple(), Options :: proplists()) -> list(#element{}).</h4>
+        <p>Renders the particular vector field of a from inside a fields loop. Normally called from fieldType/4.</p>
         <br/>
         <br/>
         <br/>
