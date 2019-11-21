@@ -78,7 +78,7 @@ caption(Document, _Object, _Opt) ->
 fields(Document, Object, Opt) ->
     Name       = Document#document.name,
     Fields     = Document#document.fields,
-    lists:foldr(fun (X,Acc) -> fieldType(X,Acc,Object,Opt) end,[],Fields).
+    lists:foldr(fun (X,Acc) -> form:fieldType(X,Acc,Object,Opt) end,[],Fields).
 
 buttons(Document, Object, _Opt) ->
     Name    = Document#document.name,
@@ -132,7 +132,7 @@ fieldType(#field{type=card}=X,Acc,Object,Opt) ->
 fieldType(#field{type=bool}=X,Acc,Object,Opt) ->
   Options = [ #opt{name = <<"true">>, title =  <<"Так"/utf8>>},
               #opt{name = <<"false">>, title = <<"Ні"/utf8>>} ],
-  fieldType(X#field{type=select, options=Options},Acc,Object,Opt);
+  form:fieldType(X#field{type=select, options=Options},Acc,Object,Opt);
 
 fieldType(#field{}=X,Acc,Object,Opt) ->
    Panel = case X#field.id of [] -> #panel{};
@@ -187,7 +187,7 @@ fieldType(#field{}=X,Acc,Object,Opt) ->
 
    [ Panel#panel { class=X#field.boxClass, body=[
           #panel { class=X#field.labelClass, body = X#field.title},
-          #panel { class=X#field.fieldClass, body = fieldType(X#field.type,X,Options,Object,Opt)},
+          #panel { class=X#field.fieldClass, body = form:fieldType(X#field.type,X,Options,Object,Opt)},
           #panel { class=tool, body= case Tooltips of
                    [] -> [];
                     _ -> Dom = case length(Tooltips) of
