@@ -133,10 +133,16 @@ fieldType(#field{type=bool}=X,Acc,Object,Opt) ->
   Options = case extract(Object,X) of
               "true" ->
                 [ #opt{name = <<"true">>, title =  <<"Так"/utf8>>, checked = true},
-                  #opt{name = <<"false">>, title = <<"Ні"/utf8>>}];
+                  #opt{name = <<"false">>, title = <<"Ні"/utf8>>},
+                  #opt{name = <<"">>, title = <<"Не вибрано"/utf8>>}];
               "false" ->
                 [ #opt{name = <<"true">>, title =  <<"Так"/utf8>>},
-                  #opt{name = <<"false">>, title = <<"Ні"/utf8>>, checked = true}]
+                  #opt{name = <<"false">>, title = <<"Ні"/utf8>>, checked = true},
+                  #opt{name = <<"">>, title = <<"Не вибрано"/utf8>>}];
+              "" ->
+                [ #opt{name = <<"true">>, title =  <<"Так"/utf8>>},
+                  #opt{name = <<"false">>, title = <<"Ні"/utf8>>},
+                  #opt{name = <<"">>, title = <<"Не вибрано"/utf8>>, checked = true}]
             end,
   form:fieldType(X#field{type=select, options=Options},Acc,Object,Opt);
 
@@ -240,7 +246,6 @@ fieldType(ComboCheck,X,Options,_Object,_Opt) when ComboCheck == combo orelse Com
 fieldType(select,X,Options,Object,Opt) ->
    #select{ id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]), postback=X#field.postback,
      disabled = X#field.disabled,
-     validation=form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])),
      body=Options};
 
 fieldType(string,X,Options,Object,Opt) ->
