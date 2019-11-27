@@ -130,8 +130,14 @@ fieldType(#field{type=card}=X,Acc,Object,Opt) ->
                        #panel { class=tool, body= [#image{src=[]}]} ]}} ]}|Acc];
 
 fieldType(#field{type=bool}=X,Acc,Object,Opt) ->
-  Options = [ #opt{name = <<"true">>, title =  <<"Так"/utf8>>},
-              #opt{name = <<"false">>, title = <<"Ні"/utf8>>} ],
+  Options = case extract(Object,X) of
+              "true" ->
+                [ #opt{name = <<"true">>, title =  <<"Так"/utf8>>, checked = true},
+                  #opt{name = <<"false">>, title = <<"Ні"/utf8>>}];
+              "false" ->
+                [ #opt{name = <<"true">>, title =  <<"Так"/utf8>>},
+                  #opt{name = <<"false">>, title = <<"Ні"/utf8>>, checked = true}]
+            end,
   form:fieldType(X#field{type=select, options=Options},Acc,Object,Opt);
 
 fieldType(#field{}=X,Acc,Object,Opt) ->
@@ -232,7 +238,10 @@ fieldType(ComboCheck,X,Options,_Object,_Opt) when ComboCheck == combo orelse Com
       lists:duplicate(length(Options),Dom),Options)));
 
 fieldType(select,X,Options,Object,Opt) ->
-   #select{ id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]), postback=X#field.postback, body=Options};
+   #select{ id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]), postback=X#field.postback,
+     disabled = X#field.disabled,
+     validation=form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])),
+     body=Options};
 
 fieldType(string,X,Options,Object,Opt) ->
    #input{ class=column,
