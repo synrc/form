@@ -130,7 +130,7 @@ fieldType(#field{type=card}=X,Acc,Object,Opt) ->
                        #panel { class=tool, body= [#image{src=[]}]} ]}} ]}|Acc];
 
 fieldType(#field{type=bool}=X,Acc,Object,Opt) ->
-  Options = case extract(Object,X) of
+  Options = case form:extract(Object,X) of
               <<"true">> ->
                 [ #opt{name = <<"true">>, title =  <<"Так"/utf8>>, checked = true},
                   #opt{name = <<"false">>, title = <<"Ні"/utf8>>},
@@ -253,7 +253,7 @@ fieldType(string,X,Options,Object,Opt) ->
            id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
            disabled = X#field.disabled,
            validation=form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])),
-           value=extract(Object,X)};
+           value=form:extract(Object,X)};
 
 fieldType(phone,X,Options,Object,Opt) ->
    #input{ id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
@@ -261,7 +261,7 @@ fieldType(phone,X,Options,Object,Opt) ->
            pattern="[0-9]*",
            onkeypress=nitro:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
            validation=form:val(Opt,nitro:f("Validation.phone(e, ~w, ~w)",[X#field.min,X#field.max])),
-           value=extract(Object,X)};
+           value=form:extract(Object,X)};
 
 fieldType(auth,X,Options,Object,Opt) ->
  [ #input{ id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
