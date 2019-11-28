@@ -131,15 +131,15 @@ fieldType(#field{type=card}=X,Acc,Object,Opt) ->
 
 fieldType(#field{type=bool}=X,Acc,Object,Opt) ->
   Options = case extract(Object,X) of
-              "true" ->
+              <<"true">> ->
                 [ #opt{name = <<"true">>, title =  <<"Так"/utf8>>, checked = true},
                   #opt{name = <<"false">>, title = <<"Ні"/utf8>>},
                   #opt{name = <<"">>, title = <<"Не вибрано"/utf8>>}];
-              "false" ->
+              <<"false">> ->
                 [ #opt{name = <<"true">>, title =  <<"Так"/utf8>>},
                   #opt{name = <<"false">>, title = <<"Ні"/utf8>>, checked = true},
                   #opt{name = <<"">>, title = <<"Не вибрано"/utf8>>}];
-              "" ->
+              _ ->
                 [ #opt{name = <<"true">>, title =  <<"Так"/utf8>>},
                   #opt{name = <<"false">>, title = <<"Ні"/utf8>>},
                   #opt{name = <<"">>, title = <<"Не вибрано"/utf8>>, checked = true}]
