@@ -1,15 +1,15 @@
 defmodule FORM do
   require Record
 
-  Enum.each(Record.extract_all(from_lib: "form/include/meta.hrl"), fn {name,
-                                                                        definition} ->
-    Record.defrecord(name, definition)
-  end)
-
-  Enum.each(Record.extract_all(from_lib: "form/include/doc.hrl"), fn {name,
-                                                                        definition} ->
-    Record.defrecord(name, definition)
-  end)
+  hrl = ["form/include/meta.hrl",
+         "form/include/doc.hrl",
+         "form/include/formReg.hrl"
+        ]
+  Enum.each(hrl, &(
+                    Enum.each(Record.extract_all(from_lib: &1), fn {name, definition} ->
+                                                                  Record.defrecord(name, definition)
+                                                                end)
+  ))
 
   defmacro __using__(opts \\ []) do
     imports =
