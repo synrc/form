@@ -83,7 +83,7 @@ fields(Document, Object, Opt) ->
 
 field(Field) -> 
    Id = element(2, Field),
-   [_Name, Doc, Type] = string:split(Id, "_"),
+   [_Name, Doc, Type] = string:tokens(Id, "_"),
    field(Field, {nitro_conv:to_atom(Doc)}, {nitro_conv:to_atom(Type)}).
 
 field(Field, Object, Opt) -> 
