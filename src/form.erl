@@ -5,6 +5,7 @@
 -compile(export_all).
 -export([start/0, start/1, start/2, stop/1, new/2, new/3, init/1, id/0, dispatch/2]).
 -export([steps/3, caption/3, fields/3, buttons/3]).
+-export([field/3, field/1]).
 
 -define(M, (application:get_env(form,module,form_backend))).
 
@@ -27,6 +28,8 @@ new(Document,_O,_)        -> Document.
 steps(Doc, Obj, Opt)      -> ?M:steps(Doc,Obj,Opt).
 caption(Doc, Obj, Opt)    -> ?M:caption(Doc, Obj, Opt).
 fields(Doc, Obj, Opt)     -> ?M:fields(Doc, Obj, Opt).
+field(Field, Obj, Opt)    -> ?M:field(Field, Obj, Opt).
+field(Field)    -> ?M:field(Field).
 buttons(Doc, Obj, Opt)    -> ?M:buttons(Doc,Obj,Opt).
 translate(A,B)            -> ?M:translate(A,B).
 translate(A)              -> ?M:translate(A).
