@@ -140,20 +140,10 @@ fieldType(#field{type=card}=X,Acc,Object,Opt) ->
                        #panel { class=tool, body= [#image{src=[]}]} ]}} ]}|Acc];
 
 fieldType(#field{type=bool}=X,Acc,Object,Opt) ->
-  Options = case form:extract(Object,X) of
-              true ->
-                [ #opt{name = <<"true">>, title =  <<"Так"/utf8>>, checked = true},
-                  #opt{name = <<"false">>, title = <<"Ні"/utf8>>},
-                  #opt{name = <<"">>, title = <<"Не вибрано"/utf8>>}];
-              false ->
-                [ #opt{name = <<"true">>, title =  <<"Так"/utf8>>},
-                  #opt{name = <<"false">>, title = <<"Ні"/utf8>>, checked = true},
-                  #opt{name = <<"">>, title = <<"Не вибрано"/utf8>>}];
-              _ ->
-                [ #opt{name = <<"true">>, title =  <<"Так"/utf8>>},
-                  #opt{name = <<"false">>, title = <<"Ні"/utf8>>},
-                  #opt{name = <<"">>, title = <<"Не вибрано"/utf8>>, checked = true}]
-            end,
+  Val = form:extract(Object,X),
+  Options = [ #opt{name = <<"true">>, title =  <<"Так"/utf8>>, checked = Val == true},
+              #opt{name = <<"false">>, title = <<"Ні"/utf8>>, checked = Val == false},
+              #opt{name = <<"">>, title = <<"Не вибрано"/utf8>>, checked = not is_boolean(Val)}],
   form:fieldType(X#field{type=select, options=Options},Acc,Object,Opt);
 
 fieldType(#field{}=X,Acc,Object,Opt) ->
