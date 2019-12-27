@@ -2,6 +2,8 @@
 -compile(export_all).
 -include_lib("nitro/include/calendar.hrl").
 -include_lib("nitro/include/comboLookup.hrl").
+-include_lib("nitro/include/sortable_list.hrl").
+-include_lib("nitro/include/input_vec.hrl").
 -include_lib("nitro/include/nitro.hrl").
 -include_lib("form/include/formReg.hrl").
 -include_lib("form/include/step_wizard.hrl").
@@ -297,6 +299,27 @@ fieldType(comboLookup,X,_Options,Object,Opt) ->
                delegate = X#field.module,
                reader=[],
                chunk=20};
+
+fieldType(comboLookupVec,X,Options,Object,Opt) ->
+  Id = form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
+  Input = #comboLookup{
+            id = form:atom([Id, "input"]),
+            feed = X#field.bind,
+            delegate = X#field.module,
+            reader = [],
+            style = "padding-bottom: 10px; margin: 0; background-color: inherit;",
+            chunk = 20},
+  Disabled = X#field.disabled,
+  Values = form:extract(Object,X),
+  Min = X#field.min,
+  Max = X#field.max,
+  Validation = if not X#field.required -> [];
+                  true -> form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[Min, Max])) end,
+  #input_vec{id = Id,
+             input = Input,
+             disabled = Disabled,
+             validation = Validation,
+             values = Values};
 
 fieldType(file,_X,_Options,_Object,_Opt) -> [];
 
