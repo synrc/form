@@ -50,7 +50,7 @@ var Validation = {
     "calendar": function(e) {
         var min, max, val = (e.detail instanceof Date) ? e.detail : null;
         if(val == null || val.toString() == "Invalid Date") { showErrorMSG(e.target, i18n("WrongDate")); return false; }
-        if(val.getDate() > 28) { showErrorMSG(e.target, i18n("DateInterval")); return false; }
+        if(!val.getDate()) { showErrorMSG(e.target, i18n("DateInterval")); return false; }
 
         if(e.target.getAttribute("type")=="calendar") {
             var picker = pickers[e.target.id];
