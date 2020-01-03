@@ -292,7 +292,7 @@ fieldType(otp,X,_Options,Object,Opt) ->
 fieldType(comboLookup,X,_Options,Object,Opt) ->
   #comboLookup{id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
                disabled = X#field.disabled,
-               validation=form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])),
+               validation=form:val(Opt,nitro:f("Validation.comboLookup(e, ~w, ~w)",[X#field.min,X#field.max])),
                feed=X#field.bind,
                value = form:extract(Object,X),
                delegate = X#field.module,

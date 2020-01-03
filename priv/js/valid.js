@@ -47,6 +47,21 @@ var Validation = {
         return true;
     },
 
+    "nums": function(e, mim, max) {
+        console.log(e);
+        return true;
+    },
+
+    "comboLookup": function(e, min, max) {
+        console.log(e);
+        return true;
+    },
+
+    "comboLookupVec": function(e, min, max) {
+        console.log(e);
+        return true;
+    },
+
     "calendar": function(e) {
         var min, max, val = (e.detail instanceof Date) ? e.detail : null;
         if(val == null || val.toString() == "Invalid Date") { showErrorMSG(e.target, i18n("WrongDate")); return false; }

@@ -11,7 +11,7 @@
 -record(field,      { id=[], raw=[], sec=1, name=[], pos=[], title=[], layout=[], visible=true, disabled=false,
                       vector=false, index=[], bind=[], format="~w", curr=[], postfun=[], desc=[], wide=normal,
                       type=binary, etc=[], labelClass=label, fieldClass=field, boxClass=box,
-                      required=false, module=[], access=[], tooltips=[], options=[], min=0,
+                      required=false, module=[], access=[], tooltips=[], options=[], min=0, distinct=false,
                       max=1000000, length=10, postback=[], onchange=[], validation=[], hidden=false }).
 
 -endif.
