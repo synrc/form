@@ -25,13 +25,33 @@ pos(Object,X) ->
    Tab = element(1,Object),
    Fields = element(5,kvs:table(Tab)),
    P = string:rstr([Tab|Fields],[X#field.id]),
-%   io:format("pos: ~p~n",[{Object,X}]),
+   % io:format("pos: ~p~n",[{P,Object,X}]),
    P.
-
-extract({_, Value}, _X) -> Value;
-extract(Object,X) ->
-%   io:format("extract: ~p~n",[{Object,X}]),
-   element(form:pos(Object,X),Object).
+extract(Object,X) -> extract(Object,X,false).
+extract({_, Value}, X, true) -> extract_ref(Value, X#field.module);
+extract({_, Value}, _X, false) -> Value;
+extract(Object, X, false) ->
+   Pos = form:pos(Object,X),
+   Value = element(Pos, Object),
+   % io:format("extract: ~p~n",[{Pos, Value, Object}]),
+   Value;
+extract(Object, X, true) ->
+   Ref = extract(Object, X, false),
+   Value = extract_ref(Ref, X#field.module),
+   % io:format("extract ref: ~p~n",[{Value, Ref, Object, X}]),
+   Value
+.
+extract_ref(Ref, Module) when is_tuple(Ref) ->
+   case has_function(Module, view_value) of
+      true -> Module:view_value(Ref);
+      false -> element(3, Ref)
+   end;
+extract_ref(Ref, _Module) -> Ref.
+has_function([], _F) -> false;
+has_function(M, F) ->
+   Functions = apply(M, module_info, [exports]),
+   IsF = proplists:get_value(F, Functions, -1),
+   IsF /= -1.
 
 evoke(Object,X,Value) ->
    setelement(form:pos(Object,X),Object,Value).
@@ -293,8 +313,9 @@ fieldType(comboLookup,X,_Options,Object,Opt) ->
   #comboLookup{id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
                disabled = X#field.disabled,
                validation=form:val(Opt,nitro:f("Validation.comboLookup(e, ~w, ~w)",[X#field.min,X#field.max])),
-               feed=X#field.bind,
-               value = form:extract(Object,X),
+               feed = X#field.bind,
+               value = form:extract(Object,X,true),
+               bind = form:extract(Object,X,false),
                delegate = X#field.module,
                reader=[],
                chunk=20};
