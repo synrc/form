@@ -126,7 +126,7 @@ var Validation = {
             return true;
         } else {
             text = (minlength == maxlength) ? i18n("CharQuantity") + maxlength
-                 : i18n("EnterFrom")+ minlength +i18n("EnterTo")+maxlength+i18n("EnterChars");
+                 : i18n("EnterFrom")+ minlength +i18n("EnterTo")+maxlength;
             showErrorMSG(el, text);
             return false;
         }
