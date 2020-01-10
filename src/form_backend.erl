@@ -322,15 +322,19 @@ fieldType(comboLookup,X,_Options,Object,Opt) ->
 
 fieldType(comboLookupVec,X,Options,Object,Opt) ->
   Id = form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
+  Delegate = X#field.module,
   Input = #comboLookup{
             id = form:atom([Id, "input"]),
             feed = X#field.bind,
-            delegate = X#field.module,
+            delegate = Delegate,
             reader = [],
             style = "padding-bottom: 10px; margin: 0; background-color: inherit;",
             chunk = 20},
   Disabled = X#field.disabled,
-  Values = form:extract(Object,X),
+  RawValues = form:extract(Object,X),
+  Values = case form_backend:has_function(Delegate, view_value) of
+              true -> {view_value_pairs, [ {Delegate:view_value(V), V} || V <- RawValues]};
+              false -> RawValues end,
   Min = X#field.min,
   Max = X#field.max,
   Validation = if not X#field.required -> [];
