@@ -270,11 +270,10 @@ fieldType(select,X,Options,Object,Opt) ->
      body=Options};
 
 fieldType(string,X,_Options,Object,Opt) ->
-  Validation = if not X#field.required -> []; true -> form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])) end,
   #input{ class=column,
            id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
            disabled = X#field.disabled,
-           validation=Validation,
+           validation=if not X#field.required -> []; true -> form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])) end,
            value=form:extract(Object,X)};
 
 fieldType(phone,X,_Options,Object,Opt) ->
@@ -350,7 +349,7 @@ fieldType(calendar,X,_Options,Object,Opt) ->
                            id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
                            disabled = X#field.disabled,
                            onkeypress="return removeAllErrorsFromInput(this);",
-                           validation=form:val(Opt,"Validation.calendar(e)"),
+                           validation= if not X#field.required -> []; true -> form:val(Opt,"Validation.calendar(e)") end,
                            disableDayFn="disableDays4Charge",
                            class = ['input-date'],
                            minDate=X#field.min,
