@@ -270,10 +270,11 @@ fieldType(select,X,Options,Object,Opt) ->
      body=Options};
 
 fieldType(string,X,_Options,Object,Opt) ->
-   #input{ class=column,
+  Validation = if not X#field.required -> []; true -> form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])) end,
+  #input{ class=column,
            id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
            disabled = X#field.disabled,
-           validation=form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])),
+           validation=Validation,
            value=form:extract(Object,X)};
 
 fieldType(phone,X,_Options,Object,Opt) ->
