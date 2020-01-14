@@ -315,7 +315,9 @@ fieldType(comboLookup,X,_Options,Object,Opt) ->
                validation=form:val(Opt,nitro:f("Validation.comboLookup(e, ~w, ~w)",[X#field.min,X#field.max])),
                feed = X#field.bind,
                value = form:extract(Object,X,true),
-               bind = form:extract(Object,X,false),
+               bind = case form_backend:has_function(X#field.module, view_value) of
+                           true -> form:extract(Object,X,false);
+                           false -> [] end,
                delegate = X#field.module,
                reader=[],
                chunk=20};
