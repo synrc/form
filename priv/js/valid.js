@@ -119,6 +119,7 @@ var Validation = {
         field = e.detail,
         el = e.target,
         parent = el.parentNode;
+        if(field && field.text && field.bind) { field = field.text }
         if(field.length >= minlength && field.length <= maxlength) {
             hint = parent.lastChild;
             if (parent.lastChild.tagName == "DIV" && parent.lastChild.className == "errorMSG")

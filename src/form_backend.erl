@@ -315,22 +315,28 @@ fieldType(comboLookup,X,_Options,Object,Opt) ->
                validation= if not X#field.required -> []; true -> form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])) end,
                feed = X#field.bind,
                value = form:extract(Object,X,true),
-               bind = form:extract(Object,X,false),
+               bind = case form_backend:has_function(X#field.module, view_value) of
+                           true -> form:extract(Object,X,false);
+                           false -> [] end,
                delegate = X#field.module,
                reader=[],
                chunk=20};
 
 fieldType(comboLookupVec,X,Options,Object,Opt) ->
   Id = form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
+  Delegate = X#field.module,
   Input = #comboLookup{
             id = form:atom([Id, "input"]),
             feed = X#field.bind,
-            delegate = X#field.module,
+            delegate = Delegate,
             reader = [],
             style = "padding-bottom: 10px; margin: 0; background-color: inherit;",
             chunk = 20},
   Disabled = X#field.disabled,
-  Values = form:extract(Object,X),
+  RawValues = form:extract(Object,X),
+  Values = case form_backend:has_function(Delegate, view_value) of
+              true -> {view_value_pairs, [ {Delegate:view_value(V), V} || V <- RawValues]};
+              false -> RawValues end,
   Min = X#field.min,
   Max = X#field.max,
   Validation = if not X#field.required -> [];
