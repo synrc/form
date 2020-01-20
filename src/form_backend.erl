@@ -181,9 +181,6 @@ fieldType(#field{}=X,Acc,Object,Opt) ->
 
    Options = [ case {X#field.type, O#opt.noRadioButton} of
 
-          {_,true}     -> #label{ id=form:atom([label,O#opt.name]),
-                                  body=[]};
-
           % SELECT/OPTION
 
           {select,_}  -> #option{ value = O#opt.name,
@@ -211,7 +208,10 @@ fieldType(#field{}=X,Acc,Object,Opt) ->
                                    body = O#opt.title,
                                    disabled=O#opt.disabled,
                                    checked=O#opt.checked,
-                                   postback={O#opt.name}}
+                                   postback={O#opt.name}};
+
+          {_,_}     -> #label{ id=form:atom([label,O#opt.name]),
+                                  body=[]}
 
             end || O <- X#field.options ],
 
