@@ -74,7 +74,7 @@ new(Document = #document{},Object,Opt) ->
     #panel{
         id=form:atom([form,Name]), class=form,
         body= [ BuildBlock(Document, Object, Opt)
-             || BuildBlock <- [fun steps/3,fun caption/3,fun fields/3,fun buttons/3]]};
+             || BuildBlock <- [fun buttons/3, fun caption/3,fun fields/3]]};
 
 new(Document,_Object,_Opt) -> Document. % pass HTML5 as NITRO records
 
