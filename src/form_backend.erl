@@ -277,12 +277,11 @@ fieldType(string,X,_Options,Object,Opt) ->
            value=form:extract(Object,X)};
 
 fieldType(phone,X,_Options,Object,Opt) ->
-   #input{ id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
-           class=phone,
-           pattern="[0-9]*",
-           onkeypress=nitro:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
-           validation=form:val(Opt,nitro:f("Validation.phone(e, ~w, ~w)",[X#field.min,X#field.max])),
-           value=form:extract(Object,X)};
+  #input{ class=column,
+    id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
+    disabled = X#field.disabled,
+    validation=if not X#field.required -> []; true -> form:val(Opt,nitro:f("Validation.phone(e, ~w, ~w)",[X#field.min,X#field.max])) end,
+    value=form:extract(Object,X)};
 
 fieldType(auth,X,_Options,Object,Opt) ->
  [ #input{ id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
