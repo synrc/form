@@ -8,7 +8,7 @@ FORM: Declarative Documents
 Intro
 -----
 
-```
+```erlang
   #document { name = Name, sections = [
       #sec { name=[<<"Input the password "
                      "you have received by SMS"/utf8>>,
@@ -40,7 +40,7 @@ Documents or Forms consist of set of fields grouped
 in sections and a row of control buttons.
 It mey also contain fields of customizable types.
 
-```
+```erlang
   -record(document, { ?ITERATOR(feed),
                       name,
                       base,
@@ -50,7 +50,7 @@ It mey also contain fields of customizable types.
                       access }).
 ```
 
-```
+```erlang
  -record(field,     { id, sec=1, name, pos, title,
                       layout, visible=true,
                       disabled=false, format="~w",
@@ -64,12 +64,12 @@ It mey also contain fields of customizable types.
                       length=10, postback }).
 ```
 
-```
+```erlang
  -record(sec,       { id,
                       name,
                       desc="" }).
 ```
-```
+```erlang
  -record(but,       { id,
                       postback,
                       name,
@@ -77,13 +77,13 @@ It mey also contain fields of customizable types.
                       sources=[],
                       class }).
 ```
-```
+```erlang
   -record(sel,      { id,
                       postback,
                       name,
                       title }).
 ```
-```
+```erlang
  -record(opt,       { id,
                       postback,
                       name,
@@ -92,7 +92,7 @@ It mey also contain fields of customizable types.
                       disabled=false,
                       noRadioButton=false }).
 ```
-```
+```erlang
  -record(validation, { name, type, msg,
                        extract = fun(X) -> X end,
                        options=[], function,
