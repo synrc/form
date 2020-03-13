@@ -8,11 +8,14 @@
 -include_lib("form/include/step_wizard.hrl").
 -include_lib("form/include/meta.hrl").
 
+fieldId(X,Object,Opt) -> form:atom([X#field.id,form:type(Object),form:kind(Opt)]).
+
 sources(Object,Options) ->
    M = lists:map(fun(X) -> list_to_atom(form:atom([X,form:type(Object),form:kind(Options)])) end, element(5,kvs:table(form:type(Object)))),
 %   io:format("sources: ~p~n",[M]),
    M.
 
+type(O) when is_list(O) -> hd(O);
 type(O) -> element(1,O).
 
 kind(Options) ->
@@ -27,26 +30,24 @@ pos(Object,X) ->
    P = string:rstr([Tab|Fields],[X#field.id]),
    % io:format("pos: ~p~n",[{P,Object,X}]),
    P.
-extract(Object,X) -> extract(Object,X,false).
-extract({_, Value}, X, true) -> extract_ref(Value, X#field.module);
-extract({_, Value}, _X, false) -> Value;
-extract(Object, X, false) ->
+
+extract(Object, X) ->
    Pos = form:pos(Object,X),
    Value = element(Pos, Object),
-   % io:format("extract: ~p~n",[{Pos, Value, Object}]),
-   Value;
-extract(Object, X, true) ->
-   Ref = extract(Object, X, false),
-   Value = extract_ref(Ref, X#field.module),
-   % io:format("extract ref: ~p~n",[{Value, Ref, Object, X}]),
-   Value
-.
-extract_ref(Ref, Module) when is_tuple(Ref) ->
+   val_or_def(Value, X, Object).
+
+val_or_def([], #field{default = Def}, Object) when is_function(Def) -> Def(Object);
+val_or_def([], #field{default = Def}, _) -> Def;
+val_or_def(Value, _, _) -> Value.
+
+extract_view_bind(Object, X) -> get_view_bind(extract(Object, X), X).
+
+get_view_bind(Value, X) ->
+   Module = X#field.module,
    case has_function(Module, view_value) of
-      true -> Module:view_value(Ref);
-      false -> element(3, Ref)
-   end;
-extract_ref(Ref, _Module) -> Ref.
+      true -> {Module:view_value(Value), Value};
+      false -> {Value, []} end.
+
 has_function([], _F) -> false;
 has_function(M, F) ->
    Functions = apply(M, module_info, [exports]),
@@ -116,7 +117,8 @@ buttons(Document, Object, _Opt) ->
     Buttons  = Document#document.buttons,
     #panel{ id = forpreload, class = buttons,
             body= lists:foldr(fun(#but{}=But,Acc) ->
-                [ #link { id=form:atom([But#but.id,form:type(Object),form:kind(_Opt)]), class=But#but.class,
+                [ #link { id=form:atom([But#but.id,form:type(Object),form:kind(_Opt)]),
+                          class=But#but.class,
                           validate=But#but.validation,
                           postback=But#but.postback,
                           body=But#but.title, onclick=But#but.onclick,
@@ -126,7 +128,7 @@ buttons(Document, Object, _Opt) ->
 % GENERIC MATCH
 
 fieldType(#field{type=empty}=X,Acc,Object,Opt) ->
-    [#panel{class=box, style="display:none;",id=form:atom([X#field.id,form:type(Object),form:kind(Opt)])}|Acc];
+    [#panel{class=box, style="display:none;",id=fieldId(X,Object,Opt)}|Acc];
 
 fieldType(#field{type=dynamic}=X,Acc,_Object,_Opt) ->
     [X#field.raw|Acc];
@@ -143,14 +145,14 @@ fieldType(#field{type=comment}=X,Acc,Object,Opt) ->
                                  onclick=nitro:f("showComment(this);"),
                                  body=[#image{src=[]} ]} ]}] end,
                         #panel { class=comment,
-                                 id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
+                                 id=fieldId(X,Object,Opt),
                                  body=[X#field.desc],
                                  style= case X#field.tooltips of
                                              false -> "";
                                              true  -> "display:none;" end} ]}|Acc];
 
 fieldType(#field{type=card}=X,Acc,Object,Opt) ->
-   [#panel { id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]), class=[box,pad0], body=[
+   [#panel { id=from:fieldId(X,Object,Opt), class=[box,pad0], body=[
              #panel { class=label, body = X#field.title},
              #panel { class=field, style="width:66.63%", body=
                        #panel { id=form:atom([X#field.id,1]), body=[
@@ -191,7 +193,7 @@ fieldType(#field{}=X,Acc,Object,Opt) ->
 
           {combo,_}    -> #panel{ body=
                           #label{ body=
-                          #radio{ name=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
+                          #radio{ name=fieldId(X,Object,Opt),
                                   id=form:atom([X#field.id,form:type(Object),O#opt.name]),
                                   body = O#opt.title,
                                   checked=O#opt.checked,
@@ -233,7 +235,7 @@ fieldType(#field{}=X,Acc,Object,Opt) ->
 % SECOND LEVEL MATCH
 
 fieldType(text,X,_Options,Object,Opt) ->
-    #panel{id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]), body=X#field.desc};
+    #panel{id=from:fieldId(X,Object,Opt), body=X#field.desc};
 
 fieldType(integer,X,_Options,Object,_Opt) ->
     nitro:f(X#field.format,
@@ -242,7 +244,7 @@ fieldType(integer,X,_Options,Object,_Opt) ->
                   PostFun -> PostFun(pos(Object,X)) end] );
 
 fieldType(money,X,_Options,Object,Opt) ->
- [ #input{ id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]), pattern="[0-9]*",
+ [ #input{ id=from:fieldId(X,Object,Opt), pattern="[0-9]*",
            validation=form:val(Opt,nitro:f("Validation.money(e, ~w, ~w, '~s')",
                                       [X#field.min,X#field.max, form:translate({?MODULE, error})])),
            onkeyup="beautiful_numbers(event);",
@@ -251,7 +253,7 @@ fieldType(money,X,_Options,Object,Opt) ->
                                       nitro:to_binary(X#field.min), " ", X#field.curr ] } ];
 
 fieldType(pay,X,_Options,Object,Opt) ->
-   #panel{body=[#input{ id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]), pattern="[0-9]*",
+   #panel{body=[#input{ id=fieldId(X,Object,Opt), pattern="[0-9]*",
                         validation=form:val(Opt,X#field.validation),
                         onkeypress=nitro:f("return fieldsFilter(event, ~w, '~w');",
                            [X#field.length,X#field.type]),
@@ -265,19 +267,19 @@ fieldType(ComboCheck,_X,Options,_Object,_Opt) when ComboCheck == combo orelse Co
       lists:duplicate(length(Options),Dom),Options)));
 
 fieldType(select,X,Options,Object,Opt) ->
-   #select{ id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]), postback=X#field.postback,
+   #select{ id=fieldId(X,Object,Opt), postback=X#field.postback,
      disabled = X#field.disabled,
      body=Options};
 
 fieldType(string,X,_Options,Object,Opt) ->
   #input{ class=column,
-           id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
+           id=fieldId(X,Object,Opt),
            disabled = X#field.disabled,
            validation=if not X#field.required -> []; true -> form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])) end,
            value=form:extract(Object,X)};
 
 fieldType(phone,X,_Options,Object,Opt) ->
-   #input{ id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
+   #input{ id=fieldId(X,Object,Opt),
            class=phone,
            pattern="[0-9]*",
            onkeypress=nitro:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
@@ -285,7 +287,7 @@ fieldType(phone,X,_Options,Object,Opt) ->
            value=form:extract(Object,X)};
 
 fieldType(auth,X,_Options,Object,Opt) ->
- [ #input{ id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
+ [ #input{ id=fieldId(X,Object,Opt),
            class=phone,
            type=password,
            onkeypress="return removeAllErrorsFromInput(this);",
@@ -303,27 +305,29 @@ fieldType(auth,X,_Options,Object,Opt) ->
 fieldType(otp,X,_Options,Object,Opt) ->
    #input{ class=[phone,pass],
            type=password,
-           id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
+           id=fieldId(X,Object,Opt),
            placeholder="(XXXX)",
            pattern="[0-9]*",
            validation=form:val(Opt,"Validation.nums(e, 4, 4, \"otp\")")
          };
 
 fieldType(comboLookup,X,_Options,Object,Opt) ->
-  #comboLookup{id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
+  {Value, Bind} = extract_view_bind(Object,X),
+  #comboLookup{id=fieldId(X,Object,Opt),
                disabled = X#field.disabled,
-               validation= if not X#field.required -> []; true -> form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])) end,
+               validation= if not X#field.required -> [];
+                              true -> form:val(Opt,
+                                               nitro:f("Validation.length(e, ~w, ~w)",
+                                               [X#field.min,X#field.max])) end,
                feed = X#field.bind,
-               value = form:extract(Object,X,true),
-               bind = case form_backend:has_function(X#field.module, view_value) of
-                           true -> form:extract(Object,X,false);
-                           false -> [] end,
+               value = Value,
+               bind = Bind,
                delegate = X#field.module,
                reader=[],
                chunk=20};
 
 fieldType(comboLookupVec,X,Options,Object,Opt) ->
-  Id = form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
+  Id = fieldId(X,Object,Opt),
   Delegate = X#field.module,
   Input = #comboLookup{
             id = form:atom([Id, "input"]),
@@ -335,7 +339,7 @@ fieldType(comboLookupVec,X,Options,Object,Opt) ->
   Disabled = X#field.disabled,
   RawValues = form:extract(Object,X),
   Values = case form_backend:has_function(Delegate, view_value) of
-              true -> {view_value_pairs, [ {Delegate:view_value(V), V} || V <- RawValues]};
+              true -> {view_value_pairs, [ get_view_bind(V,X) || V <- RawValues]};
               false -> RawValues end,
   Min = X#field.min,
   Max = X#field.max,
@@ -352,7 +356,7 @@ fieldType(file,_X,_Options,_Object,_Opt) -> [];
 fieldType(calendar,X,_Options,Object,Opt) ->
    #panel{class=[field],
           body=[#calendar{value = form:extract(Object,X),
-                           id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
+                           id=fieldId(X,Object,Opt),
                            disabled = X#field.disabled,
                            onkeypress="return removeAllErrorsFromInput(this);",
                            validation= if not X#field.required -> []; true -> form:val(Opt,"Validation.calendar(e)") end,
