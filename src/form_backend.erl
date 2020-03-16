@@ -15,7 +15,6 @@ sources(Object,Options) ->
 %   io:format("sources: ~p~n",[M]),
    M.
 
-type(O) when is_list(O) -> hd(O);
 type(O) -> element(1,O).
 
 kind(Options) ->
