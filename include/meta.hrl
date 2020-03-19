@@ -12,6 +12,6 @@
                       vector=false, index=[], bind=[], format="~w", curr=[], postfun=[], desc=[], wide=normal,
                       type=binary, etc=[], labelClass=label, fieldClass=field, boxClass=box,
                       required=false, module=[], access=[], tooltips=[], options=[], min=0, distinct=false,
-                      max=1000000, length=10, postback=[], onchange=[], validation=[], hidden=false, default=[] }).
+                      max=1000000, length=10, postback=[], onchange=[], validation=[], hidden=false, default=[], value=[] }).
 
 -endif.
