@@ -1,6 +1,6 @@
 {application, form,
    [{description, "FORM Business X-Forms"},
-    {vsn, "5.1.10"},
+    {vsn, "5.3.0"},
     {registered, []},
     {applications, [kernel,stdlib]},
     {mod, { form, []}},
