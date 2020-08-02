@@ -64,10 +64,11 @@ translate(A)         -> io_lib:format("~p",[A]).
 
 dispatch(Object, Options) ->
    Name = proplists:get_value(name,Options,false),
-   % Row = proplists:get_value(row,Options,false),
+   Row = proplists:get_value(row,Options,false),
+   Compact = proplists:get_value(compact,Options,false),
    Registry = application:get_env(form,registry,[]),
-   #formReg{vertical = V, horizontal = H} = lists:keyfind(element(1,Object),2,Registry:registry()),
-   Module = case proplists:get_value(row,Options,false) of true -> H; false -> V end,
+   #formReg{vertical = V, horizontal = H, compact = C} = lists:keyfind(element(1,Object),2,Registry:registry()),
+   Module = case Compact of true -> C; false -> case Row of true -> H; false -> V end end,
    form:new(Module:new(nitro:compact(Name),Object,Options),Object,Options).
 
 new(Document = #document{},Object,Opt) ->
