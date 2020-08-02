@@ -335,6 +335,21 @@ fieldType(comboLookup,X,_Options,Object,Opt) ->
                reader=[],
                chunk=20};
 
+fieldType(comboLookupEdit,X,_Options,Object,Opt) ->
+  Id = form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
+  Input = #comboLookup{id=form:atom([Id, "input"]),
+    validation= if not X#field.required -> []; true -> form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.
+    feed=X#field.bind,
+    value = form:extract(Object,X,Opt),
+    delegate = X#field.module,
+    reader=[],
+    postback=X#field.postback,
+    chunk=20},
+  #comboLookupEdit{id = Id,
+             input = Input,
+             disabled = X#field.disabled,
+             form = X#field.form};
+
 fieldType(comboLookupVec,X,Options,Object,Opt) ->
   Id = fieldId(X,Object,Opt),
   Delegate = X#field.module,
