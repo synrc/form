@@ -338,7 +338,7 @@ fieldType(comboLookup,X,_Options,Object,Opt) ->
 fieldType(comboLookupEdit,X,_Options,Object,Opt) ->
   Id = form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
   Input = #comboLookup{id=form:atom([Id, "input"]),
-    validation= if not X#field.required -> []; true -> form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.
+    validation= if not X#field.required -> []; true -> form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])) end,
     feed=X#field.bind,
     value = form:extract(Object,X,Opt),
     delegate = X#field.module,
