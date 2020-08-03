@@ -337,10 +337,23 @@ fieldType(comboLookup,X,_Options,Object,Opt) ->
 
 fieldType(comboLookupEdit,X,_Options,Object,Opt) ->
   Id = form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
+  Bind = form:extract(Object,X,false,Opt),
+  Value =
+  case erlang:function_exported(X#field.module, view_value, 2) of
+    true->
+      apply(X#field.module, view_value, [Bind, X#field.bind]);
+    false->
+      case {Bind, form_backend:has_function(X#field.module, view_value)} of
+        {[], _} -> [];
+        {_, true} -> apply(X#field.module, view_value, [Bind]);
+        {_, false} -> form:extract(Object, X, true,Opt)
+      end
+  end,
   Input = #comboLookup{id=form:atom([Id, "input"]),
     validation= if not X#field.required -> []; true -> form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])) end,
     feed=X#field.bind,
-    value = form:extract(Object,X,Opt),
+    bind=Bind,
+    value = Value,
     delegate = X#field.module,
     reader=[],
     postback=X#field.postback,
