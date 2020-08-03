@@ -30,16 +30,18 @@ pos(Object,X) ->
    % io:format("pos: ~p~n",[{P,Object,X}]),
    P.
 
-extract(Object, X) ->
+extract(Object, X, Opt) ->
    Pos = form:pos(Object,X),
    Value = element(Pos, Object),
-   val_or_def(Value, X, Object).
+   case form:kind(Opt) of
+        create -> val_or_def(Value, X, Object);
+        _ -> Value end.
 
 val_or_def([], #field{default = Def}, Object) when is_function(Def) -> Def(Object);
 val_or_def([], #field{default = Def}, _) -> Def;
 val_or_def(Value, _, _) -> Value.
 
-extract_view_bind(Object, X) -> get_view_bind(extract(Object, X), X).
+extract_view_bind(Object, X, Opt) -> get_view_bind(extract(Object, X, Opt), X).
 
 get_view_bind(Value, X) ->
    Module = X#field.module,
@@ -62,10 +64,11 @@ translate(A)         -> io_lib:format("~p",[A]).
 
 dispatch(Object, Options) ->
    Name = proplists:get_value(name,Options,false),
-   % Row = proplists:get_value(row,Options,false),
+   Row = proplists:get_value(row,Options,false),
+   Compact = proplists:get_value(compact,Options,false),
    Registry = application:get_env(form,registry,[]),
-   #formReg{vertical = V, horizontal = H} = lists:keyfind(element(1,Object),2,Registry:registry()),
-   Module = case proplists:get_value(row,Options,false) of true -> H; false -> V end,
+   #formReg{vertical = V, horizontal = H, compact = C} = lists:keyfind(element(1,Object),2,Registry:registry()),
+   Module = case Compact of true -> C; false -> case Row of true -> H; false -> V end end,
    form:new(Module:new(nitro:compact(Name),Object,Options),Object,Options).
 
 new(Document = #document{},Object,Opt) ->
@@ -162,7 +165,7 @@ fieldType(#field{type=card}=X,Acc,Object,Opt) ->
                        #panel { class=tool, body= [#image{src=[]}]} ]}} ]}|Acc];
 
 fieldType(#field{type=bool}=X,Acc,Object,Opt) ->
-  Val = form:extract(Object,X),
+  Val = form:extract(Object,X,Opt),
   Options = [ #opt{name = <<"true">>, title =  <<"Так"/utf8>>, checked = Val == true},
               #opt{name = <<"false">>, title = <<"Ні"/utf8>>, checked = Val == false},
               #opt{name = <<"">>, title = <<"Не вибрано"/utf8>>, checked = not is_boolean(Val)}],
@@ -247,7 +250,7 @@ fieldType(money,X,_Options,Object,Opt) ->
            validation=form:val(Opt,nitro:f("Validation.money(e, ~w, ~w, '~s')",
                                       [X#field.min,X#field.max, form:translate({?MODULE, error})])),
            onkeyup="beautiful_numbers(event);",
-           value=nitro:to_list(form:extract(Object,X)) },
+           value=nitro:to_list(form:extract(Object,X,Opt)) },
            #panel{ class=pt10,body= [ form:translate({?MODULE, warning}),
                                       nitro:to_binary(X#field.min), " ", X#field.curr ] } ];
 
@@ -257,7 +260,7 @@ fieldType(pay,X,_Options,Object,Opt) ->
                         onkeypress=nitro:f("return fieldsFilter(event, ~w, '~w');",
                            [X#field.length,X#field.type]),
                         onkeyup="beautiful_numbers(event);",
-                        value=nitro:to_list(form:extract(Object,X)) }, <<" ">>,
+                        value=nitro:to_list(form:extract(Object,X,Opt)) }, <<" ">>,
                  #span{ body=X#field.curr}]};
 
 fieldType(ComboCheck,_X,Options,_Object,_Opt) when ComboCheck == combo orelse ComboCheck == check ->
@@ -275,14 +278,14 @@ fieldType(string,X,_Options,Object,Opt) ->
            id=fieldId(X,Object,Opt),
            disabled = X#field.disabled,
            validation=if not X#field.required -> []; true -> form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])) end,
-           value=form:extract(Object,X)};
+           value=form:extract(Object,X,Opt)};
 
-fieldType(number,X,_Options,Object,Opt) ->
-  #input{ class=column, type=number,
-           id=form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
-           disabled = X#field.disabled,
-           validation=if not X#field.required -> []; true -> form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])) end,
-           value=form:extract(Object,X)};
+fieldType(number,X,_Options,Object,Opt) ->
+  #input{ class=column, type=number,
+           id=fieldId(X,Object,Opt),
+           validation=if not X#field.required -> []; true -> form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])) end,
+           disabled = X#field.disabled,
+           value=form:extract(Object,X,Opt)};
 
 fieldType(phone,X,_Options,Object,Opt) ->
    #input{ id=fieldId(X,Object,Opt),
@@ -290,7 +293,7 @@ fieldType(phone,X,_Options,Object,Opt) ->
            pattern="[0-9]*",
            onkeypress=nitro:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
            validation=form:val(Opt,nitro:f("Validation.phone(e, ~w, ~w)",[X#field.min,X#field.max])),
-           value=form:extract(Object,X)};
+           value=form:extract(Object,X,Opt)};
 
 fieldType(auth,X,_Options,Object,Opt) ->
  [ #input{ id=fieldId(X,Object,Opt),
@@ -318,7 +321,7 @@ fieldType(otp,X,_Options,Object,Opt) ->
          };
 
 fieldType(comboLookup,X,_Options,Object,Opt) ->
-  {Value, Bind} = extract_view_bind(Object,X),
+  {Value, Bind} = extract_view_bind(Object,X,Opt),
   #comboLookup{id=fieldId(X,Object,Opt),
                disabled = X#field.disabled,
                validation= if not X#field.required -> [];
@@ -332,6 +335,34 @@ fieldType(comboLookup,X,_Options,Object,Opt) ->
                reader=[],
                chunk=20};
 
+fieldType(comboLookupEdit,X,_Options,Object,Opt) ->
+  Id = form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
+  Bind = form:extract(Object,X,false,Opt),
+  Value =
+  case erlang:function_exported(X#field.module, view_value, 2) of
+    true->
+      apply(X#field.module, view_value, [Bind, X#field.bind]);
+    false->
+      case {Bind, form_backend:has_function(X#field.module, view_value)} of
+        {[], _} -> [];
+        {_, true} -> apply(X#field.module, view_value, [Bind]);
+        {_, false} -> form:extract(Object, X, true,Opt)
+      end
+  end,
+  Input = #comboLookup{id=form:atom([Id, "input"]),
+    validation= if not X#field.required -> []; true -> form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])) end,
+    feed=X#field.bind,
+    bind=Bind,
+    value = Value,
+    delegate = X#field.module,
+    reader=[],
+    postback=X#field.postback,
+    chunk=20},
+  #comboLookupEdit{id = Id,
+             input = Input,
+             disabled = X#field.disabled,
+             form = X#field.form};
+
 fieldType(comboLookupVec,X,Options,Object,Opt) ->
   Id = fieldId(X,Object,Opt),
   Delegate = X#field.module,
@@ -343,7 +374,7 @@ fieldType(comboLookupVec,X,Options,Object,Opt) ->
             style = "padding-bottom: 10px; margin: 0; background-color: inherit;",
             chunk = 20},
   Disabled = X#field.disabled,
-  RawValues = form:extract(Object,X),
+  RawValues = form:extract(Object,X,Opt),
   Values = case form_backend:has_function(Delegate, view_value) of
               true -> {view_value_pairs, [ get_view_bind(V,X) || V <- RawValues]};
               false -> RawValues end,
@@ -361,7 +392,7 @@ fieldType(file,_X,_Options,_Object,_Opt) -> [];
 
 fieldType(calendar,X,_Options,Object,Opt) ->
    #panel{class=[field],
-          body=[#calendar{value = form:extract(Object,X),
+          body=[#calendar{value = form:extract(Object,X,Opt),
                            id=fieldId(X,Object,Opt),
                            disabled = X#field.disabled,
                            onkeypress="return removeAllErrorsFromInput(this);",
