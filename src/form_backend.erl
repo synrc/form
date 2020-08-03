@@ -2,6 +2,7 @@
 -compile(export_all).
 -include_lib("nitro/include/calendar.hrl").
 -include_lib("nitro/include/comboLookup.hrl").
+-include_lib("nitro/include/comboLookupEdit.hrl").
 -include_lib("nitro/include/comboLookupVec.hrl").
 -include_lib("nitro/include/nitro.hrl").
 -include_lib("form/include/formReg.hrl").
