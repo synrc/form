@@ -2,6 +2,7 @@
 -compile(export_all).
 -include_lib("nitro/include/calendar.hrl").
 -include_lib("nitro/include/comboLookup.hrl").
+-include_lib("nitro/include/comboLookupEdit.hrl").
 -include_lib("nitro/include/comboLookupVec.hrl").
 -include_lib("nitro/include/nitro.hrl").
 -include_lib("form/include/formReg.hrl").
@@ -93,10 +94,11 @@ steps(Document, _Object, _Opt) ->
     end.
 
 caption(Document, _Object, _Opt) ->
+    Name = Document#document.name,
     SectionList  = Document#document.sections,
-    #panel{class=caption,body=
+    #panel{id=form:atom([form,Name]),class=caption,body=
          [begin
-            [#h4{ class=Section#sec.nameClass, body=Section#sec.name},
+            [#h4{ id=form:atom([form,Name,caption]),class=Section#sec.nameClass, body=Section#sec.name},
              #panel{ class=Section#sec.descClass, body = Section#sec.desc}]
           end || Section <- SectionList]}.
 
