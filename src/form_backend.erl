@@ -176,6 +176,7 @@ fieldType(#field{type=bool}=X,Acc,Object,Opt) ->
 fieldType(#field{}=X,Acc,Object,Opt) ->
    Panel = case X#field.id of [] -> #panel{};
                                  _ -> #panel{id=form:atom([wrap,X#field.id,form:type(Object),form:kind(Opt)])} end,
+   Visibility = case X#field.visible of false -> "display: none;"; true -> "" end,
    Tooltips =
    [ case Tx of
           {N} -> #panel{ id=form:atom([tooltip,N]), body=[]};
@@ -224,7 +225,7 @@ fieldType(#field{}=X,Acc,Object,Opt) ->
 
 %   io:format("O: ~p~n",[{X,Object}]),
 
-   [ Panel#panel { class=X#field.boxClass, body=[
+   [ Panel#panel { class=X#field.boxClass, style = Panel#panel.style ++ Visibility, body=[
           #panel { class=X#field.labelClass, body = X#field.title},
           #panel { class=X#field.fieldClass, body = form:fieldType(X#field.type,X,Options,Object,Opt)},
           #panel { class=tool, body= case Tooltips of
