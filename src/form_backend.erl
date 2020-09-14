@@ -353,7 +353,6 @@ fieldType(comboLookupEdit,X,_Options,Object,Opt) ->
       end
   end,
   Input = #comboLookup{id=form:atom([Id, "input"]),
-    validation= if not X#field.required -> []; true -> form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])) end,
     feed=X#field.bind,
     disabled=X#field.disabled,
     bind=Bind,
@@ -365,6 +364,9 @@ fieldType(comboLookupEdit,X,_Options,Object,Opt) ->
   #comboLookupEdit{id = Id,
              input = Input,
              disabled = X#field.disabled,
+             validation = if not X#field.required -> [];
+            		    true -> form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)
+            			&& Validation.isString(e)",[X#field.min,X#field.max])) end,
              form = X#field.form};
 
 fieldType(comboLookupVec,X,Options,Object,Opt) ->
