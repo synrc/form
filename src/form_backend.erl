@@ -12,7 +12,14 @@
 fieldId(X,Object,Opt) -> form:atom([X#field.id,form:type(Object),form:kind(Opt)]).
 
 sources(Object,Options) ->
-   M = lists:map(fun(X) -> list_to_atom(form:atom([X,form:type(Object),form:kind(Options)])) end, element(5,kvs:table(form:type(Object)))),
+   Fields = proplists:get_value(fields, Options, []),
+   M = lists:filtermap(fun(X) ->
+     Id = list_to_atom(form:atom([X,form:type(Object),form:kind(Options)])),
+     case Fields of
+       [] -> {true, Id};
+       _ -> lists:member(X, Fields) andalso {true, Id}
+     end
+   end, element(5,kvs:table(form:type(Object)))),
 %   io:format("sources: ~p~n",[M]),
    M.
 
