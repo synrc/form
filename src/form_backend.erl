@@ -363,7 +363,6 @@ fieldType(comboLookupEdit,X,_Options,Object,Opt) ->
     feed=X#field.bind,
     disabled=X#field.disabled,
     bind=Bind,
-    value = Value,
     delegate = X#field.module,
     reader=[],
     postback=X#field.postback,
