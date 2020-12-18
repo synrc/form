@@ -1,5 +1,4 @@
 defmodule CRM.Forms.Combo do
-  require N2O
   require FORM
   require NITRO
   require Record
@@ -32,7 +31,7 @@ defmodule CRM.Forms.Combo do
 
   def keyUp(NITRO.comboKey(value: :all, dom: field0, feed: feed, delegate: module)) do
     field = :nitro.to_list(field0)
-    all = :kvs.all(feed)
+    all = apply(:kvs,:all,[feed])
     :nitro.clear(:form.atom([:comboContainer, field]))
     dropDownList0(all, field, module, feed)
   end
@@ -40,7 +39,7 @@ defmodule CRM.Forms.Combo do
   def keyUp(NITRO.comboKey(value: value0, dom: field0, feed: feed, delegate: module)) do
     value = :string.lowercase(:unicode.characters_to_list(value0, :unicode))
     field = :nitro.to_list(field0)
-    all = :kvs.all(feed)
+    all = apply(:kvs,:all,[feed])
     index = index(module)
     :nitro.clear(:form.atom([:comboContainer, field]))
 
@@ -51,7 +50,7 @@ defmodule CRM.Forms.Combo do
             if is_function(i) do
               i.(x)
             else
-              f0 = :kvs.field(x, i)
+              f0 = apply(:kvs,:field, [x, i])
               tab = elem(x, 0)
 
               if f0 == tab do
@@ -126,7 +125,7 @@ defmodule CRM.Forms.Combo do
   end
 
   def view_value(obj) when obj in ["", [], :undefined], do: []
-  def view_value(obj), do: :nitro.jse(:erlang.iolist_to_binary(:kvs.field(obj, hd(index([])))))
+  def view_value(obj), do: :nitro.jse(:erlang.iolist_to_binary(apply(:kvs,:field,[obj, hd(index([]))])))
 
   def dropDown(obj, dom0, module, feed) do
     view_value = view_value(obj, module, feed)
