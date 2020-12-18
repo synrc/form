@@ -1,5 +1,4 @@
 defmodule CRM.Forms.Combo do
-  require FORM
   require NITRO
   require Record
 
