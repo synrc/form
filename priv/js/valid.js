@@ -1,3 +1,18 @@
+function i18n(word) { return xl8[word]; };
+
+var xl8 = {
+   'MaxAmount': 'Максимальне значення',
+   'WrongDate': 'Неправильна дата',
+   'DateInterval': 'Неправильний інтервал дат',
+   'CharQuantity': 'Кількість символів',
+   'EnterChars': ' у символах',
+   'EnterFrom': 'Від ',
+   'EnterTo': ' до ',
+   'MustBePositive': 'Число має бути позитивним',
+   'MustBeString': 'Данні мають бути строкою, а не числом',
+   'NotValid': 'Не існуючі данні'
+  };
+
 var Validation = {
 
     "money": function(e, min, max, msg) {
@@ -52,6 +67,17 @@ var Validation = {
         return true;
     },
 
+    "number": function(e) {
+        if(e.detail.length > 0 && e.detail > 0){        
+            removeAllErrorsFromInput(e.target);
+            return true
+        } else {
+            text =  i18n("MustBePositive");
+            showErrorMSG(e.target, text);
+            return false;
+        }
+    },
+
     "comboLookup": function(e, min, max) {
         console.log(e);
         return true;
@@ -84,6 +110,7 @@ var Validation = {
             if(val > max) { showErrorMSG(e.target, i18n("DateMax")); return false; }
         }
         if((e.target.parentNode).lastChild.tagName == "DIV" && (e.target.parentNode).lastChild.className == "errorMSG") (e.target.parentNode).removeChild((e.target.parentNode).lastChild);
+        removeAllErrorsFromInput(e.target);
         return true;
     },
 
@@ -115,22 +142,58 @@ var Validation = {
         } else return false;
     },
 
-    "length": function(e, minlength, maxlength) {
+    "isString": function(e){
         field = e.detail,
         el = e.target,
         parent = el.parentNode;
         if(field && field.text && field.bind) { field = field.text }
-        if(field.length >= minlength && field.length <= maxlength) {
+        if(isNaN(parseInt(field)) && field.toString().replace(/\s/g,'')!='') {
             hint = parent.lastChild;
             if (parent.lastChild.tagName == "DIV" && parent.lastChild.className == "errorMSG")
                 parent.removeChild(hint);
             return true;
         } else {
-            text = (minlength == maxlength) ? i18n("CharQuantity") + maxlength
-                 : i18n("EnterFrom")+ minlength +i18n("EnterTo")+maxlength;
+            text = i18n("MustBeString");
             showErrorMSG(el, text);
             return false;
         }
+    },
+
+    "length": function(e, minlength, maxlength) {
+        field = e.detail,
+        el = e.target,
+        parent = el.parentNode;
+        if(field && field.text && field.bind) { field = field.text }
+        field = field instanceof Date ? field.toString() : field;
+        if(field.length >= minlength && field.length <= maxlength) {
+            hint = parent.lastChild;
+            if (parent.lastChild.tagName == "DIV" && parent.lastChild.className == "errorMSG")
+                parent.removeChild(hint);
+            removeAllErrorsFromInput(el);
+            return true;
+        } else {
+            text = (minlength == maxlength) ? i18n("CharQuantity") + maxlength
+                 : i18n("EnterFrom")+ minlength +i18n("EnterTo")+maxlength+i18n("EnterChars");
+            showErrorMSG(el, text);
+            return false;
+        }
+    },
+
+    "requireComboEdit": function(e){
+        field = e.detail,
+        el = e.target;
+        if(field && field.text && field.bind) { field = field.text }
+        if(field.length > 0) {
+            removeAllErrorsFromInput(el);
+            inp = el.getElementsByTagName("input")[0]
+            if(inp){inp.classList.remove('error');
+                el.style.background = '';}
+            return true; }
+        else { 
+            inp = el.getElementsByTagName("input")[0]
+            if(inp){inp.classList.add("error");}
+            showErrorMSG(el, i18n("NotValid"));
+            return false;}
     },
 
     "min": function(e, min) {
@@ -175,7 +238,7 @@ function nextByEnter(ev) {
             if(form.getAttribute("id") != null && form.getAttribute("id").substring(0, 4) == "form")
               break;
         }
-        form.querySelector("a.button.sgreen").click();
+        form.querySelector("a.button.button_primary").click();
         return;
     }
 }
