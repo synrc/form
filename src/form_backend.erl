@@ -297,6 +297,13 @@ fieldType(number,X,_Options,Object,Opt) ->
            disabled = X#field.disabled,
            value=form:extract(Object,X,Opt)};
 
+fieldType(email,X,_Options,Object,Opt) ->
+  #input{ class=column, type=email,
+           id=fieldId(X,Object,Opt),
+           validation=if not X#field.required -> []; true -> form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])) end,
+           disabled = X#field.disabled,
+           value=form:extract(Object,X,Opt)};
+
 fieldType(phone,X,_Options,Object,Opt) ->
    #input{ id=fieldId(X,Object,Opt),
            class=phone,
