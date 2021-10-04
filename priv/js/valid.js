@@ -10,7 +10,8 @@ var xl8 = {
    'EnterTo': ' до ',
    'MustBePositive': 'Число має бути позитивним',
    'MustBeString': 'Данні мають бути строкою, а не числом',
-   'NotValid': 'Не існуючі данні'
+   'NotValid': 'Не існуючі данні',
+   'EmailMsg': 'Неправильна електронна адреса',
   };
 
 var Validation = {
@@ -202,6 +203,21 @@ var Validation = {
             showErrorMSG(e.target, i18n("MinAmount")+min+" "+ i18n(currency));
             return false;
         }else return true;
+    },
+
+    "email": function(e, minLength, maxLength){
+        if(/^\+/.test(e.detail)) {
+            maxLength++;
+            minLength++;
+        }
+        if(this.length(e, minLength, maxLength) == true) {
+            const pattern = 
+              /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+            if (!pattern.test(e.detail)){
+                showErrorMSG(e.target, i18n("EmailMsg"));
+                return false;
+            } else return true;
+        } else return false;
     },
 
 };
