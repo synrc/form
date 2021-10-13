@@ -24,7 +24,7 @@ defmodule FORM.Mixfile do
   def deps do
     [
       {:ex_doc, "~> 0.25.3", only: :dev},
-      {:nitro, "~> 5.12.2"}
+      {:nitro, "~> 6.10.7"}
     ]
   end
 end
