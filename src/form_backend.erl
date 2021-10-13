@@ -257,6 +257,7 @@ fieldType(integer,X,_Options,Object,_Opt) ->
 
 fieldType(money,X,_Options,Object,Opt) ->
  [ #input{ id=from:fieldId(X,Object,Opt), pattern="[0-9]*",
+           multiple = X#field.multiple,
            validation=form:val(Opt,nitro:f("Validation.money(e, ~w, ~w, '~s')",
                                       [X#field.min,X#field.max, form:translate({?MODULE, error})])),
            onkeyup="beautiful_numbers(event);",
@@ -266,6 +267,7 @@ fieldType(money,X,_Options,Object,Opt) ->
 
 fieldType(pay,X,_Options,Object,Opt) ->
    #panel{body=[#input{ id=fieldId(X,Object,Opt), pattern="[0-9]*",
+                        multiple = X#field.multiple,
                         validation=form:val(Opt,X#field.validation),
                         onkeypress=nitro:f("return fieldsFilter(event, ~w, '~w');",
                            [X#field.length,X#field.type]),
@@ -281,18 +283,21 @@ fieldType(ComboCheck,_X,Options,_Object,_Opt) when ComboCheck == combo orelse Co
 fieldType(select,X,Options,Object,Opt) ->
    #select{ id=fieldId(X,Object,Opt), postback=X#field.postback,
      disabled = X#field.disabled,
+     multiple = X#field.multiple,
      body=Options};
 
 fieldType(string,X,_Options,Object,Opt) ->
   #input{ class=column,
            id=fieldId(X,Object,Opt),
            disabled = X#field.disabled,
+           multiple = X#field.multiple,
            validation=if not X#field.required -> []; true -> form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])) end,
            value=form:extract(Object,X,Opt)};
 
 fieldType(number,X,_Options,Object,Opt) ->
   #input{ class=column, type=number,
            id=fieldId(X,Object,Opt),
+           multiple = X#field.multiple,
            validation=if not X#field.required -> []; true -> form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])) end,
            disabled = X#field.disabled,
            value=form:extract(Object,X,Opt)};
@@ -300,6 +305,7 @@ fieldType(number,X,_Options,Object,Opt) ->
 fieldType(email,X,_Options,Object,Opt) ->
   #input{ class=column, type=email,
            id=fieldId(X,Object,Opt),
+           multiple = X#field.multiple,
            validation=form:val(Opt,nitro:f("Validation.email(e, ~w, ~w)",[X#field.min,X#field.max])),
            disabled = X#field.disabled,
            value=form:extract(Object,X,Opt)};
@@ -308,6 +314,7 @@ fieldType(phone,X,_Options,Object,Opt) ->
    #input{ id=fieldId(X,Object,Opt),
            class=phone,
            pattern="[0-9]*",
+           multiple = X#field.multiple,
            onkeypress=nitro:f("return fieldsFilter(event, ~w, '~w');",[X#field.length,X#field.type]),
            validation=form:val(Opt,nitro:f("Validation.phone(e, ~w, ~w)",[X#field.min,X#field.max])),
            value=form:extract(Object,X,Opt)};
@@ -318,6 +325,7 @@ fieldType(auth,X,_Options,Object,Opt) ->
            type=password,
            onkeypress="return removeAllErrorsFromInput(this);",
            onkeyup="nextByEnter(event);",
+           multiple = X#field.multiple,
            validation=form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min,X#field.max])),
            placeholder= form:translate({auth, holder}) },
     #span{ class=auth_link,
@@ -333,6 +341,7 @@ fieldType(otp,X,_Options,Object,Opt) ->
            type=password,
            id=fieldId(X,Object,Opt),
            placeholder="(XXXX)",
+           multiple = X#field.multiple,
            pattern="[0-9]*",
            validation=form:val(Opt,"Validation.nums(e, 4, 4, \"otp\")")
          };
@@ -422,6 +431,7 @@ fieldType(calendar,X,_Options,Object,Opt) ->
                            class = ['input-date'],
                            minDate=X#field.min,
                            maxDate = X#field.max,
+                           multiple = X#field.multiple,
                            lang=ua}]}.
 
 val(Options,Validation) ->
