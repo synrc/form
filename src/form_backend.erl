@@ -346,6 +346,22 @@ fieldType(otp,X,_Options,Object,Opt) ->
            validation=form:val(Opt,"Validation.nums(e, 4, 4, \"otp\")")
          };
 
+fieldType(multipleInput,X,Options,Object,Opt) ->
+  Id = form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
+  Validation = if not X#field.required -> [];
+                  true -> form:val(Opt,nitro:f("Validation.length(e, ~w, ~w)",[X#field.min, X#field.max])) end,
+  Input = case X#field.input of
+    calendar ->
+      #panel{body=[I]} = fieldType(X#field.input,X,Options,Object,Opt),
+      I;
+    _ -> fieldType(X#field.input,X,Options,Object,Opt) end,
+  InputId = form:atom([element(#element.id, Input), "input"]),
+  #multipleInput{id = Id,
+                input = setelement(#element.id, Input, InputId),
+                disabled = X#field.disabled,
+                validation = Validation,
+                values = []};
+
 fieldType(comboLookup,X,_Options,Object,Opt) ->
   {Value, Bind} = extract_view_bind(Object,X,Opt),
   #comboLookup{id=fieldId(X,Object,Opt),
