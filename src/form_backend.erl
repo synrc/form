@@ -357,11 +357,25 @@ fieldType(multipleInput,X,Options,Object,Opt) ->
       I;
     _ -> fieldType(X#field.input,X,Options,Object,Opt) end,
   InputId = form:atom([element(#element.id, Input), "input"]),
+  Delegate = X#field.module,
+  RawValues = form:extract(Object,X,Opt),
+  Values =
+    if not is_list(RawValues) -> [];
+      true ->
+      case erlang:function_exported(Delegate, view_value, 2) of
+        true->
+          {view_value_pairs, [ {Delegate:view_value(V, X#field.bind), V} || V <- RawValues]};
+        false->
+            case form_backend:has_function(Delegate, view_value) of
+                true -> {view_value_pairs, [ {Delegate:view_value(V), V} || V <- RawValues]};
+                false -> RawValues end
+      end
+    end,
   #multipleInput{id = Id,
                 input = setelement(#element.id, Input, InputId),
                 disabled = X#field.disabled,
                 validation = Validation,
-                values = []};
+                values = Values};
 
 fieldType(comboLookup,X,_Options,Object,Opt) ->
   {Value, Bind} = extract_view_bind(Object,X,Opt),
