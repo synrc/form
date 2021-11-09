@@ -63,13 +63,19 @@ var Validation = {
         return true;
     },
 
-    "nums": function(e, mim, max) {
-        console.log(e);
-        return true;
+    "nums": function(e) {
+        if(e.target.value.length > 0 && parseInt(e.target.value) < 0) {
+          text =  i18n("MustBePositive");
+          showErrorMSG(e.target, text);
+          return false;
+        } else {
+          removeAllErrorsFromInput(e.target);
+          return true;
+        }
     },
 
     "number": function(e) {
-        if(e.detail.length > 0 && e.detail > 0){        
+        if(e.detail.length > 0 && e.detail > 0) {
             removeAllErrorsFromInput(e.target);
             return true
         } else {
@@ -164,37 +170,82 @@ var Validation = {
         field = e.detail,
         el = e.target,
         parent = el.parentNode;
-        if(field && field.text && field.bind) { field = field.text }
-        field = field instanceof Date ? field.toString() : field;
-        if(field.length >= minlength && field.length <= maxlength) {
-            hint = parent.lastChild;
-            if (parent.lastChild.tagName == "DIV" && parent.lastChild.className == "errorMSG")
-                parent.removeChild(hint);
-            removeAllErrorsFromInput(el);
-            return true;
+        if(el.getAttribute("data-vector-input") && el.children[1].children[0]) {
+          return true;
         } else {
-            text = (minlength == maxlength) ? i18n("CharQuantity") + maxlength
-                 : i18n("EnterFrom")+ minlength +i18n("EnterTo")+maxlength+i18n("EnterChars");
-            showErrorMSG(el, text);
-            return false;
-        }
+          if(field && field.text && field.bind) { field = field.text }
+          field = field instanceof Date ? field.toString() : field;
+          if(field.length >= minlength && field.length <= maxlength) {
+              hint = parent.lastChild;
+              if (parent.lastChild.tagName == "DIV" && parent.lastChild.className == "errorMSG")
+                  parent.removeChild(hint);
+              removeAllErrorsFromInput(el);
+              return true;
+          } else {
+              text = (minlength == maxlength) ? i18n("CharQuantity") + maxlength
+                   : i18n("EnterFrom")+ minlength +i18n("EnterTo")+maxlength+i18n("EnterChars");
+              if(el.getAttribute("data-vector-input")) {
+                showErrorMSG(el.querySelector("input"), text);
+              } else {
+                showErrorMSG(el, text);
+              }
+              return false;
+          }
+      }
     },
 
-    "requireComboEdit": function(e){
+    "comboLookup": function(e){
         field = e.detail,
         el = e.target;
-        if(field && field.text && field.bind) { field = field.text }
-        if(field.length > 0) {
+        let res = false;
+        if(field && field.bind && field.bind != null && field.bind != "null") {
             removeAllErrorsFromInput(el);
             inp = el.getElementsByTagName("input")[0]
             if(inp){inp.classList.remove('error');
                 el.style.background = '';}
-            return true; }
-        else { 
+            res = true; }
+        else {
             inp = el.getElementsByTagName("input")[0]
             if(inp){inp.classList.add("error");}
             showErrorMSG(el, i18n("NotValid"));
-            return false;}
+            res = false;}
+        return res;
+    },
+
+    "requireComboEdit": function(e){
+        detail = e.detail,
+        el = e.target;
+        let res = false;
+        fields = Array.isArray(detail) ? detail : [detail];
+        fields.forEach(field => {
+          if(el.getAttribute('data-edit-input')) {
+            if(field && field.text && field.bind && field.bind != null) {
+              removeAllErrorsFromInput(el);
+              inp = el.getElementsByTagName("input")[0]
+              if(inp){inp.classList.remove('error');
+                  el.style.background = '';}
+              res = true; }
+            else {
+              inp = el.getElementsByTagName("input")[0]
+              if(inp){inp.classList.add("error");}
+              showErrorMSG(el, i18n("NotValid"));
+              res = false;}
+          } else { res = true; }
+      })
+      return res;
+    },
+
+    "comboLookupText": function(e){
+        el = e.target;
+        if(el.value && el.value.length > 0){
+            removeAllErrorsFromInput(el);
+            removeAllErrorsFromInput(qi(el.id + '_input'));
+            return true;
+        } else {
+            showErrorMSG(el, i18n("NotValid"));
+            showErrorMSG(qi(el.id + '_input'), i18n("NotValid"));
+            return false;
+        }
     },
 
     "min": function(e, min) {
