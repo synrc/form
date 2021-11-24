@@ -470,6 +470,19 @@ fieldType(otp, X, _Options, Object, Opt) ->
            multiple = X#field.multiple, pattern = "[0-9]*",
            validation =
                form:val(Opt, "Validation.nums(e, 4, 4, \"otp\")")};
+fieldType(password,X,_Options,Object,Opt) ->
+    #input{ class = [phone, pass],
+            type = password,
+            id = fieldId(X, Object, Opt),
+            multiple = X#field.multiple,
+            validation =
+                if not X#field.required -> [];
+                    true ->
+                        form:val(Opt,
+                                nitro:f("Validation.length(e, ~w, ~w)",
+                                        [X#field.min, X#field.max]))
+                end,
+            value = form:extract(Object,X,Opt)};
 fieldType(multipleInput, X, Options, Object, Opt) ->
     Id = form:atom([X#field.id,
                     form:type(Object),
