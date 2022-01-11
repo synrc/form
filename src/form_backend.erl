@@ -176,6 +176,7 @@ field(Field) ->
 field(Field, Object, Opt) ->
     form:fieldType(Field, [], Object, Opt).
 
+buttons(#document{buttons=[]},_,_) -> [];
 buttons(Document, Object, _Opt) ->
     %  Name    = Document#document.name,
     Buttons = Document#document.buttons,
@@ -344,7 +345,7 @@ fieldType(#field{} = X, Acc, Object, Opt) ->
 % SECOND LEVEL MATCH
 
 fieldType(text, X, _Options, Object, Opt) ->
-    #panel{id = form:fieldId(X, Object, Opt),
+    #panel{id = fieldId(X, Object, Opt),
            body = X#field.desc};
 fieldType(integer, X, _Options, Object, _Opt) ->
     nitro:f(X#field.format,
