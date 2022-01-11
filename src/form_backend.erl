@@ -147,18 +147,15 @@ steps(Document, _Object, _Opt) ->
         _ -> []
     end.
 
+caption(#document{sections=[]},_,_) -> [];
 caption(Document, _Object, _Opt) ->
     Name = Document#document.name,
     SectionList = Document#document.sections,
-    #panel{id = form:atom([form, Name]), class = caption,
-           body =
-               [begin
-                    [#h4{id = form:atom([form, Name, caption]),
-                         class = Section#sec.nameClass, body = Section#sec.name},
-                     #panel{class = Section#sec.descClass,
-                            body = Section#sec.desc}]
-                end
-                || Section <- SectionList]}.
+    #panel{id = form:atom([form, Name, caption]), class = caption,
+       body =
+           [[#h4{class = Section#sec.nameClass, body = Section#sec.name},
+             #panel{class = Section#sec.descClass, body = Section#sec.desc}]
+            || Section <- SectionList]}.
 
 fields(Document, Object, Opt) ->
     %  Name       = Document#document.name,
