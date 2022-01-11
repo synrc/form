@@ -236,7 +236,7 @@ fieldType(#field{type = comment} = X, Acc, Object,
                             end}]}
      | Acc];
 fieldType(#field{type = card} = X, Acc, Object, Opt) ->
-    [#panel{id = from:fieldId(X, Object, Opt),
+    [#panel{id = form:fieldId(X, Object, Opt),
             class = [box, pad0],
             body =
                 [#panel{class = label, body = X#field.title},
@@ -347,7 +347,7 @@ fieldType(#field{} = X, Acc, Object, Opt) ->
 % SECOND LEVEL MATCH
 
 fieldType(text, X, _Options, Object, Opt) ->
-    #panel{id = from:fieldId(X, Object, Opt),
+    #panel{id = form:fieldId(X, Object, Opt),
            body = X#field.desc};
 fieldType(integer, X, _Options, Object, _Opt) ->
     nitro:f(X#field.format,
@@ -356,7 +356,7 @@ fieldType(integer, X, _Options, Object, _Opt) ->
                  PostFun -> PostFun(pos(Object, X))
              end]);
 fieldType(money, X, _Options, Object, Opt) ->
-    [#input{id = from:fieldId(X, Object, Opt),
+    [#input{id = form:fieldId(X, Object, Opt),
             pattern = "[0-9]*", multiple = X#field.multiple,
             validation =
                 form:val(Opt,
