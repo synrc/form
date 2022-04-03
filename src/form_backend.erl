@@ -12,6 +12,8 @@
 
 -include_lib("nitro/include/comboLookupVec.hrl").
 
+-include_lib("nitro/include/comboLookupModify.hrl").
+
 -include_lib("nitro/include/nitro.hrl").
 
 -include_lib("form/include/formReg.hrl").
@@ -607,6 +609,36 @@ fieldType(comboLookupVec, X, Options, Object, Opt) ->
     #comboLookupVec{id = Id, input = Input,
                     disabled = Disabled, validation = Validation,
                     values = Values};
+fieldType(comboLookupModify, X, Options, Object, Opt) ->
+    Id = fieldId(X, Object, Opt),
+    Delegate = X#field.module,
+    Input = #comboLookup{id = form:atom([Id, "input"]),
+                         feed = X#field.bind, delegate = Delegate, reader = [],
+                         style =
+                             "padding-bottom: 10px; margin: 0; background-c"
+                             "olor: inherit;",
+                         chunk = 20},
+    Disabled = X#field.disabled,
+    RawValues = form:extract(Object, X, Opt),
+    Values = case form_backend:has_function(Delegate,
+                                            view_value)
+                 of
+                 true ->
+                     {view_value_pairs,
+                      [get_view_bind(V, X) || V <- RawValues]};
+                 false -> RawValues
+             end,
+    Min = X#field.min,
+    Max = X#field.max,
+    Validation = if not X#field.required -> [];
+                    true ->
+                        form:val(Opt,
+                                 nitro:f("Validation.length(e, ~w, ~w)", [Min, Max]))
+                 end,
+    #comboLookupModify{id = Id, input = Input,
+                       disabled = Disabled, validation = Validation,
+                       values = Values, modify_pos = X#field.modify_pos,
+                       modify_feed = X#field.modify_feed, modify_module = X#field.modify_module};
 fieldType(file, _X, _Options, _Object, _Opt) -> [];
 fieldType(calendar, X, _Options, Object, Opt) ->
     #panel{class = [field],
