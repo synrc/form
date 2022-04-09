@@ -95,6 +95,37 @@ var Validation = {
         return true;
     },
 
+    "comboLookupModify": function(e, min, max) {
+        const el = e.target;
+        const input = el.children[0].querySelector('input');
+        const list = el.children[1].children;
+
+        if (list.length >= min && list.length <= max) {
+          const res = Array.from(list).map(item => {
+            let input = item.querySelector('input');
+            let bind = input.getAttribute('data-bind');
+            if (bind && Boolean(bind)) {
+              removeAllErrorsFromInput(input);
+              return true;
+            } else {
+              showErrorMSG(input, i18n('NotValid'));
+              return false;
+            }
+          }).every(Boolean);
+
+          if (res) {
+            removeAllErrorsFromInput(input);
+            return true;
+          } else {
+            showErrorMSG(input, '');
+            return false;
+          }
+        } else {
+          showErrorMSG(input, i18n("EnterFrom") + min +i18n("EnterTo") + max);
+          return false;
+        }
+    },
+
     "calendar": function(e) {
         var min, max, val = (e.detail instanceof Date) ? e.detail : null;
         if(val == null || val.toString() == "Invalid Date") { showErrorMSG(e.target, i18n("WrongDate")); return false; }
@@ -172,6 +203,8 @@ var Validation = {
         parent = el.parentNode;
         if(el.getAttribute("data-vector-input") && el.children[1].children[0]) {
           return true;
+        } else if(el.getAttribute("data-modify-input") && el.children[1].children[0]) {
+          return true;
         } else {
           if(field && field.text && field.bind) { field = field.text }
           field = field instanceof Date ? field.toString() : field;
@@ -184,7 +217,7 @@ var Validation = {
           } else {
               text = (minlength == maxlength) ? i18n("CharQuantity") + maxlength
                    : i18n("EnterFrom")+ minlength +i18n("EnterTo")+maxlength+i18n("EnterChars");
-              if(el.getAttribute("data-vector-input")) {
+              if(el.getAttribute("data-vector-input") || el.getAttribute("data-modify-input")) {
                 showErrorMSG(el.querySelector("input"), text);
               } else {
                 showErrorMSG(el, text);

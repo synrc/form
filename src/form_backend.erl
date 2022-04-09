@@ -633,12 +633,13 @@ fieldType(comboLookupModify, X, Options, Object, Opt) ->
     Validation = if not X#field.required -> [];
                     true ->
                         form:val(Opt,
-                                 nitro:f("Validation.length(e, ~w, ~w)", [Min, Max]))
+                                 nitro:f("Validation.comboLookupModify(e, ~w, ~w)", [Min, Max]))
                  end,
     #comboLookupModify{id = Id, input = Input,
                        disabled = Disabled, validation = Validation,
                        values = Values, modify_pos = X#field.modify_pos,
-                       modify_feed = X#field.modify_feed, modify_module = X#field.modify_module};
+                       modify_feed = X#field.modify_feed, modify_module = X#field.modify_module,
+                       modify_default = X#field.modify_default};
 fieldType(file, _X, _Options, _Object, _Opt) -> [];
 fieldType(calendar, X, _Options, Object, Opt) ->
     #panel{class = [field],
