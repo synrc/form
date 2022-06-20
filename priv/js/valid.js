@@ -126,6 +126,20 @@ var Validation = {
         }
     },
 
+    "comboLookupGroup": function(e, min, max) {
+        const el = e.target;
+        const input = el.children[0].querySelector('input');
+        const list = el.querySelectorAll('[data-group-list="saved"]');
+
+        if (list.length >= min && list.length <= max) {
+          removeAllErrorsFromInput(input);
+          return true;
+        } else {
+          showErrorMSG(input, i18n("EnterFrom") + min +i18n("EnterTo") + max);
+          return false;
+        }
+    },
+
     "calendar": function(e) {
         var min, max, val = (e.detail instanceof Date) ? e.detail : null;
         if(val == null || val.toString() == "Invalid Date") { showErrorMSG(e.target, i18n("WrongDate")); return false; }
