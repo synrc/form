@@ -5,7 +5,7 @@ defmodule FORM.Mixfile do
   def project do
     [
       app: :form,
-      version: "7.4.2",
+      version: "7.6.0",
       description: "FORM Business X-Forms",
       package: package(),
       deps: deps()
