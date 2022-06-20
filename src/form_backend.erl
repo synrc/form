@@ -14,6 +14,8 @@
 
 -include_lib("nitro/include/comboLookupModify.hrl").
 
+-include_lib("nitro/include/comboLookupGroup.hrl").
+
 -include_lib("nitro/include/nitro.hrl").
 
 -include_lib("form/include/formReg.hrl").
@@ -609,6 +611,45 @@ fieldType(comboLookupVec, X, Options, Object, Opt) ->
     #comboLookupVec{id = Id, input = Input,
                     disabled = Disabled, validation = Validation,
                     values = Values};
+fieldType(comboLookupGroup,X,_Options,Object,Opt) ->
+  Id = form:atom([X#field.id,form:type(Object),form:kind(Opt)]),
+  Delegate = X#field.module,
+  Disabled = X#field.disabled,
+  Subtitle = X#field.subtitle,
+  RawValues = form:extract(Object,X,Opt),
+  Values =
+    if not is_list(RawValues) -> [];
+      true ->
+      case erlang:function_exported(Delegate, view_value, 2) of
+        true ->
+          lists:map(fun(Vals) when is_list(Vals) -> {view_value_pairs, [{Delegate:view_value(V, X#field.bind), V} || V <- Vals]};
+                       (V) -> {view_value_pairs, [{Delegate:view_value(V, X#field.bind), V}]} end, RawValues);
+        false ->
+            case form_backend:has_function(Delegate, view_value) of
+              true -> lists:map(fun(Vals) when is_list(Vals) -> {view_value_pairs, [{Delegate:view_value(V), V} || V <- Vals]};
+                                   (V) -> {view_value, pairs, [{Delegate:view_value(V), V}]} end, RawValues);
+              false -> RawValues
+            end
+      end
+    end,
+  Input = #comboLookup{
+            id = form:atom([Id, "input"]),
+            feed = X#field.bind,
+            delegate = Delegate,
+            reader = [],
+            style = "padding-bottom: 10px; margin: 0; background-color: inherit;",
+            chunk = 20},
+  Min = X#field.min,
+  Max = X#field.max,
+  Validation = if not X#field.required -> [];
+                  true -> form:val(Opt,nitro:f("Validation.comboLookupGroup(e, ~w, ~w)",[Min, Max])) end,
+  #comboLookupGroup{id = Id,
+                    input = Input,
+                    disabled = Disabled,
+                    validation = Validation,
+                    values = Values,
+                    subtitle = Subtitle,
+                    delegate = Delegate};
 fieldType(comboLookupModify, X, Options, Object, Opt) ->
     Id = fieldId(X, Object, Opt),
     Delegate = X#field.module,
