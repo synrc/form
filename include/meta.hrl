@@ -13,6 +13,6 @@
                       type=binary, etc=[], labelClass=label, fieldClass=field, boxClass=box, form = [], multiple=false,
                       required=false, module=[], access=[], tooltips=[], options=[], min=0, distinct=false, input=[],
                       max=1000000, length=10, postback=[], onchange=[], validation=[], hidden=false, default=[],
-                      modify_pos=[], modify_feed=[], modify_module=[], modify_default=[], subtitle=[]}).
+                      modify_pos=[], modify_feed=[], modify_module=[], modify_default=[], subtitle=[], update=[] }).
 
 -endif.

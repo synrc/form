@@ -399,7 +399,9 @@ fieldType(select, X, Options, Object, Opt) ->
     #select{id = fieldId(X, Object, Opt),
             postback = X#field.postback,
             disabled = X#field.disabled,
-            multiple = X#field.multiple, body = Options};
+            multiple = X#field.multiple,
+            update = X#field.update,
+            body = Options};
 fieldType(string, X, _Options, Object, Opt) ->
     #input{class = column, id = fieldId(X, Object, Opt),
            disabled = X#field.disabled,
@@ -542,7 +544,7 @@ fieldType(comboLookup, X, _Options, Object, Opt) ->
                                              [X#field.min, X#field.max]))
                      end,
                  feed = X#field.bind, value = Value, bind = Bind,
-                 delegate = X#field.module, reader = [], chunk = 20};
+                 delegate = X#field.module, reader = [], chunk = 20, update = X#field.update};
 fieldType(comboLookupEdit, X, _Options, Object, Opt) ->
     Id = form:atom([X#field.id,
                     form:type(Object),
@@ -569,7 +571,7 @@ fieldType(comboLookupEdit, X, _Options, Object, Opt) ->
     Input = #comboLookup{id = form:atom([Id, "input"]),
                          feed = X#field.bind, disabled = X#field.disabled,
                          bind = Bind, delegate = X#field.module, reader = [],
-                         postback = X#field.postback, chunk = 20},
+                         postback = X#field.postback, update = X#field.update, chunk = 20},
     #comboLookupEdit{id = Id, input = Input,
                      disabled = X#field.disabled,
                      validation =
@@ -590,7 +592,7 @@ fieldType(comboLookupVec, X, Options, Object, Opt) ->
                          style =
                              "padding-bottom: 10px; margin: 0; background-c"
                              "olor: inherit;",
-                         chunk = 20},
+                         chunk = 20, update = X#field.update},
     Disabled = X#field.disabled,
     RawValues = form:extract(Object, X, Opt),
     Values = case form_backend:has_function(Delegate,
@@ -638,6 +640,7 @@ fieldType(comboLookupGroup,X,_Options,Object,Opt) ->
             delegate = Delegate,
             reader = [],
             style = "padding-bottom: 10px; margin: 0; background-color: inherit;",
+            update = X#field.update,
             chunk = 20},
   Min = X#field.min,
   Max = X#field.max,
@@ -658,6 +661,7 @@ fieldType(comboLookupModify, X, Options, Object, Opt) ->
                          style =
                              "padding-bottom: 10px; margin: 0; background-c"
                              "olor: inherit;",
+                         update = X#field.update,
                          chunk = 20},
     Disabled = X#field.disabled,
     RawValues = form:extract(Object, X, Opt),
@@ -703,3 +707,22 @@ val(Options, Validation) ->
         true -> [];
         false -> Validation
     end.
+
+proto(#comboUpdate{module = Module} = X) ->
+  case form_backend:has_function(Module, update) of
+    true -> Module:update(X);
+    false -> update(X)
+  end.
+
+update(#comboUpdate{id = Id, fields = Fields, value = DefValue, module = Module, action = Action}) ->
+  DefRec = Module:id(),
+  Value = case DefValue of [] -> nitro:q(list_to_atom(form:atom([Id, element(1, DefRec), Action]))); _ -> DefValue end,
+  Rec = kvs:setfield(DefRec, Id, Value),
+  Options = [{Action, true}],
+  #document{fields = F} = Module:new(update, Rec, Options),
+  lists:foreach(fun (Fid) ->
+    nitro:update(
+      form:atom([wrap, Fid, element(1, Rec), Action]),
+      form:field(lists:keyfind(Fid, 2, F), Rec, Options)
+    )
+  end, Fields).
