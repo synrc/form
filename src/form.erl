@@ -83,6 +83,10 @@ fieldType(A, B, C, D, E) ->
 
 fieldType(A, B, C, D) -> (?M):fieldType(A, B, C, D).
 
+proto(A) -> (?M):proto(A).
+
+update(A) -> (?M):update(A).
+
 % OTP
 
 stop(_) -> ok.
