@@ -5,7 +5,7 @@
 -export(?EXP).
 id() -> #phone{}.
 doc() -> [].
-new(Name,Phone, _) ->
+new(Name, _Phone, _) ->
   #document {
     name     = form:atom([otp,Name]),
     sections = [ #sec { name=[<<"Input the password you have received by SMS: "/utf8>> ] } ],

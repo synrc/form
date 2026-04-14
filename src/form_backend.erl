@@ -1,6 +1,6 @@
 -module(form_backend).
 
--compile(export_all).
+-compile([export_all, nowarn_export_all]).
 
 -include_lib("nitro/include/calendar.hrl").
 
@@ -584,7 +584,7 @@ fieldType(comboLookupEdit, X, _Options, Object, Opt) ->
                          end,
                      form = X#field.form, values = Values,
                      multiple = X#field.multiple};
-fieldType(comboLookupVec, X, Options, Object, Opt) ->
+fieldType(comboLookupVec, X, _Options, Object, Opt) ->
     Id = fieldId(X, Object, Opt),
     Delegate = X#field.module,
     Input = #comboLookup{id = form:atom([Id, "input"]),
@@ -653,7 +653,7 @@ fieldType(comboLookupGroup,X,_Options,Object,Opt) ->
                     values = Values,
                     subtitle = Subtitle,
                     delegate = Delegate};
-fieldType(comboLookupModify, X, Options, Object, Opt) ->
+fieldType(comboLookupModify, X, _Options, Object, Opt) ->
     Id = fieldId(X, Object, Opt),
     Delegate = X#field.module,
     Input = #comboLookup{id = form:atom([Id, "input"]),

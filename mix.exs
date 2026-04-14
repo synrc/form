@@ -8,7 +8,8 @@ defmodule FORM.Mixfile do
       version: "11.4.14",
       description: "ERP/1 X-FORM Business Cartulary",
       package: package(),
-      deps: deps()
+      deps: deps(),
+      erlc_options: [:nowarn_export_all, :nowarn_deprecated_function]
     ]
   end
 

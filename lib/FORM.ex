@@ -18,7 +18,7 @@ defmodule FORM do
       |> Keyword.get(:with, [:form])
 
     Enum.map(imports, fn mod ->
-      if Code.ensure_compiled?(mod) do
+      if match?({:module, _}, Code.ensure_compiled(mod)) do
         upcased = Module.concat([String.upcase(to_string(mod))])
 
         quote do

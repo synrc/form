@@ -6,7 +6,7 @@
 
 -include_lib("form/include/meta.hrl").
 
--compile(export_all).
+-compile([export_all, nowarn_export_all]).
 
 -export([start/0,
          start/1,
