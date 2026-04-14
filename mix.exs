@@ -15,7 +15,7 @@ defmodule FORM.Mixfile do
 
   def package do
     [
-      files: ~w(doc include man lib priv src mix.exs rebar.config LICENSE),
+      files: ~w(include man lib priv src mix.exs LICENSE README.md),
       licenses: ["ISC"],
       maintainers: ["Namdak Tonpa"],
       links: %{"GitHub" => "https://github.com/synrc/form"}
